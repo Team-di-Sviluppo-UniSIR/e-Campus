@@ -1,9 +1,6 @@
 # progetto_info3_progettazione_algoritmi_20_21
 Progetto inerente il corso di Informatica 3 - Modulo di Progettazione e Algoritmi per l'anno accademico 2020/2021.
 Laurea Magistrale in Ingegneria Informatica - UniBG
-prova
-<<<<<<< Updated upstream
-=======
 
 ----------------------------------------------------------------------------------------------------------------------------------------
 Indicazioni dei passi di sviluppo e contenuto del progetto.
@@ -35,4 +32,7 @@ ii. Realizzare anche una succinta guida con screenshot sull'installazione ed uso
 3. Rilasciare documentazione, codice sorgente, codice eseguibile (archivio Jar, script, e vari artifatti SW) su un repository (Dropbox, Github, ecc..) da condividere con il docente al momento della consegna.
 
 Per altri dettagli sulla valutazione del progetto, vedi la presentazione "introduzione.pdf" della prima lezione del corso.  
->>>>>>> Stashed changes
+
+
+
+
