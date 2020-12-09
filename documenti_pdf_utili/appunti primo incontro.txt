@@ -8,9 +8,7 @@ pensare alle api che ogni gestore deve esporre
 
 server che raccoglie le informazioni e le distribuisce in tutto il campus
 
-pensare a qualche requisito di security e safety. (crede che non ci sia)
-
-dal punto di vista dell'interazione del cliente e del ristoro?
+pensare a qualche requisito di security e safety. (crede che non ci sia)s
 
 mettiamoci accanot cocome (se lo facciamo bene e cosa pulita che possa rimpiazzare cocome) 
 
