@@ -18,6 +18,8 @@ public class javaMongoConnection {
 		System.out.println(myDoc.toJson());
 		
 		// questo commento sa di culo (cit. Luca)
+		
+		// ma questo cula di più
 
 	}
 }
