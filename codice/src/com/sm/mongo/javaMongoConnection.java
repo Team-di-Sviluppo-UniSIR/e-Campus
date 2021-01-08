@@ -17,9 +17,6 @@ public class javaMongoConnection {
 		Document myDoc = collection.find().first();
 		System.out.println(myDoc.toJson());
 		
-		// questo commento sa di culo (cit. Luca)
 		
-		// ma questo cula di più
-
 	}
 }
