@@ -16,5 +16,7 @@ public class javaMongoConnection {
 		MongoCollection<Document> collection = mongoDB.getCollection("DBCampusCollection");
 		Document myDoc = collection.find().first();
 		System.out.println(myDoc.toJson());
+		
+		//prova mari
 	}
 }
