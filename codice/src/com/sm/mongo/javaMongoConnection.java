@@ -18,6 +18,8 @@ public class javaMongoConnection {
 		System.out.println(myDoc.toJson());
 		
 		// prova
+		
+		// prova molto bella
 
 	}
 }
