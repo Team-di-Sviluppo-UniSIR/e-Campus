@@ -8,7 +8,7 @@ Il progetto ha lo scopo di implementare un sistema di gestione centralizzato del
 Il progetto ha l'obiettivo di fornire un'implementazione del caso di studio CoCoME tramite API REST, con le quali è possibile far comunicare sistemi informativi diversi tramite scambio di dati. L'obiettivo è quello di superare il classico paradigma di comunicazione JMS publisher/subscriber, definendo un'implementazione alternativa applicando i principi del caso di studio CoCoME (Common Component Modelling Example), sfruttando la più recente tecnologia di comunciazione API REST.
 
 ###### Project documentation
-It's avaiable at [this link](https://www.overleaf.com/6131327624tyfqdsqnrgkw) (via Overleaf).
+It's avaiable at [this link](https://www.overleaf.com/read/nnkmyqzzzzmt) (via Overleaf).
 
 ###### Project contributors
 - Alessandro Mazzola
