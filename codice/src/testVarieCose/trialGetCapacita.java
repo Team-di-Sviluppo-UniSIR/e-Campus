@@ -35,7 +35,8 @@ public class trialGetCapacita {
 		//-1 = errore
 		int capacita = -1;
 		
-		//stabilisco la connessione con database: DBCampus, collezione: DBCampusCollection
+		//stabilisco la connessione
+		//database: DBCampus, collezione: DBCampusCollection
 		MongoClientURI uri = new MongoClientURI(
 				"mongodb://admin:admin@cluster0-shard-00-00.qfzol.mongodb.net:27017,cluster0-shard-00-01.qfzol.mongodb.net:27017,cluster0-shard-00-02.qfzol.mongodb.net:27017/DBCampus?ssl=true&replicaSet=atlas-9gfc0g-shard-0&authSource=admin&retryWrites=true&w=majority");
 		MongoClient mongoClient = new MongoClient(uri);
@@ -45,10 +46,10 @@ public class trialGetCapacita {
 		//preparazione filtro di query
 		final Bson filterQueryLemon = new Document("nome", nomeMensa);
 		
-		//risultati ottenuti (come lista di Document)
+		//risultati ottenuti (lista di Document)
 		FindIterable<Document> queryRes=collection.find(filterQueryLemon);
 		
-		//mi assicuro di ricevere 1 solo risultato (1 sola mensa per nome)
+		//mi assicuro di ricevere 1 solo risultato (il nome della mensa è univoco)
 		if(countQueryResults(queryRes)!=1)
 			throw new RuntimeException(); //definire nostra eccezione
 		else {
