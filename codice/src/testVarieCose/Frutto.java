@@ -1,4 +1,4 @@
-package com.sm.mongo;
+package testVarieCose;
 
 public class Frutto {
 	
@@ -16,7 +16,6 @@ public class Frutto {
 	public String toString() {
 		return frutto +" " + size + " " + color;
 	}
-	
 	
 
 }

@@ -1,4 +1,4 @@
-package com.sm.mongo;
+package testVarieCose;
 
 import org.bson.Document;
 import org.json.JSONObject;
@@ -23,7 +23,6 @@ public class javaMongoParserTestFrutta {
 		
 		//creo file JSON da BSON ricevuto da MongoDB Atlas
 		JSONObject Jfrutta = new JSONObject(myDoc.toJson());
-		
 		
 		//retrieve dei vari campi dal file JSON per costruire oggetto mela
 		String frutto = Jfrutta.getString("fruit");
