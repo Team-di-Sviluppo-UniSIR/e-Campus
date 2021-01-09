@@ -50,7 +50,7 @@ public class trialGetCapacita {
 		
 		//mi assicuro di ricevere 1 solo risultato (1 sola mensa per nome)
 		if(countQueryResults(queryRes)!=1)
-			throw new RuntimeException();
+			throw new RuntimeException(); //definire nostra eccezione
 		else {
 			JSONObject JMensa = new JSONObject(queryRes.first().toJson());
 			capacita = JMensa.getInt("capacita");

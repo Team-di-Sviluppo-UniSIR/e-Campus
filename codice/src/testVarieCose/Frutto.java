@@ -15,7 +15,6 @@ public class Frutto {
 	@Override
 	public String toString() {
 		return frutto +" " + size + " " + color;
-	}
-	
+	}	
 
 }
