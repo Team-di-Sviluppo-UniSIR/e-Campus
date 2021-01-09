@@ -16,5 +16,10 @@ public class javaMongoConnection {
 		MongoCollection<Document> collection = mongoDB.getCollection("DBCampusCollection");
 		Document myDoc = collection.find().first();
 		System.out.println(myDoc.toJson());
+		
+		/*
+		 * Questa sera parto io con le prime funzionalita. Creo package e interface per i metodi, per ora sara tutto a linea di comando ma almeno arriviamo a poter far inserire i dati.
+		 * Alla fine non c'e' molto da fare, ci penso io stasera no worries, ho tutto chiaro il da farsi. LG
+		 */
 	}
 }
