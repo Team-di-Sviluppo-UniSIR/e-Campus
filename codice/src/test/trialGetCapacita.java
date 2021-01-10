@@ -1,4 +1,4 @@
-package testVarieCose;
+package test;
 
 import java.util.Iterator;
 

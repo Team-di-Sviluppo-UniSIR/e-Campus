@@ -1,4 +1,4 @@
-package testVarieCose;
+package test;
 
 public class Frutto {
 	
