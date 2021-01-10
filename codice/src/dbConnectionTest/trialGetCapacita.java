@@ -1,4 +1,4 @@
-package test;
+package dbConnectionTest;
 
 import java.util.Iterator;
 

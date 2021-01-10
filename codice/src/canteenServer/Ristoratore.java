@@ -1,4 +1,4 @@
-package CanteenServer;
+package canteenServer;
 
 public class Ristoratore {
 	public int idRistoratore;

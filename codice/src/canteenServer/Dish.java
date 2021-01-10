@@ -1,4 +1,4 @@
-package CanteenServer;
+package canteenServer;
 
 public class Dish {
 	public int idPiatto;

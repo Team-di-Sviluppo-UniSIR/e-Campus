@@ -1,4 +1,4 @@
-package CanteenServer;
+package canteenServer;
 
 import java.util.Iterator;
 import org.bson.Document;

@@ -1,4 +1,4 @@
-package CanteenServer;
+package canteenServer;
 
 public class Data {
 	public short giorno;
