@@ -10,7 +10,7 @@ public interface CanteenStatusOutputIF {
 
 	public int getAvailableSeats();
 
-	public int getCanteenCapacity();
+	public int getCanteenCapacity(Mensa mensa);
 
 	public double getDishPrice();
 
