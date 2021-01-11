@@ -3,6 +3,7 @@ package CampusDataManagement;
 import java.util.Iterator;
 import org.bson.Document;
 import org.bson.conversions.Bson;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
@@ -13,6 +14,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Filters.*;
+import com.mongodb.util.JSON;
 
 public class CanteenStatusOutputIMPL implements CanteenStatusOutputIF {
 
@@ -34,64 +36,74 @@ public class CanteenStatusOutputIMPL implements CanteenStatusOutputIF {
 		return null;
 	}
 
+	private static Object getKey(JSONArray array, String key) {
+		Object value = null;
+		for (int i = 0; i < array.length(); i++) {
+			JSONObject item = array.getJSONObject(i);
+			if (item.keySet().contains(key)) {
+				value = item.get(key);
+				break;
+			}
+		}
+
+		return value;
+	}
+
 	@Override
-	public int getAvailableSeats(Mensa mensa, DettaglioApertura dettaglioApertura, Apertura apertura) {
-		
+	public int getAvailableSeats(Mensa mensa, DettaglioApertura dettaglioApertura, Apertura apertura,
+			MongoClientURI uri) {
+		// connesione al database tramite metodo ad-hoc
+		// MongoClientURI uri = connectToMongo();
+
 		// -1 = errore
 		int postiDisponibili = -1;
 
-		// stabilisco la connessione
-		// database: DBCampus, collezione: DBCampusCollection
-		MongoClientURI uri = new MongoClientURI(
-				"mongodb://admin:admin@cluster0-shard-00-00.qfzol.mongodb.net:27017,cluster0-shard-00-01.qfzol.mongodb.net:27017,cluster0-shard-00-02.qfzol.mongodb.net:27017/DBCampus?ssl=true&replicaSet=atlas-9gfc0g-shard-0&authSource=admin&retryWrites=true&w=majority");
 		MongoClient mongoClient = new MongoClient(uri);
 		MongoDatabase mongoDB = mongoClient.getDatabase("DBCampus");
 		MongoCollection<Document> collection = mongoDB.getCollection("DBCampusCollection");
 
 		// preparazione filtro di query
-		
-		//final Bson filterQuery = new Document("nome", mensa.nome);
+
+		// final Bson filterQuery = new Document("nome", mensa.nome);
 		Bson filterQuery = Filters.and(Filters.eq("nome", mensa.nome),
-						  Filters.eq("dettaglioApertura.giornoSettimana", dettaglioApertura.giornoSettimana),
-						  Filters.eq("dettaglioApertura.apertura.data", apertura.data.toString())); 
-		 
+				Filters.eq("dettaglioApertura.giornoSettimana", dettaglioApertura.giornoSettimana),
+				Filters.eq("dettaglioApertura.apertura.data", apertura.data.toString()));
+
 		// risultati ottenuti (lista di Document)
 		FindIterable<Document> queryRes = collection.find(filterQuery);
 
 		// mi assicuro di ricevere 1 solo risultato (il nome della mensa è univoco)
 		if (countQueryResults(queryRes) != 1)
 			throw new RuntimeException(); // definire nostra eccezione
-		else {  
+		else {
 			JSONObject JMensa1 = new JSONObject(queryRes.first().toJson());
-			
-			System.out.println(JMensa1.toString());
-			postiDisponibili = JMensa1.getJSONObject("dettaglioApertura").getJSONObject("apertura").getInt("availableSeats");
+			JSONArray dettaglio = JMensa1.getJSONArray("dettaglioApertura");
+			JSONArray obj = (JSONArray) getKey(dettaglio, "apertura");
+
+			postiDisponibili = (int) getKey(obj, "availableSeats");
 		}
 
 		return postiDisponibili;
 	}
-	
+
 	private static int countQueryResults(FindIterable<Document> docToCount) {
-		int count=0;
-		for(Document d: docToCount) {
+		int count = 0;
+		for (Document d : docToCount) {
 			count++;
 		}
-		
-		/*	Introdurre test invece di usare questo metodo
-			System.out.println("numero di risultati:"+count);*/
-		
+
+		/*
+		 * Introdurre test invece di usare questo metodo
+		 * System.out.println("numero di risultati:"+count);
+		 */
+
 		return count;
 	}
 
-	public int getCanteenCapacity(Mensa mensa) {
-
+	public int getCanteenCapacity(Mensa mensa, MongoClientURI uri) {
 		// -1 = errore
 		int capacita = -1;
 
-		// stabilisco la connessione
-		// database: DBCampus, collezione: DBCampusCollection
-		MongoClientURI uri = new MongoClientURI(
-				"mongodb://admin:admin@cluster0-shard-00-00.qfzol.mongodb.net:27017,cluster0-shard-00-01.qfzol.mongodb.net:27017,cluster0-shard-00-02.qfzol.mongodb.net:27017/DBCampus?ssl=true&replicaSet=atlas-9gfc0g-shard-0&authSource=admin&retryWrites=true&w=majority");
 		MongoClient mongoClient = new MongoClient(uri);
 		MongoDatabase mongoDB = mongoClient.getDatabase("DBCampus");
 		MongoCollection<Document> collection = mongoDB.getCollection("DBCampusCollection");

@@ -1,5 +1,7 @@
 package CampusDataManagement;
 
+import com.mongodb.MongoClientURI;
+
 public interface CanteenStatusOutputIF {
 
 	public Time getWaitingTime();
@@ -8,9 +10,10 @@ public interface CanteenStatusOutputIF {
 
 	public String getCanteenStatus();
 
-	public int getAvailableSeats(Mensa mensa, DettaglioApertura dettaglioApertura, Apertura apertura);
+	public int getAvailableSeats(Mensa mensa, DettaglioApertura dettaglioApertura, Apertura apertura,
+			MongoClientURI uri);
 
-	public int getCanteenCapacity(Mensa mensa);
+	public int getCanteenCapacity(Mensa mensa, MongoClientURI uri);
 
 	public double getDishPrice();
 
