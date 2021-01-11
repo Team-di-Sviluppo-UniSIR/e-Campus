@@ -64,10 +64,10 @@ public class CanteenStatusOutputIMPL implements CanteenStatusOutputIF {
 		MongoCollection<Document> collection = mongoDB.getCollection("DBCampusCollection");
 
 		// preparazione filtro di query
-		final Bson filterQueryLemon = new Document("nome", mensa.nome);
+		final Bson filterQuery = new Document("nome", mensa.nome);
 
 		// risultati ottenuti (lista di Document)
-		FindIterable<Document> queryRes = collection.find(filterQueryLemon);
+		FindIterable<Document> queryRes = collection.find(filterQuery);
 
 		// mi assicuro di ricevere 1 solo risultato (il nome della mensa è univoco)
 		if (countQueryResults(queryRes) != 1)
