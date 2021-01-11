@@ -1,4 +1,4 @@
-package canteenServer;
+package CampusDataManagement;
 
 public class Dish {
 	public int idPiatto;

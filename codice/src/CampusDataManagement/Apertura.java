@@ -1,17 +1,20 @@
-package canteenServer;
+package CampusDataManagement;
 
 public class Apertura {
 	public int idApertura;
 	public Data data;
 	public int availableSeats;
 	public Mensa mensa;
+	public DettaglioApertura dettaglioApertura;
+	
 
-	public Apertura(int idApertura, Data data, int availableSeats, Mensa mensa) {
+	public Apertura(int idApertura, Data data, int availableSeats, Mensa mensa, DettaglioApertura dettaglioApertura) {
 		super();
 		this.idApertura = idApertura;
 		this.data = data;
 		this.availableSeats = availableSeats;
 		this.mensa = mensa;
+		this.dettaglioApertura = dettaglioApertura;
 	}
 
 	public int getIdApertura() {
@@ -44,6 +47,14 @@ public class Apertura {
 
 	public void setMensa(Mensa mensa) {
 		this.mensa = mensa;
+	}
+	
+	public DettaglioApertura getDettaglioApertura() {
+		return dettaglioApertura;
+	}
+
+	public void setDettaglioApertura(DettaglioApertura dettaglioApertura) {
+		this.dettaglioApertura = dettaglioApertura;
 	}
 
 }

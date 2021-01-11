@@ -1,4 +1,4 @@
-package canteenServer;
+package CampusDataManagement;
 
 public class Menu {
 	public int idMenu;

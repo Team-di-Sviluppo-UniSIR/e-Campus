@@ -1,4 +1,4 @@
-package canteenServer;
+package CampusDataManagement;
 
 public class Time {
 	public short ore;

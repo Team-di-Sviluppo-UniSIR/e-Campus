@@ -1,4 +1,4 @@
-package canteenServer;
+package CampusDataManagement;
 
 public interface CanteenStatusOutputIF {
 
@@ -8,7 +8,7 @@ public interface CanteenStatusOutputIF {
 
 	public String getCanteenStatus();
 
-	public int getAvailableSeats();
+	public int getAvailableSeats(Mensa mensa, DettaglioApertura dettaglioApertura, Apertura apertura);
 
 	public int getCanteenCapacity(Mensa mensa);
 

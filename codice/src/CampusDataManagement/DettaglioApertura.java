@@ -1,4 +1,4 @@
-package canteenServer;
+package CampusDataManagement;
 
 public class DettaglioApertura {
 	public int idDettaglio;
@@ -6,17 +6,15 @@ public class DettaglioApertura {
 	public String tipoPasto;
 	public Time orarioApertura;
 	public Time orarioChiusura;
-	public Apertura apertura;
 
 	public DettaglioApertura(int idDettaglio, String giornoSettimana, String tipoPasto, Time orarioApertura,
-			Time orarioChiusura, Apertura apertura) {
+			Time orarioChiusura) {
 		super();
 		this.idDettaglio = idDettaglio;
 		this.giornoSettimana = giornoSettimana;
 		this.tipoPasto = tipoPasto;
 		this.orarioApertura = orarioApertura;
 		this.orarioChiusura = orarioChiusura;
-		this.apertura = apertura;
 	}
 
 	public int getIdDettaglio() {
@@ -57,14 +55,6 @@ public class DettaglioApertura {
 
 	public void setOrarioChiusura(Time orarioChiusura) {
 		this.orarioChiusura = orarioChiusura;
-	}
-
-	public Apertura getApertura() {
-		return apertura;
-	}
-
-	public void setApertura(Apertura apertura) {
-		this.apertura = apertura;
 	}
 
 }
