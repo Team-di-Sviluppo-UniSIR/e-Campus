@@ -152,21 +152,21 @@ public class CanteenStatusOutputIMPL implements CanteenStatusOutputIF {
 			JSONObject objMensa = new JSONObject(queryRes.first().toJson());		
 			
 			JSONArray arrayDettagli = objMensa.getJSONArray("dettaglioApertura");
-			ArrayList<String> filterList = new ArrayList<String>(Arrays.asList("giornoSettimana","Lunedì","tipoPasto","Cena"));
+			ArrayList<String> filterList = new ArrayList<String>(Arrays.asList("giornoSettimana",dettaglioApertura.getGiornoSettimana(),"tipoPasto",dettaglioApertura.getTipoPasto()));
 			JSONObject objDettaglioApertura = filterInto(arrayDettagli, filterList);
 			
 			JSONArray arrayAperture = objDettaglioApertura.getJSONArray("apertura");
-			filterList = new ArrayList<String>(Arrays.asList("data","04/01/2021"));
+			filterList = new ArrayList<String>(Arrays.asList("data",apertura.getData().toString()));
 			JSONObject objApertura = filterInto(arrayAperture, filterList);
 			JSONObject objMenu = objApertura.getJSONObject("menu");
 			
 			JSONArray arrayPiatti = objMenu.getJSONArray("Piatti");
-			filterList = new ArrayList<String>(Arrays.asList("nomePiatto","Arrosto"));
+			filterList = new ArrayList<String>(Arrays.asList("nomePiatto",dish.getNomePiatto()));
 			JSONObject result = filterInto(arrayPiatti, filterList);
 						
 			DishPrice = result.getDouble("prezzo");		
 			
-			System.out.println("Il prezzo per " + result.getString("nomePiatto") + " è: "+ DishPrice + "€");		
+			//System.out.println("Il prezzo per " + result.getString("nomePiatto") + " è: "+ DishPrice + "€");		
 			
 			}
 		

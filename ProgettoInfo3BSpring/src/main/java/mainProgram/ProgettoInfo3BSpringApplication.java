@@ -53,16 +53,16 @@ public class ProgettoInfo3BSpringApplication {
 		//System.out.println("Capacità mensa \"" + m1.getNome() + "\": " + canteenOutput.getCanteenCapacity(m1, uri));
 
 		// PROVA POSTI AVAILABLE SEATS APERTURA
-		DettaglioApertura d1 = new DettaglioApertura(0, "Lunedì", "Pranzo", null, null);
+		DettaglioApertura d1 = new DettaglioApertura(0, "Pranzo", "Cena", null, null);
 		Data data1 = new Data("04", "01", "2021");
 		Apertura a1 = new Apertura(0, data1, 0, m1, d1);
 		//System.out.println("Posti disponibili mensa \"" + m1.getNome() + "\": "+ canteenOutput.getAvailableSeats(m1, d1, a1, uri));
 		
 		//PROVA PREZZO PIATTO
 		Menu menu1 = new Menu(0, "pranzoLunedì", "Mediterraneo", a1);
-		Dish piatto1 = new Dish(0, "Riso in bianco", "Primo", 0, 0, 0, menu1);
+		Dish piatto1 = new Dish(0, "Grigliata mista", "Primo", 0, 0, 0, menu1);
 		System.out.println("Costo Piatto \""+piatto1.getNomePiatto() + "\" - mensa \"" + m1.getNome() + "\": "
-				+ canteenOutput.getDishPrice(m1, d1, a1, menu1, piatto1, uri));
+				+ canteenOutput.getDishPrice(m1, d1, a1, menu1, piatto1, uri)+" Є ");
 	}
 
 }
