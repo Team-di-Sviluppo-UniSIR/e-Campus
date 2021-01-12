@@ -65,9 +65,9 @@ public class CanteenStatusOutputIMPL implements CanteenStatusOutputIF {
 		// preparazione filtro di query
 
 		// final Bson filterQuery = new Document("nome", mensa.nome);
-		Bson filterQuery = Filters.and(Filters.eq("nome", mensa.nome),
-				Filters.eq("dettaglioApertura.giornoSettimana", dettaglioApertura.giornoSettimana),
-				Filters.eq("dettaglioApertura.apertura.data", apertura.data.toString()));
+		Bson filterQuery = Filters.and(Filters.eq("nome", mensa.getNome()),
+				Filters.eq("dettaglioApertura.giornoSettimana", dettaglioApertura.getGiornoSettimana()),
+				Filters.eq("dettaglioApertura.apertura.data", apertura.getData().toString()));
 
 		// risultati ottenuti (lista di Document)
 		FindIterable<Document> queryRes = collection.find(filterQuery);
@@ -109,7 +109,7 @@ public class CanteenStatusOutputIMPL implements CanteenStatusOutputIF {
 		MongoCollection<Document> collection = mongoDB.getCollection("DBCampusCollection");
 
 		// preparazione filtro di query
-		final Bson filterQuery = new Document("nome", mensa.nome);
+		final Bson filterQuery = new Document("nome", mensa.getNome());
 
 		// risultati ottenuti (lista di Document)
 		FindIterable<Document> queryRes = collection.find(filterQuery);

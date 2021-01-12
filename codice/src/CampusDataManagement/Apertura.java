@@ -1,11 +1,11 @@
 package CampusDataManagement;
 
 public class Apertura {
-	public int idApertura;
-	public Data data;
-	public int availableSeats;
-	public Mensa mensa;
-	public DettaglioApertura dettaglioApertura;
+	private int idApertura;
+	private Data data;
+	private int availableSeats;
+	private Mensa mensa;
+	private DettaglioApertura dettaglioApertura;
 	
 
 	public Apertura(int idApertura, Data data, int availableSeats, Mensa mensa, DettaglioApertura dettaglioApertura) {

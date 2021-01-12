@@ -1,10 +1,10 @@
 package CampusDataManagement;
 
 public class Mensa {
-	public int idMensa;
-	public String nome;
-	public int capacita;
-	public Ristoratore proprietario;
+	private int idMensa;
+	private String nome;
+	private int capacita;
+	private Ristoratore proprietario;
 
 	public Mensa(int idMensa, String nome, int capacita, Ristoratore proprietario) {
 		super();

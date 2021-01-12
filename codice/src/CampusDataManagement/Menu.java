@@ -1,10 +1,10 @@
 package CampusDataManagement;
 
 public class Menu {
-	public int idMenu;
-	public String nomeMenu;
-	public String tipoMenu;
-	public Apertura apertura;
+	private int idMenu;
+	private String nomeMenu;
+	private String tipoMenu;
+	private Apertura apertura;
 
 	public Menu(int idMenu, String nomeMenu, String tipoMenu, Apertura apertura) {
 		super();

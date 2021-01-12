@@ -1,9 +1,9 @@
 package CampusDataManagement;
 
 public class Data {
-	public String giorno;
-	public String mese;
-	public String anno;
+	private String giorno;
+	private String mese;
+	private String anno;
 
 	public Data(String giorno, String mese, String anno) {
 		super();

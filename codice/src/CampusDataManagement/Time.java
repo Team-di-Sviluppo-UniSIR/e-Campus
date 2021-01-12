@@ -1,38 +1,38 @@
 package CampusDataManagement;
 
 public class Time {
-	public short ore;
-	public short minuti;
-	public short secondi;
+	private String ore;
+	private String minuti;
+	private String secondi;
 
-	public Time(short ore, short minuti, short secondi) {
+	public Time(String ore, String minuti, String secondi) {
 		super();
 		this.ore = ore;
 		this.minuti = minuti;
 		this.secondi = secondi;
 	}
 
-	public short getOre() {
+	public String getOre() {
 		return ore;
 	}
 
-	public void setOre(short ore) {
+	public void setOre(String ore) {
 		this.ore = ore;
 	}
 
-	public short getMinuti() {
+	public String getMinuti() {
 		return minuti;
 	}
 
-	public void setMinuti(short minuti) {
+	public void setMinuti(String minuti) {
 		this.minuti = minuti;
 	}
 
-	public short getSecondi() {
+	public String getSecondi() {
 		return secondi;
 	}
 
-	public void setSecondi(short secondi) {
+	public void setSecondi(String secondi) {
 		this.secondi = secondi;
 	}
 

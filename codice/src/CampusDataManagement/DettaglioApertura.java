@@ -1,11 +1,11 @@
 package CampusDataManagement;
 
 public class DettaglioApertura {
-	public int idDettaglio;
-	public String giornoSettimana;
-	public String tipoPasto;
-	public Time orarioApertura;
-	public Time orarioChiusura;
+	private int idDettaglio;
+	private String giornoSettimana;
+	private String tipoPasto;
+	private Time orarioApertura;
+	private Time orarioChiusura;
 
 	public DettaglioApertura(int idDettaglio, String giornoSettimana, String tipoPasto, Time orarioApertura,
 			Time orarioChiusura) {

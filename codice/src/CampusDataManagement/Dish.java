@@ -1,13 +1,13 @@
 package CampusDataManagement;
 
 public class Dish {
-	public int idPiatto;
-	public String nomePiatto;
-	public String tipoPiatto;
-	public double prezzo;
-	public int initialAvailability;
-	public int currentAvailability;
-	public Menu menu;
+	private int idPiatto;
+	private String nomePiatto;
+	private String tipoPiatto;
+	private double prezzo;
+	private int initialAvailability;
+	private int currentAvailability;
+	private Menu menu;
 
 	public Dish(int idPiatto, String nomePiatto, String tipoPiatto, double prezzo, int initialAvailability,
 			int currentAvailability, Menu menu) {

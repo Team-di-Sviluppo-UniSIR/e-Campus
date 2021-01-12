@@ -1,12 +1,12 @@
 package CampusDataManagement;
 
 public class Address {
-	public String citta;
-	public String provincia;
-	public int CAP;
-	public String via;
-	public int nCivico;
-	public Mensa nomeMensa;
+	private String citta;
+	private String provincia;
+	private int CAP;
+	private String via;
+	private int nCivico;
+	private Mensa nomeMensa;
 
 	public Address(String citta, String provincia, int cAP, String via, int nCivico, Mensa nomeMensa) {
 		super();

@@ -1,11 +1,11 @@
 package CampusDataManagement;
 
 public class Ristoratore {
-	public int idRistoratore;
-	public String nome;
-	public String cognome;
-	public String nomeSocieta;
-	public String numTelefono;
+	private int idRistoratore;
+	private String nome;
+	private String cognome;
+	private String nomeSocieta;
+	private String numTelefono;
 
 	public Ristoratore(int idRistoratore, String nome, String cognome, String nomeSocieta, String numTelefono) {
 		super();
