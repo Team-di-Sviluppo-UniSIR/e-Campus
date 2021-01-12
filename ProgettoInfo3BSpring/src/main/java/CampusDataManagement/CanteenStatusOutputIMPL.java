@@ -72,7 +72,7 @@ public class CanteenStatusOutputIMPL implements CanteenStatusOutputIF {
 		// risultati ottenuti (lista di Document)
 		FindIterable<Document> queryRes = collection.find(filterQuery);
 
-		// mi assicuro di ricevere 1 solo risultato (il nome della mensa è univoco)
+		// mi assicuro di ricevere 1 solo risultato (il nome della mensa ï¿½ univoco)
 		if (countQueryResults(queryRes) != 1)
 			throw new RuntimeException(); // definire nostra eccezione
 		else {
@@ -114,7 +114,7 @@ public class CanteenStatusOutputIMPL implements CanteenStatusOutputIF {
 		// risultati ottenuti (lista di Document)
 		FindIterable<Document> queryRes = collection.find(filterQuery);
 
-		// mi assicuro di ricevere 1 solo risultato (il nome della mensa è univoco)
+		// mi assicuro di ricevere 1 solo risultato (il nome della mensa ï¿½ univoco)
 		if (countQueryResults(queryRes) != 1)
 			throw new RuntimeException(); // definire nostra eccezione
 		else {
