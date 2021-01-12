@@ -152,7 +152,7 @@ public class CanteenStatusOutputIMPL implements CanteenStatusOutputIF {
 
 			DishPrice = result.getDouble("prezzo");
 
-			System.out.println("Il prezzo per " + result.getString("nomePiatto") + " è: " + DishPrice + "€");
+			//System.out.println("Il prezzo per " + result.getString("nomePiatto") + " è: " + DishPrice + "€");
 
 		}
 
