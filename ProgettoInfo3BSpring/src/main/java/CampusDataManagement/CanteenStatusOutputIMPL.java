@@ -1,5 +1,9 @@
 package CampusDataManagement;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Dictionary;
+import java.util.Hashtable;
 import java.util.Iterator;
 
 import javax.management.Query;
@@ -137,13 +141,7 @@ public class CanteenStatusOutputIMPL implements CanteenStatusOutputIF {
 		
 
 		// final Bson filterQuery = new Document("nome", mensa.nome);
-		Bson filterQuery = Filters.and(Filters.eq("nome", mensa.getNome()),
-		    Filters.eq("dettaglioApertura.giornoSettimana", dettaglioApertura.getGiornoSettimana()),
-			Filters.eq("dettaglioApertura.apertura.data", apertura.getData().toString()),
-			Filters.eq("dettaglioApertura.apertura.menu.nomeMenu", menu.getNomeMenu()),
-			Filters.eq("dettaglioApertura.apertura.menu.Piatti.nomePiatto", dish.getNomePiatto()));
-
-		
+		Bson filterQuery = Filters.eq("nome", mensa.getNome());
 		// risultati ottenuti (lista di Document)
 		FindIterable<Document> queryRes = collection.find(filterQuery);
 
@@ -151,62 +149,53 @@ public class CanteenStatusOutputIMPL implements CanteenStatusOutputIF {
 		if (countQueryResults(queryRes) != 1)
 			throw new RuntimeException();
 		else {
+			JSONObject objMensa = new JSONObject(queryRes.first().toJson());		
 			
-			JSONObject JMensa1 = new JSONObject(queryRes.first().toJson());		
+			JSONArray arrayDettagli = objMensa.getJSONArray("dettaglioApertura");
+			ArrayList<String> filterList = new ArrayList<String>(Arrays.asList("giornoSettimana","Lunedì","tipoPasto","Cena"));
+			JSONObject objDettaglioApertura = filterInto(arrayDettagli, filterList);
 			
-
-			JSONArray arr = JMensa1.getJSONArray("dettaglioApertura");
-			//mi deve restituire 2
-			System.out.println("Numero array: "+arr.length());
+			JSONArray arrayAperture = objDettaglioApertura.getJSONArray("apertura");
+			filterList = new ArrayList<String>(Arrays.asList("data","04/01/2021"));
+			JSONObject objApertura = filterInto(arrayAperture, filterList);
+			JSONObject objMenu = objApertura.getJSONObject("menu");
 			
-			JSONObject res=null;
-			//deve restituire 2 volte 2
-			//for per ciclare su "dettaglioApertura"
-			for(int i=0; i<arr.length();i++) {
-				JSONObject subArrObj = arr.getJSONObject(i);
-				
-				if( subArrObj.getString("giornoSettimana").equals("Lunedì")&&subArrObj.getString("tipoPasto").equals("Cena") ) {
-					res=subArrObj;
-					break;
-				}
-			}
+			JSONArray arrayPiatti = objMenu.getJSONArray("Piatti");
+			filterList = new ArrayList<String>(Arrays.asList("nomePiatto","Arrosto"));
+			JSONObject result = filterInto(arrayPiatti, filterList);
+						
+			DishPrice = result.getDouble("prezzo");		
 			
-			//res contiene l'oggetto cercato nel sottoArray "dettaglioApertura"
-			arr=res.getJSONArray("apertura");
-			for(int i=0; i<arr.length();i++) {
-				JSONObject subArrObj = arr.getJSONObject(i);
-				
-				System.out.println("TESSST"+subArrObj.toString());
-				
-				if( subArrObj.getString("data").equals("11/01/2021")) {
-					res=subArrObj;
-					break;
-				}
-			}
+			System.out.println("Il prezzo per " + result.getString("nomePiatto") + " è: "+ DishPrice + "€");		
 			
-			//res contiene l'oggetto cercato nel sottoArray "apertura"
-			JSONObject menuObject=res.getJSONObject("menu");
-			
-			System.out.println("I miei menu "+menuObject.toString());
-			//TO DO: risolvere problema p P
-			arr=menuObject.getJSONArray("Piatti");
-			for(int i=0; i<arr.length();i++) {
-				JSONObject subArrObj = arr.getJSONObject(i);
-				
-				System.out.println("TESSST"+subArrObj.toString());
-				
-				if( subArrObj.getString("nomePiatto").equals("kiwi")) {
-					res=subArrObj;
-					break;
-				}
-			}
-			
-			//ora res è l'oggetto che volevamo
-			System.out.println("Il prezzo per " + res.getString("nomePiatto") + " è: "+res.getDouble("prezzo")+"€");
-								
 			}
 		
-				return -1;		
+		return DishPrice;		
+	}
+	
+	public JSONObject filterInto(JSONArray startingArray, ArrayList<String> filteringArray){
+		JSONObject resultObj = null;
+		
+		for(int i=0; i<startingArray.length();i++) {
+			JSONObject subarrayObj = startingArray.getJSONObject(i);
+			switch (filteringArray.size()) {
+				case 2: {
+					if(subarrayObj.getString(filteringArray.get(0)).equals(filteringArray.get(1))) {
+						resultObj = subarrayObj;
+						break;
+					}
+				}
+				case 4: {
+					if((subarrayObj.getString(filteringArray.get(0)).equals(filteringArray.get(1)))&&
+					   (subarrayObj.getString(filteringArray.get(2)).equals(filteringArray.get(3)))) {
+						resultObj = subarrayObj;
+						break;
+					}
+				}
+				}
+		}
+		
+		return resultObj;
 	}
 
 	@Override
