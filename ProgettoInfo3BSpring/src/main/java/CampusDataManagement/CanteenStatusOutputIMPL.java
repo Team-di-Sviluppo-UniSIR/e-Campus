@@ -38,7 +38,7 @@ public class CanteenStatusOutputIMPL implements CanteenStatusOutputIF {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
 	private static Object getKey(JSONArray array, String key, Object filtro) {
 		Object value = -1;
 		for (int i = 0; i < array.length(); i++) {
@@ -127,12 +127,14 @@ public class CanteenStatusOutputIMPL implements CanteenStatusOutputIF {
 	@Override
 	public double getDishPrice(Mensa mensa, DettaglioApertura dettaglioApertura, Apertura apertura, Menu menu, 
 			Dish dish, MongoClientURI uri) {
+		
 		// -1 = errore
 		Double DishPrice = -1.0;
 
 		MongoClient mongoClient = new MongoClient(uri);
 		MongoDatabase mongoDB = mongoClient.getDatabase("DBCampus");
 		MongoCollection<Document> collection = mongoDB.getCollection("DBCampusCollection");
+		
 
 		// final Bson filterQuery = new Document("nome", mensa.nome);
 		Bson filterQuery = Filters.and(Filters.eq("nome", mensa.getNome()),
@@ -141,6 +143,7 @@ public class CanteenStatusOutputIMPL implements CanteenStatusOutputIF {
 			Filters.eq("dettaglioApertura.apertura.menu.nomeMenu", menu.getNomeMenu()),
 			Filters.eq("dettaglioApertura.apertura.menu.Piatti.nomePiatto", dish.getNomePiatto()));
 
+		
 		// risultati ottenuti (lista di Document)
 		FindIterable<Document> queryRes = collection.find(filterQuery);
 
@@ -148,22 +151,62 @@ public class CanteenStatusOutputIMPL implements CanteenStatusOutputIF {
 		if (countQueryResults(queryRes) != 1)
 			throw new RuntimeException();
 		else {
+			
 			JSONObject JMensa1 = new JSONObject(queryRes.first().toJson());		
-			//System.out.println(JMensa1.toString());
-			JSONArray JDettaglio = JMensa1.getJSONArray("dettaglioApertura");
-			//System.out.println(JDettaglio.toString());
-			JSONArray JApertura = (JSONArray) getKey(JDettaglio, "apertura", apertura.getData().toString());
-			//System.out.println(JApertura.toString());
-			JSONObject JMenu = (JSONObject) getKey(JApertura, "menu", menu.getNomeMenu());
-			System.out.println(menu.getNomeMenu());
-			System.out.println(JMenu.toString());
-			JSONArray JPiatto = JMenu.getJSONArray("Piatti");
-			System.out.println(JPiatto.toString());
-			//JSONArray obj = (JSONArray) getKey(JMenu, "Piatti");
-			DishPrice = (Double) getKey(JPiatto, "prezzo", dish.getNomePiatto());
-		}
+			
 
-				return DishPrice;		
+			JSONArray arr = JMensa1.getJSONArray("dettaglioApertura");
+			//mi deve restituire 2
+			System.out.println("Numero array: "+arr.length());
+			
+			JSONObject res=null;
+			//deve restituire 2 volte 2
+			//for per ciclare su "dettaglioApertura"
+			for(int i=0; i<arr.length();i++) {
+				JSONObject subArrObj = arr.getJSONObject(i);
+				
+				if( subArrObj.getString("giornoSettimana").equals("Lunedì")&&subArrObj.getString("tipoPasto").equals("Cena") ) {
+					res=subArrObj;
+					break;
+				}
+			}
+			
+			//res contiene l'oggetto cercato nel sottoArray "dettaglioApertura"
+			arr=res.getJSONArray("apertura");
+			for(int i=0; i<arr.length();i++) {
+				JSONObject subArrObj = arr.getJSONObject(i);
+				
+				System.out.println("TESSST"+subArrObj.toString());
+				
+				if( subArrObj.getString("data").equals("11/01/2021")) {
+					res=subArrObj;
+					break;
+				}
+			}
+			
+			//res contiene l'oggetto cercato nel sottoArray "apertura"
+			JSONObject menuObject=res.getJSONObject("menu");
+			
+			System.out.println("I miei menu "+menuObject.toString());
+			//TO DO: risolvere problema p P
+			arr=menuObject.getJSONArray("Piatti");
+			for(int i=0; i<arr.length();i++) {
+				JSONObject subArrObj = arr.getJSONObject(i);
+				
+				System.out.println("TESSST"+subArrObj.toString());
+				
+				if( subArrObj.getString("nomePiatto").equals("kiwi")) {
+					res=subArrObj;
+					break;
+				}
+			}
+			
+			//ora res è l'oggetto che volevamo
+			System.out.println("Il prezzo per " + res.getString("nomePiatto") + " è: "+res.getDouble("prezzo")+"€");
+								
+			}
+		
+				return -1;		
 	}
 
 	@Override
