@@ -15,7 +15,8 @@ public interface CanteenStatusOutputIF {
 
 	public int getCanteenCapacity(Mensa mensa, MongoClientURI uri);
 
-	public double getDishPrice();
+	public double getDishPrice(Mensa mensa, DettaglioApertura dettaglioApertura, Apertura apertura, Menu menu, 
+			Dish dish, MongoClientURI uri);
 
 	public Time getCanteenETA();
 

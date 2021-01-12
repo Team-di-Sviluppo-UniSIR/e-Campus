@@ -1,6 +1,9 @@
 package CampusDataManagement;
 
 import java.util.Iterator;
+
+import javax.management.Query;
+
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.json.JSONArray;
@@ -36,13 +39,14 @@ public class CanteenStatusOutputIMPL implements CanteenStatusOutputIF {
 		return null;
 	}
 
-	private static Object getKey(JSONArray array, String key) {
-		Object value = null;
+	private static Object getKey(JSONArray array, String key, Object filtro) {
+		Object value = -1;
 		for (int i = 0; i < array.length(); i++) {
 			JSONObject item = array.getJSONObject(i);
 			if (item.keySet().contains(key)) {
 				value = item.get(key);
-				break;
+				if(value.equals((String)filtro))
+					break;
 			}
 		}
 
@@ -52,8 +56,6 @@ public class CanteenStatusOutputIMPL implements CanteenStatusOutputIF {
 	@Override
 	public int getAvailableSeats(Mensa mensa, DettaglioApertura dettaglioApertura, Apertura apertura,
 			MongoClientURI uri) {
-		// connesione al database tramite metodo ad-hoc
-		// MongoClientURI uri = connectToMongo();
 
 		// -1 = errore
 		int postiDisponibili = -1;
@@ -61,8 +63,6 @@ public class CanteenStatusOutputIMPL implements CanteenStatusOutputIF {
 		MongoClient mongoClient = new MongoClient(uri);
 		MongoDatabase mongoDB = mongoClient.getDatabase("DBCampus");
 		MongoCollection<Document> collection = mongoDB.getCollection("DBCampusCollection");
-
-		// preparazione filtro di query
 
 		// final Bson filterQuery = new Document("nome", mensa.nome);
 		Bson filterQuery = Filters.and(Filters.eq("nome", mensa.getNome()),
@@ -72,15 +72,14 @@ public class CanteenStatusOutputIMPL implements CanteenStatusOutputIF {
 		// risultati ottenuti (lista di Document)
 		FindIterable<Document> queryRes = collection.find(filterQuery);
 
-		// mi assicuro di ricevere 1 solo risultato (il nome della mensa � univoco)
+		// mi assicuro di ricevere 1 solo risultato (il nome della mensa è univoco)
 		if (countQueryResults(queryRes) != 1)
 			throw new RuntimeException(); // definire nostra eccezione
 		else {
 			JSONObject JMensa1 = new JSONObject(queryRes.first().toJson());
 			JSONArray dettaglio = JMensa1.getJSONArray("dettaglioApertura");
-			JSONArray obj = (JSONArray) getKey(dettaglio, "apertura");
-
-			postiDisponibili = (int) getKey(obj, "availableSeats");
+			JSONArray obj = (JSONArray) getKey(dettaglio, "apertura", dettaglioApertura.getGiornoSettimana());
+			postiDisponibili = (int) getKey(obj, "availableSeats", apertura.getData().toString());
 		}
 
 		return postiDisponibili;
@@ -126,9 +125,45 @@ public class CanteenStatusOutputIMPL implements CanteenStatusOutputIF {
 	}
 
 	@Override
-	public double getDishPrice() {
-		// TODO Auto-generated method stub
-		return 0;
+	public double getDishPrice(Mensa mensa, DettaglioApertura dettaglioApertura, Apertura apertura, Menu menu, 
+			Dish dish, MongoClientURI uri) {
+		// -1 = errore
+		Double DishPrice = -1.0;
+
+		MongoClient mongoClient = new MongoClient(uri);
+		MongoDatabase mongoDB = mongoClient.getDatabase("DBCampus");
+		MongoCollection<Document> collection = mongoDB.getCollection("DBCampusCollection");
+
+		// final Bson filterQuery = new Document("nome", mensa.nome);
+		Bson filterQuery = Filters.and(Filters.eq("nome", mensa.getNome()),
+		    Filters.eq("dettaglioApertura.giornoSettimana", dettaglioApertura.getGiornoSettimana()),
+			Filters.eq("dettaglioApertura.apertura.data", apertura.getData().toString()),
+			Filters.eq("dettaglioApertura.apertura.menu.nomeMenu", menu.getNomeMenu()),
+			Filters.eq("dettaglioApertura.apertura.menu.Piatti.nomePiatto", dish.getNomePiatto()));
+
+		// risultati ottenuti (lista di Document)
+		FindIterable<Document> queryRes = collection.find(filterQuery);
+
+		// mi assicuro di ricevere 1 solo risultato (il nome della mensa è univoco)
+		if (countQueryResults(queryRes) != 1)
+			throw new RuntimeException();
+		else {
+			JSONObject JMensa1 = new JSONObject(queryRes.first().toJson());		
+			//System.out.println(JMensa1.toString());
+			JSONArray JDettaglio = JMensa1.getJSONArray("dettaglioApertura");
+			//System.out.println(JDettaglio.toString());
+			JSONArray JApertura = (JSONArray) getKey(JDettaglio, "apertura", apertura.getData().toString());
+			//System.out.println(JApertura.toString());
+			JSONObject JMenu = (JSONObject) getKey(JApertura, "menu", menu.getNomeMenu());
+			System.out.println(menu.getNomeMenu());
+			System.out.println(JMenu.toString());
+			JSONArray JPiatto = JMenu.getJSONArray("Piatti");
+			System.out.println(JPiatto.toString());
+			//JSONArray obj = (JSONArray) getKey(JMenu, "Piatti");
+			DishPrice = (Double) getKey(JPiatto, "prezzo", dish.getNomePiatto());
+		}
+
+				return DishPrice;		
 	}
 
 	@Override
