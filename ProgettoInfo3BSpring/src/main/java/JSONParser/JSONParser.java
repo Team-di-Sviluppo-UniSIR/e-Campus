@@ -9,6 +9,8 @@ import org.json.JSONObject;
 import com.mongodb.client.FindIterable;
 
 public class JSONParser {
+	
+	
 	public static JSONObject filterInto(JSONArray startingArray, ArrayList<String> filteringArray) {
 		JSONObject resultObj = null;
 
