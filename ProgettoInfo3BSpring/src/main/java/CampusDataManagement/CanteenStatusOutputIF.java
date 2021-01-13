@@ -13,7 +13,7 @@ public interface CanteenStatusOutputIF {
 	public int getAvailableSeats(Mensa mensa, DettaglioApertura dettaglioApertura, Apertura apertura,
 			MongoClientURI uri);
 
-	public int getCanteenCapacity(Mensa mensa, MongoClientURI uri);
+	public int getCanteenCapacity(Mensa mensa);
 
 	public double getDishPrice(Mensa mensa, DettaglioApertura dettaglioApertura, Apertura apertura, Menu menu, 
 			Dish dish, MongoClientURI uri);

@@ -7,10 +7,12 @@ import java.io.IOException;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 import com.mongodb.MongoClientURI;
 
 import CampusDataManagement.Apertura;
+import CampusDataManagement.CanteenStatusOutputController;
 import CampusDataManagement.CanteenStatusOutputIF;
 import CampusDataManagement.CanteenStatusOutputIMPL;
 import CampusDataManagement.Data;
@@ -18,32 +20,16 @@ import CampusDataManagement.DettaglioApertura;
 import CampusDataManagement.Dish;
 import CampusDataManagement.Mensa;
 import CampusDataManagement.Menu;
+import dbConnection.dbConnectionSetter;
 
 @SpringBootApplication
+@ComponentScan(basePackageClasses = CanteenStatusOutputController.class)
 public class ProgettoInfo3BSpringApplication {
-
-	public static MongoClientURI connectToMongo() {
-		System.out.println();
-		// reading config file
-		String mongoConnectionString = null;
-		try {
-			BufferedReader reader = new BufferedReader(new FileReader("src" + File.separator + "main" + File.separator
-					+ "java" + File.separator + "mainProgram" + File.separator + "config.txt"));
-			mongoConnectionString = mongoConnectionString = reader.readLine();
-			reader.close();
-		} catch (IOException ex) {
-			System.out.println(ex.getMessage());
-		}
-
-		// stabilisco la connessione
-		// database: DBCampus, collezione: DBCampusCollection
-		MongoClientURI uri = new MongoClientURI(mongoConnectionString);
-		return uri;
-	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(ProgettoInfo3BSpringApplication.class, args);
-
+		
+/*
 		// getting uri to mongo
 		MongoClientURI uri = connectToMongo();
 
@@ -65,6 +51,6 @@ public class ProgettoInfo3BSpringApplication {
 		Dish piatto1 = new Dish(0, "Pasta al salmone", null, 0, 0, 0, menu1);
 		System.out.println("Costo Piatto \"" + piatto1.getNomePiatto() + "\" - mensa \"" + m1.getNome() + "\": "
 				+ canteenOutput.getDishPrice(m1, d1, a1, menu1, piatto1, uri) + " € ");
-	}
+*/	}
 
 }

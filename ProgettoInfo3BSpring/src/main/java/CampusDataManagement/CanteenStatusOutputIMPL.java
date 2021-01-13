@@ -1,6 +1,7 @@
 package CampusDataManagement;
 
 import JSONParser.*;
+import dbConnection.dbConnectionSetter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,6 +29,8 @@ import com.mongodb.util.JSON;
  */
 public class CanteenStatusOutputIMPL implements CanteenStatusOutputIF {
 
+	MongoCollection<Document> collection = dbConnectionSetter.connectToMongoCollection();
+	
 	/**
 	 * Gets the waiting time.
 	 *
@@ -115,13 +118,9 @@ public class CanteenStatusOutputIMPL implements CanteenStatusOutputIF {
 	 * @param uri   uri per la connessione a mongoDB fortnito da metodo ad hoc
 	 * @return i posti della mensa totali
 	 */
-	public int getCanteenCapacity(Mensa mensa, MongoClientURI uri) {
+	public int getCanteenCapacity(Mensa mensa) {
 		// -1 = errore
 		int capacita = -1;
-
-		MongoClient mongoClient = new MongoClient(uri);
-		MongoDatabase mongoDB = mongoClient.getDatabase("DBCampus");
-		MongoCollection<Document> collection = mongoDB.getCollection("DBCampusCollection");
 
 		// preparazione filtro di query
 		final Bson filterQuery = new Document("nome", mensa.getNome());
