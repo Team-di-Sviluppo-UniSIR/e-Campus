@@ -36,17 +36,18 @@ public class JSONParser {
 		return resultObj;
 	}
 	
+	
+	/**
+	 * Conta il numero di documenti restituiti da una query
+	 *
+	 * @param docToCount dato ottenuto dalla query
+	 * @return numero di documenti nel risultato della query
+	 */
 	public static int countQueryResults(FindIterable<Document> docToCount) {
 		int count = 0;
 		for (Document d : docToCount) {
 			count++;
 		}
-
-		/*
-		 * Introdurre test invece di usare questo metodo
-		 * System.out.println("numero di risultati:"+count);
-		 */
-
 		return count;
 	}
 

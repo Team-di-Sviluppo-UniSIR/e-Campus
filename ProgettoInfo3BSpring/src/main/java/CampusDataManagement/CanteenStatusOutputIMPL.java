@@ -5,25 +5,14 @@ import dbConnection.dbConnectionSetter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Dictionary;
-import java.util.Hashtable;
-import java.util.Iterator;
-import javax.management.Query;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCursor;
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientURI;
+
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
-import com.mongodb.client.model.Filters.*;
-import com.mongodb.util.JSON;
-
 /**
  * The Class CanteenStatusOutputIMPL.
  */
@@ -75,15 +64,10 @@ public class CanteenStatusOutputIMPL implements CanteenStatusOutputIF {
 	 * @return i posti disponibili della mensa cercata nella determinata apertura
 	 */
 	@Override
-	public int getAvailableSeats(Mensa mensa, DettaglioApertura dettaglioApertura, Apertura apertura,
-			MongoClientURI uri) {
+	public int getAvailableSeats(Mensa mensa, DettaglioApertura dettaglioApertura, Apertura apertura) {
 
 		// -1 = errore
 		int postiDisponibili = -1;
-
-		MongoClient mongoClient = new MongoClient(uri);
-		MongoDatabase mongoDB = mongoClient.getDatabase("DBCampus");
-		MongoCollection<Document> collection = mongoDB.getCollection("DBCampusCollection");
 
 		// final Bson filterQuery = new Document("nome", mensa.nome);
 		Bson filterQuery = Filters.eq("nome", mensa.getNome());
@@ -154,14 +138,10 @@ public class CanteenStatusOutputIMPL implements CanteenStatusOutputIF {
 	 */
 	@Override
 	public double getDishPrice(Mensa mensa, DettaglioApertura dettaglioApertura, Apertura apertura, Menu menu,
-			Dish dish, MongoClientURI uri) {
+			Dish dish) {
 
 		// -1 = errore
 		Double DishPrice = -1.0;
-
-		MongoClient mongoClient = new MongoClient(uri);
-		MongoDatabase mongoDB = mongoClient.getDatabase("DBCampus");
-		MongoCollection<Document> collection = mongoDB.getCollection("DBCampusCollection");
 
 		// final Bson filterQuery = new Document("nome", mensa.nome);
 		Bson filterQuery = Filters.eq("nome", mensa.getNome());
