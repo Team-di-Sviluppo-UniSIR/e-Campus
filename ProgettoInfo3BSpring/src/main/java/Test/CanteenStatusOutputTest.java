@@ -1,5 +1,4 @@
 package Test;
-import CampusDataManagement.CanteenStatusOutputIMPL.*;
 import mainProgram.ProgettoInfo3BSpringApplication;
 
 import static org.junit.Assert.assertEquals;
