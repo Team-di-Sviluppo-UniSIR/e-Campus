@@ -83,10 +83,7 @@ public class CanteenStatusOutputIMPL implements CanteenStatusOutputIF {
 		MongoCollection<Document> collection = mongoDB.getCollection("DBCampusCollection");
 
 		// final Bson filterQuery = new Document("nome", mensa.nome);
-		Bson filterQuery = Filters.and(Filters.eq("nome", mensa.getNome()),
-				Filters.eq("dettaglioApertura.giornoSettimana", dettaglioApertura.getGiornoSettimana()),
-				Filters.eq("dettaglioApertura.apertura.data", apertura.getData().toString()));
-
+		Bson filterQuery = Filters.eq("nome", mensa.getNome());
 		// risultati ottenuti (lista di Document)
 		FindIterable<Document> queryRes = collection.find(filterQuery);
 
@@ -94,11 +91,18 @@ public class CanteenStatusOutputIMPL implements CanteenStatusOutputIF {
 		if (JSONParser.countQueryResults(queryRes) != 1)
 			throw new RuntimeException(); // definire nostra eccezione
 		else {
-			JSONObject JMensa1 = new JSONObject(queryRes.first().toJson());
-			JSONArray dettaglio = JMensa1.getJSONArray("dettaglioApertura");
-			JSONArray obj = (JSONArray) JSONParser.getKey(dettaglio, "apertura",
-					dettaglioApertura.getGiornoSettimana());
-			postiDisponibili = (int) JSONParser.getKey(obj, "availableSeats", apertura.getData().toString());
+			JSONObject objMensa = new JSONObject(queryRes.first().toJson());
+			
+			JSONArray arrayDettagli = objMensa.getJSONArray("dettaglioApertura");
+			ArrayList<String> filterList = new ArrayList<String>(Arrays.asList("giornoSettimana", dettaglioApertura.getGiornoSettimana()));
+			JSONObject objDettaglioApertura = JSONParser.filterInto(arrayDettagli, filterList);
+
+			JSONArray arrayAperture = objDettaglioApertura.getJSONArray("apertura");
+			filterList = new ArrayList<String>(Arrays.asList("data", apertura.getData().toString()));
+			JSONObject result = JSONParser.filterInto(arrayAperture, filterList);
+			
+			postiDisponibili = result.getInt("availableSeats");
+			
 		}
 
 		return postiDisponibili;

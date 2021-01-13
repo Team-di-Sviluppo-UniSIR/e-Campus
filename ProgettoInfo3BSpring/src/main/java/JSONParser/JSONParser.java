@@ -47,19 +47,5 @@ public class JSONParser {
 
 		return count;
 	}
-	
-	public static Object getKey(JSONArray array, String key, Object filtro) {
-		Object value = -1;
-		for (int i = 0; i < array.length(); i++) {
-			JSONObject item = array.getJSONObject(i);
-			if (item.keySet().contains(key)) {
-				value = item.get(key);
-				if (value.equals((String) filtro))
-					break;
-			}
-		}
-
-		return value;
-	}
 
 }
