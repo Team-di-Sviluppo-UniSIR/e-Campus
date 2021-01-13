@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class CanteenStatusOutputController {
 	
+	//QUando viene esposta l'API si stabilisce la connessione con MongoDB
 	CanteenStatusOutputIMPL canteenObj=new CanteenStatusOutputIMPL();
 	
 	@GetMapping("/getCanteenCapacity")

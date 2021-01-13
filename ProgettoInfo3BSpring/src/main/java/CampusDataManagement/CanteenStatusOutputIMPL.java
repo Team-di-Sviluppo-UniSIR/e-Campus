@@ -18,6 +18,7 @@ import com.mongodb.client.model.Filters;
  */
 public class CanteenStatusOutputIMPL implements CanteenStatusOutputIF {
 
+	//Connessione con  mongoDB 
 	MongoCollection<Document> collection = dbConnectionSetter.connectToMongoCollection();
 	
 	/**

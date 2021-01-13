@@ -14,8 +14,7 @@ public interface CanteenStatusOutputIF {
 
 	public int getCanteenCapacity(Mensa mensa);
 
-	public double getDishPrice(Mensa mensa, DettaglioApertura dettaglioApertura, Apertura apertura, Menu menu, 
-			Dish dish);
+	public double getDishPrice(Mensa mensa, DettaglioApertura dettaglioApertura, Apertura apertura, Menu menu, Dish dish);
 
 	public Time getCanteenETA();
 
