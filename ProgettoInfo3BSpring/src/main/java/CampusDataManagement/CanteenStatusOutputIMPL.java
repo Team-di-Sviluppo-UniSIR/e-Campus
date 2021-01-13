@@ -23,40 +23,54 @@ import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Filters.*;
 import com.mongodb.util.JSON;
 
+/**
+ * The Class CanteenStatusOutputIMPL.
+ */
 public class CanteenStatusOutputIMPL implements CanteenStatusOutputIF {
 
+	/**
+	 * Gets the waiting time.
+	 *
+	 * @return il tempo stimato d'attesa
+	 */
 	@Override
 	public Time getWaitingTime() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/**
+	 * Gets the available plates.
+	 *
+	 * @return i piatti disponibili nel momento richiesto in una determinata mensa
+	 */
 	@Override
 	public Menu getAvailablePlates() {
 		// Mi restituisce tutti i piatti di una mensa in una determinata apertura
 		return null;
 	}
 
+	/**
+	 * Gets the canteen status.
+	 *
+	 * @return se una mensa è aperta o chiusa in quell'istante
+	 */
 	@Override
 	public String getCanteenStatus() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	private static Object getKey(JSONArray array, String key, Object filtro) {
-		Object value = -1;
-		for (int i = 0; i < array.length(); i++) {
-			JSONObject item = array.getJSONObject(i);
-			if (item.keySet().contains(key)) {
-				value = item.get(key);
-				if (value.equals((String) filtro))
-					break;
-			}
-		}
-
-		return value;
-	}
-
+	/**
+	 * Gets the available seats.
+	 *
+	 * @param mensa             la mensa che si sta cercando
+	 * @param dettaglioApertura il dettaglio apertura che si sta cercando
+	 * @param apertura          l'apertura che si sta cercando
+	 * @param uri               uri per la connessione a mongoDB fortnito da metodo
+	 *                          ad hoc
+	 * @return i posti disponibili della mensa cercata nella determinata apertura
+	 */
 	@Override
 	public int getAvailableSeats(Mensa mensa, DettaglioApertura dettaglioApertura, Apertura apertura,
 			MongoClientURI uri) {
@@ -82,13 +96,21 @@ public class CanteenStatusOutputIMPL implements CanteenStatusOutputIF {
 		else {
 			JSONObject JMensa1 = new JSONObject(queryRes.first().toJson());
 			JSONArray dettaglio = JMensa1.getJSONArray("dettaglioApertura");
-			JSONArray obj = (JSONArray) getKey(dettaglio, "apertura", dettaglioApertura.getGiornoSettimana());
-			postiDisponibili = (int) getKey(obj, "availableSeats", apertura.getData().toString());
+			JSONArray obj = (JSONArray) JSONParser.getKey(dettaglio, "apertura",
+					dettaglioApertura.getGiornoSettimana());
+			postiDisponibili = (int) JSONParser.getKey(obj, "availableSeats", apertura.getData().toString());
 		}
 
 		return postiDisponibili;
 	}
 
+	/**
+	 * Gets the canteen capacity.
+	 *
+	 * @param mensa la mensa che si sta cercando
+	 * @param uri   uri per la connessione a mongoDB fortnito da metodo ad hoc
+	 * @return i posti della mensa totali
+	 */
 	public int getCanteenCapacity(Mensa mensa, MongoClientURI uri) {
 		// -1 = errore
 		int capacita = -1;
@@ -114,6 +136,19 @@ public class CanteenStatusOutputIMPL implements CanteenStatusOutputIF {
 		return capacita;
 	}
 
+	/**
+	 * Gets the dish price.
+	 *
+	 * @param mensa             la mensa che si sta cercando
+	 * @param dettaglioApertura il dettaglio apertura che si sta cercando
+	 * @param apertura          l'apertura che si sta cercando
+	 * @param menu              il menu che si sta cercando
+	 * @param dish              il piatto che si sta cercando
+	 * @param uri               uri per la connessione a mongoDB fortnito da metodo
+	 *                          ad hoc
+	 * @return il prezzo del determinato piatto cercato nella determinata mensa nel
+	 *         determinato giorno
+	 */
 	@Override
 	public double getDishPrice(Mensa mensa, DettaglioApertura dettaglioApertura, Apertura apertura, Menu menu,
 			Dish dish, MongoClientURI uri) {
@@ -152,21 +187,27 @@ public class CanteenStatusOutputIMPL implements CanteenStatusOutputIF {
 
 			DishPrice = result.getDouble("prezzo");
 
-			//System.out.println("Il prezzo per " + result.getString("nomePiatto") + " è: " + DishPrice + "€");
-
 		}
 
 		return DishPrice;
 	}
 
-	
-
+	/**
+	 * Gets the canteen ETA.
+	 *
+	 * @return ritorna il tempo di attesa medio in caso di mensa piena
+	 */
 	@Override
 	public Time getCanteenETA() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/**
+	 * Gets the opening hours.
+	 *
+	 * @return gli orari di apertura di una certa mensa in un certo giorno
+	 */
 	@Override
 	public DettaglioApertura getOpeningHours() {
 		// TODO Auto-generated method stub
