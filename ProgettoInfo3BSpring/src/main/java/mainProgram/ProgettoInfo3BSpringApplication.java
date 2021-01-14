@@ -7,6 +7,7 @@ import CampusDataManagement.CanteenStatusOutputController;
 import CampusDataManagement.CanteenStatusOutputIF;
 import CampusDataManagement.CanteenStatusOutputIMPL;
 import DataAggregator.CanteenStatusInputController;
+import DataAggregator.CanteenStatusInputIF;
 import DataAggregator.CanteenStatusInputIMPL;
 import dataItemClasses.Apertura;
 import dataItemClasses.Data;
@@ -45,7 +46,7 @@ public class ProgettoInfo3BSpringApplication {
 		// INSERIMENTO
 		// PROVA INSERIMENTO CAPACITA
 		Mensa m1in = new Mensa(0, "Roadhouse", 0, null);
-		CanteenStatusInputIMPL canteenInput = new CanteenStatusInputIMPL();
+		CanteenStatusInputIF canteenInput = new CanteenStatusInputIMPL();
 		System.out.println("Campo modificato?" + canteenInput.insertCanteenCapacity(9992, m1in));
 		
 	}
