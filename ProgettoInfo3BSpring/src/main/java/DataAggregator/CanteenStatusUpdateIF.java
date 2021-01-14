@@ -1,5 +1,9 @@
 package DataAggregator;
 
-public interface CanteenStatusUpdateIF {
+import dataItemClasses.*;
 
+public interface CanteenStatusUpdateIF {
+	public boolean updateAvailableCapacity(int actualCapacity);
+
+	public boolean updateAvailablePortions(Dish dish);
 }
