@@ -43,7 +43,7 @@ public class ProgettoInfo3BSpringApplication {
 		   canteenOutput.getAvailableSeats(m1, d1, a1));
 
 		// PROVA PREZZO PIATTO
-		Menu menu1 = new Menu(0, "pranzoLunedì", "Mediterraneo", a1);
+		Menu menu1 = new Menu(0, "cenaLunedì", "Mediterraneo", a1);
 		Dish piatto1 = new Dish(0, "Pasta al salmone", null, 0, 0, 0, menu1);
 		System.out.println("Costo Piatto \"" + piatto1.getNomePiatto() + "\" - mensa \"" + m1.getNome() + "\": "
 				+ canteenOutput.getDishPrice(m1, d1, a1, menu1, piatto1) + " € ");
