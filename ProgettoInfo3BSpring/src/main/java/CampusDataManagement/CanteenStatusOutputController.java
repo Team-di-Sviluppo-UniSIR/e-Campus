@@ -14,8 +14,8 @@ import dataItemClasses.Menu;
 @RestController
 public class CanteenStatusOutputController {
 
-	// QUando viene esposta l'API si stabilisce la connessione con MongoDB
-	CanteenStatusOutputIMPL canteenObj = new CanteenStatusOutputIMPL();
+	// Quando viene esposta l'API si stabilisce la connessione con MongoDB
+	CanteenStatusOutputIMPL canteenOutputObj = new CanteenStatusOutputIMPL();
 
 	/*
 	 * localhost:8080/getCanteenCapacity?nomeMensa=I sapori della terra
@@ -23,7 +23,7 @@ public class CanteenStatusOutputController {
 	@GetMapping("/getCanteenCapacity")
 	public int getCanteenCapacityAPI(@RequestParam(value = "nomeMensa") String nomeMensa) {
 		Mensa mensa = new Mensa(0, nomeMensa, 0, null);
-		return canteenObj.getCanteenCapacity(mensa);
+		return canteenOutputObj.getCanteenCapacity(mensa);
 	}
 
 	/*
@@ -40,7 +40,7 @@ public class CanteenStatusOutputController {
 		String[] giornoMeseAnno = data.split("-");
 		Data data1 = new Data(giornoMeseAnno[0], giornoMeseAnno[1], giornoMeseAnno[2]);
 		Apertura a1 = new Apertura(0, data1, 0, mensa, d1);
-		return canteenObj.getAvailableSeats(mensa, d1, a1);
+		return canteenOutputObj.getAvailableSeats(mensa, d1, a1);
 	}
 
 	/*
@@ -63,7 +63,7 @@ public class CanteenStatusOutputController {
 		Menu menu1 = new Menu(0, nomeMenu, tipoMenu, a1);
 		Dish piatto1 = new Dish(0, nomePiatto, null, 0, 0, 0, menu1);
 
-		return canteenObj.getDishPrice(mensa, d1, a1, menu1, piatto1);
+		return canteenOutputObj.getDishPrice(mensa, d1, a1, menu1, piatto1);
 	}
 
 }
