@@ -77,7 +77,7 @@ public class CanteenStatusOutputIMPL implements CanteenStatusOutputIF {
 
 		// mi assicuro di ricevere 1 solo risultato (il nome della mensa è univoco)
 		if (JSONParser.countQueryResults(queryRes) != 1)
-			throw new RuntimeException(); // definire nostra eccezione
+			throw new RuntimeException(); 
 		else {
 			JSONObject objMensa = new JSONObject(queryRes.first().toJson());
 			
@@ -113,9 +113,9 @@ public class CanteenStatusOutputIMPL implements CanteenStatusOutputIF {
 		// risultati ottenuti (lista di Document)
 		FindIterable<Document> queryRes = collection.find(filterQuery);
 
-		// mi assicuro di ricevere 1 solo risultato (il nome della mensa � univoco)
+		// mi assicuro di ricevere 1 solo risultato (il nome della mensa è univoco)
 		if (JSONParser.countQueryResults(queryRes) != 1)
-			throw new RuntimeException(); // definire nostra eccezione
+			throw new RuntimeException(); 
 		else {
 			JSONObject JMensa = new JSONObject(queryRes.first().toJson());
 			capacita = JMensa.getInt("capacita");
