@@ -182,7 +182,7 @@ public class CanteenStatusOutputIMPL implements CanteenStatusOutputIF {
 	 * @return ritorna il tempo di attesa medio in caso di mensa piena
 	 */
 	@Override
-	public Time getCanteenETA() {
+	public String getCanteenETA() {
 		// TODO Auto-generated method stub
 		return null;
 	}
