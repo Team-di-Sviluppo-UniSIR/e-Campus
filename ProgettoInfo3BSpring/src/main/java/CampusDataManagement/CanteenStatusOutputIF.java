@@ -2,6 +2,13 @@ package CampusDataManagement;
 
 import com.mongodb.MongoClientURI;
 
+import dataItemClasses.Apertura;
+import dataItemClasses.DettaglioApertura;
+import dataItemClasses.Dish;
+import dataItemClasses.Mensa;
+import dataItemClasses.Menu;
+import dataItemClasses.Time;
+
 public interface CanteenStatusOutputIF {
 
 	public Time getWaitingTime();

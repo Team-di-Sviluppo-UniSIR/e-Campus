@@ -1,4 +1,4 @@
-package CampusDataManagement;
+package dataItemClasses;
 
 public class Data {
 	private String giorno;

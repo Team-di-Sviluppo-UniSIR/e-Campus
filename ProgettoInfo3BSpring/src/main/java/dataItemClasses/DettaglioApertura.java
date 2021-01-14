@@ -1,4 +1,4 @@
-package CampusDataManagement;
+package dataItemClasses;
 
 public class DettaglioApertura {
 	private int idDettaglio;

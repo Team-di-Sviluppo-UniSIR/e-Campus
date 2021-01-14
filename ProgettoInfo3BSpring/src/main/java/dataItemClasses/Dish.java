@@ -1,4 +1,4 @@
-package CampusDataManagement;
+package dataItemClasses;
 
 public class Dish {
 	private int idPiatto;

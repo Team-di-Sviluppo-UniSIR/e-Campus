@@ -1,6 +1,12 @@
 package CampusDataManagement;
 
 import JSONParser.*;
+import dataItemClasses.Apertura;
+import dataItemClasses.DettaglioApertura;
+import dataItemClasses.Dish;
+import dataItemClasses.Mensa;
+import dataItemClasses.Menu;
+import dataItemClasses.Time;
 import dbConnection.dbConnectionSetter;
 
 import java.util.ArrayList;

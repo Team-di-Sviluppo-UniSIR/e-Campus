@@ -11,15 +11,15 @@ import org.springframework.context.annotation.ComponentScan;
 
 import com.mongodb.MongoClientURI;
 
-import CampusDataManagement.Apertura;
 import CampusDataManagement.CanteenStatusOutputController;
 import CampusDataManagement.CanteenStatusOutputIF;
 import CampusDataManagement.CanteenStatusOutputIMPL;
-import CampusDataManagement.Data;
-import CampusDataManagement.DettaglioApertura;
-import CampusDataManagement.Dish;
-import CampusDataManagement.Mensa;
-import CampusDataManagement.Menu;
+import dataItemClasses.Apertura;
+import dataItemClasses.Data;
+import dataItemClasses.DettaglioApertura;
+import dataItemClasses.Dish;
+import dataItemClasses.Mensa;
+import dataItemClasses.Menu;
 import dbConnection.dbConnectionSetter;
 
 @SpringBootApplication

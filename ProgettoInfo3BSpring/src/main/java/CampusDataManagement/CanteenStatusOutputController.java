@@ -4,6 +4,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import dataItemClasses.Apertura;
+import dataItemClasses.Data;
+import dataItemClasses.DettaglioApertura;
+import dataItemClasses.Dish;
+import dataItemClasses.Mensa;
+import dataItemClasses.Menu;
+
 @RestController
 public class CanteenStatusOutputController {
 
