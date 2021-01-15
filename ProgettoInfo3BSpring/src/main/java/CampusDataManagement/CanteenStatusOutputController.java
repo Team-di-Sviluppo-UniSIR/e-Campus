@@ -15,12 +15,22 @@ import dataItemClasses.Dish;
 import dataItemClasses.Mensa;
 import dataItemClasses.Menu;
 
+/**
+ * Classe CanteenStatusController
+ */
 @RestController
 public class CanteenStatusOutputController {
 
 	// Quando viene esposta l'API si stabilisce la connessione con MongoDB
 	CanteenStatusOutputIMPL canteenOutputObj = new CanteenStatusOutputIMPL();
 
+	/**
+	 * API per l'ottenimento della capacità di una mensa.
+	 *
+	 * @param nomeMensa the nome della mensa
+	 * @return file JSON contenente la risposta riguardante la capacità della mensa
+	 *         ricercata
+	 */
 	/*
 	 * localhost:8080/getCanteenCapacity?nomeMensa=I sapori della terra
 	 */
@@ -35,6 +45,16 @@ public class CanteenStatusOutputController {
 		return response.toString(4);
 	}
 
+	/**
+	 * API per l'ottenimento del numero di posti disponibili di una mensa.
+	 *
+	 * @param nomeMensa       nome della mensa
+	 * @param giornoSettimana giorno della settimana
+	 * @param tipoPasto       il tipo pasto (colazione/pranzo/cena)
+	 * @param data            la data di cui si vuole ricercare l'apertura
+	 * @return file JSON contenente al risposta riguardante il numero di posti
+	 *         disponibili in una determinata mensa in una certa data
+	 */
 	/*
 	 * localhost:8080/getAvailableSeats?nomeMensa=I sapori della
 	 * terra&giornoSettimana=Lunedì&tipoPasto=Pranzo&data=04-01-2021
@@ -61,6 +81,19 @@ public class CanteenStatusOutputController {
 		return response.toString(4);
 	}
 
+	/**
+	 * API per l'ottenimento del prezzo di un determinato piatto in una certa mensa
+	 * in una data apertura.
+	 *
+	 * @param nomeMensa       il nome della mensa
+	 * @param giornoSettimana il giorno della settimana
+	 * @param tipoPasto       il tipo pasto
+	 * @param data            la data
+	 * @param nomeMenu        il nome del menu
+	 * @param tipoMenu        il tipo di menu
+	 * @param nomePiatto      il nome piatto di cui si vuole conoscere il prezzo
+	 * @return the dish price API
+	 */
 	/*
 	 * localhost:8080/getDishPrice?nomeMensa=I sapori della
 	 * terra&giornoSettimana=Lunedì&tipoPasto=Cena&data=04-01-2021&nomeMenu=
@@ -94,5 +127,4 @@ public class CanteenStatusOutputController {
 
 		return response.toString(4);
 	}
-
 }
