@@ -1,6 +1,10 @@
 package CampusDataManagement;
 
+import org.json.JSONObject;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -11,27 +15,53 @@ import dataItemClasses.Dish;
 import dataItemClasses.Mensa;
 import dataItemClasses.Menu;
 
+/**
+ * Classe CanteenStatusController
+ */
 @RestController
 public class CanteenStatusOutputController {
 
 	// Quando viene esposta l'API si stabilisce la connessione con MongoDB
 	CanteenStatusOutputIMPL canteenOutputObj = new CanteenStatusOutputIMPL();
 
+	/**
+	 * API per l'ottenimento della capacità di una mensa.
+	 *
+	 * @param nomeMensa the nome della mensa
+	 * @return file JSON contenente la risposta riguardante la capacità della mensa
+	 *         ricercata
+	 */
 	/*
 	 * localhost:8080/getCanteenCapacity?nomeMensa=I sapori della terra
 	 */
 	@GetMapping("/getCanteenCapacity")
-	public int getCanteenCapacityAPI(@RequestParam(value = "nomeMensa") String nomeMensa) {
+	@RequestMapping(value = "/getCanteenCapacity", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public String getCanteenCapacityAPI(@RequestParam(value = "nomeMensa") String nomeMensa) {
 		Mensa mensa = new Mensa(0, nomeMensa, 0, null);
-		return canteenOutputObj.getCanteenCapacity(mensa);
+
+		JSONObject response = new JSONObject();
+		response.put("nomeMensa", nomeMensa);
+		response.put("canteenCapacity", (int) canteenOutputObj.getCanteenCapacity(mensa));
+		return response.toString(4);
 	}
 
+	/**
+	 * API per l'ottenimento del numero di posti disponibili di una mensa.
+	 *
+	 * @param nomeMensa       nome della mensa
+	 * @param giornoSettimana giorno della settimana
+	 * @param tipoPasto       il tipo pasto (colazione/pranzo/cena)
+	 * @param data            la data di cui si vuole ricercare l'apertura
+	 * @return file JSON contenente al risposta riguardante il numero di posti
+	 *         disponibili in una determinata mensa in una certa data
+	 */
 	/*
 	 * localhost:8080/getAvailableSeats?nomeMensa=I sapori della
 	 * terra&giornoSettimana=Lunedì&tipoPasto=Pranzo&data=04-01-2021
 	 */
 	@GetMapping("/getAvailableSeats")
-	public int getAvailableSeatsAPI(@RequestParam(value = "nomeMensa") String nomeMensa,
+	@RequestMapping(value = "/getAvailableSeats", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public String getAvailableSeatsAPI(@RequestParam(value = "nomeMensa") String nomeMensa,
 			@RequestParam(value = "giornoSettimana") String giornoSettimana,
 			@RequestParam(value = "tipoPasto") String tipoPasto, @RequestParam(value = "data") String data) {
 
@@ -40,16 +70,38 @@ public class CanteenStatusOutputController {
 		String[] giornoMeseAnno = data.split("-");
 		Data data1 = new Data(giornoMeseAnno[0], giornoMeseAnno[1], giornoMeseAnno[2]);
 		Apertura a1 = new Apertura(0, data1, 0, mensa, d1);
-		return canteenOutputObj.getAvailableSeats(mensa, d1, a1);
+
+		JSONObject response = new JSONObject();
+		response.put("nomeMensa", nomeMensa);
+		response.put("giornoSettimana", giornoSettimana);
+		response.put("tipoPasto", tipoPasto);
+		response.put("data", "" + data);
+		response.put("availableSeats", (int) canteenOutputObj.getAvailableSeats(mensa, d1, a1));
+
+		return response.toString(4);
 	}
 
+	/**
+	 * API per l'ottenimento del prezzo di un determinato piatto in una certa mensa
+	 * in una data apertura.
+	 *
+	 * @param nomeMensa       il nome della mensa
+	 * @param giornoSettimana il giorno della settimana
+	 * @param tipoPasto       il tipo pasto
+	 * @param data            la data
+	 * @param nomeMenu        il nome del menu
+	 * @param tipoMenu        il tipo di menu
+	 * @param nomePiatto      il nome piatto di cui si vuole conoscere il prezzo
+	 * @return the dish price API
+	 */
 	/*
 	 * localhost:8080/getDishPrice?nomeMensa=I sapori della
 	 * terra&giornoSettimana=Lunedì&tipoPasto=Cena&data=04-01-2021&nomeMenu=
 	 * cenaLunedì&tipoMenu=Mediterraneo&nomePiatto=Pasta al salmone
 	 */
 	@GetMapping("/getDishPrice")
-	public double getDishPriceAPI(@RequestParam(value = "nomeMensa") String nomeMensa,
+	@RequestMapping(value = "/getDishPrice", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public String getDishPriceAPI(@RequestParam(value = "nomeMensa") String nomeMensa,
 			@RequestParam(value = "giornoSettimana") String giornoSettimana,
 			@RequestParam(value = "tipoPasto") String tipoPasto, @RequestParam(value = "data") String data,
 			@RequestParam(value = "nomeMenu") String nomeMenu, @RequestParam(value = "tipoMenu") String tipoMenu,
@@ -63,7 +115,16 @@ public class CanteenStatusOutputController {
 		Menu menu1 = new Menu(0, nomeMenu, tipoMenu, a1);
 		Dish piatto1 = new Dish(0, nomePiatto, null, 0, 0, 0, menu1);
 
-		return canteenOutputObj.getDishPrice(mensa, d1, a1, menu1, piatto1);
-	}
+		JSONObject response = new JSONObject();
+		response.put("nomeMensa", nomeMensa);
+		response.put("giornoSettimana", giornoSettimana);
+		response.put("tipoPasto", tipoPasto);
+		response.put("data", "" + data);
+		response.put("nomeMenu", nomeMenu);
+		response.put("tipoMenu", tipoMenu);
+		response.put("nomePiatto", nomePiatto);
+		response.put("dishPrice", canteenOutputObj.getDishPrice(mensa, d1, a1, menu1, piatto1));
 
+		return response.toString(4);
+	}
 }
