@@ -28,38 +28,33 @@ public class CanteenStatusOutputIMPL implements CanteenStatusOutputIF {
 	MongoCollection<Document> collection = dbConnectionSetter.connectToMongoCollection();
 	
 	/**
-	 * Gets the waiting time.
+	 * Gets the canteen capacity.
 	 *
-	 * @return il tempo stimato d'attesa
+	 * @param mensa la mensa che si sta cercando
+	 * @param uri   uri per la connessione a mongoDB fortnito da metodo ad hoc
+	 * @return i posti della mensa totali
 	 */
-	@Override
-	public Time getWaitingTime() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public int getCanteenCapacity(Mensa mensa) {
+		// -1 = errore
+		int capacita = -1;
 
-	/**
-	 * Gets the available plates.
-	 *
-	 * @return i piatti disponibili nel momento richiesto in una determinata mensa
-	 */
-	@Override
-	public Menu getAvailablePlates() {
-		// Mi restituisce tutti i piatti di una mensa in una determinata apertura
-		return null;
-	}
+		// preparazione filtro di query
+		final Bson filterQuery = new Document("nome", mensa.getNome());
 
-	/**
-	 * Gets the canteen status.
-	 *
-	 * @return se una mensa è aperta o chiusa in quell'istante
-	 */
-	@Override
-	public String getCanteenStatus() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		// risultati ottenuti (lista di Document)
+		FindIterable<Document> queryRes = collection.find(filterQuery);
 
+		// mi assicuro di ricevere 1 solo risultato (il nome della mensa è univoco)
+		if (JSONParser.countQueryResults(queryRes) != 1)
+			throw new RuntimeException(); 
+		else {
+			JSONObject JMensa = new JSONObject(queryRes.first().toJson());
+			capacita = JMensa.getInt("capacita");
+		}
+
+		return capacita;
+	}
+	
 	/**
 	 * Gets the available seats.
 	 *
@@ -102,33 +97,7 @@ public class CanteenStatusOutputIMPL implements CanteenStatusOutputIF {
 		return postiDisponibili;
 	}
 
-	/**
-	 * Gets the canteen capacity.
-	 *
-	 * @param mensa la mensa che si sta cercando
-	 * @param uri   uri per la connessione a mongoDB fortnito da metodo ad hoc
-	 * @return i posti della mensa totali
-	 */
-	public int getCanteenCapacity(Mensa mensa) {
-		// -1 = errore
-		int capacita = -1;
-
-		// preparazione filtro di query
-		final Bson filterQuery = new Document("nome", mensa.getNome());
-
-		// risultati ottenuti (lista di Document)
-		FindIterable<Document> queryRes = collection.find(filterQuery);
-
-		// mi assicuro di ricevere 1 solo risultato (il nome della mensa è univoco)
-		if (JSONParser.countQueryResults(queryRes) != 1)
-			throw new RuntimeException(); 
-		else {
-			JSONObject JMensa = new JSONObject(queryRes.first().toJson());
-			capacita = JMensa.getInt("capacita");
-		}
-
-		return capacita;
-	}
+	
 
 	/**
 	 * Gets the dish price.
@@ -181,6 +150,39 @@ public class CanteenStatusOutputIMPL implements CanteenStatusOutputIF {
 
 		return DishPrice;
 	}
+	
+	/**
+	 * Gets the available plates.
+	 *
+	 * @return i piatti disponibili nel momento richiesto in una determinata mensa
+	 */
+	@Override
+	public Menu getAvailablePlates() {
+		// Mi restituisce tutti i piatti di una mensa in una determinata apertura
+		return null;
+	}
+	
+	/**
+	 * Gets the opening hours.
+	 *
+	 * @return gli orari di apertura di una certa mensa in un certo giorno
+	 */
+	@Override
+	public DettaglioApertura getOpeningHours() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	/**
+	 * Gets the waiting time.
+	 *
+	 * @return il tempo stimato d'attesa
+	 */
+	@Override
+	public Time getWaitingTime() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	/**
 	 * Gets the canteen ETA.
@@ -194,12 +196,12 @@ public class CanteenStatusOutputIMPL implements CanteenStatusOutputIF {
 	}
 
 	/**
-	 * Gets the opening hours.
+	 * Gets the canteen status.
 	 *
-	 * @return gli orari di apertura di una certa mensa in un certo giorno
+	 * @return se una mensa è aperta o chiusa in quell'istante
 	 */
 	@Override
-	public DettaglioApertura getOpeningHours() {
+	public String getCanteenStatus() {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -47,7 +47,7 @@ public class ProgettoInfo3BSpringApplication {
 		// PROVA INSERIMENTO CAPACITA
 		Mensa m1in = new Mensa(0, "Roadhouse", 0, null);
 		CanteenStatusInputIF canteenInput = new CanteenStatusInputIMPL();
-		System.out.println("Campo modificato?" + canteenInput.insertCanteenCapacity(9992, m1in));
+		System.out.println("Campo modificato? " + canteenInput.insertCanteenCapacity(9992, m1in));
 		
 	}
 	
