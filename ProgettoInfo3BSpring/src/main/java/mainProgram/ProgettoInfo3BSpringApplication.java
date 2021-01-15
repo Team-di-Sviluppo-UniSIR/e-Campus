@@ -49,6 +49,13 @@ public class ProgettoInfo3BSpringApplication {
 		CanteenStatusInputIF canteenInput = new CanteenStatusInputIMPL();
 		System.out.println("Campo modificato? " + canteenInput.insertCanteenCapacity(9992, m1in));
 		
+		// PROVA INSERIMENTO MENU
+		DettaglioApertura da = new DettaglioApertura(0, "Venerdì", "Cena", null, null);
+		Data data2 = new Data("15", "01", "2021");
+		Apertura ap = new Apertura(0, data2, 0, m1in, da);
+		Menu menu2 = new Menu(2, "prova", "culo", null);
+		System.out.println("Campo inserito? " + canteenInput.insertDailyMenu(menu2, m1in, da, ap));
+		
 	}
 	
 }
