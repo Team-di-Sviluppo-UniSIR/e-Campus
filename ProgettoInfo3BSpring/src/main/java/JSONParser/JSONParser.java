@@ -73,6 +73,9 @@ public class JSONParser {
 		}
 
 		Map<Integer, JSONObject> res = new HashMap<>();
+		if(resultObj == null) 
+			resultObj = new JSONObject();
+		
 		res.put(i, resultObj);
 
 		return res;

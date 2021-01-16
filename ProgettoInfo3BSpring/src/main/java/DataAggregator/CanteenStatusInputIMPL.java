@@ -111,7 +111,7 @@ public class CanteenStatusInputIMPL implements CanteenStatusInputIF {
 		// preparazione campi JSON da inserire/aggiornare
 		Document updatedMenu = new Document();
 		updatedMenu.append("idMenu", dailyMenu.getIdMenu()).append("nomeMenu", dailyMenu.getNomeMenu())
-				.append("tipoMenu", dailyMenu.getTipoMenu()).append("Piatti", "[]");
+				.append("tipoMenu", dailyMenu.getTipoMenu()).append("Piatti", new ArrayList<>());
 
 		// preparazione e esecuzione setQuery
 		String queryString = "dettaglioApertura.".concat(String.valueOf(indexArrayDA)).concat(".apertura.")
@@ -135,6 +135,7 @@ public class CanteenStatusInputIMPL implements CanteenStatusInputIF {
 		// dichiaro gli indici che mi serviranno per costruire la stringa di query
 		int indexArrayDA;
 		int indexArrayA;
+		int indexNextDish;
 
 		// mi assicuro di ricevere 1 solo risultato
 		if (JSONParser.countQueryResults(queryRes) != 1)
@@ -164,6 +165,17 @@ public class CanteenStatusInputIMPL implements CanteenStatusInputIF {
 			Map<Integer, JSONObject> mapA = JSONParser.filterIntoAndIndex(arrayAperture, filterList);
 			// setto il secondo indice necessario per la costruzione della stringa di query finale
 			indexArrayA = mapA.keySet().iterator().next();
+			// scendo di un ulteriore livello per vedere quanti piatti ci sono nell'apertura ->
+			// -> prendo il JSONObject risultante dal filtering precedente
+			JSONObject objMenu = mapA.get(indexArrayA).getJSONObject("menu");
+			// prendo il JSONArray del JSONObject ritornato
+			JSONArray arrayPiatti = objMenu.getJSONArray("Piatti");
+			// filtro VOLUTAMENTE vuoto -> voglio che mi ritorni il numero di piatti già presenti
+			filterList = new ArrayList<String>(Arrays.asList("nomePiatto", "will_not_find"));
+			// restituisce map (numero Piatti già inseriti in MongoDB, JSONObject vuoto)
+			Map<Integer, JSONObject> mapP = JSONParser.filterIntoAndIndex(arrayPiatti, filterList);
+			// setto il terzo indice necessario per la costruzione della stringa di query finale
+			indexNextDish = mapP.keySet().iterator().next();
 		}
 
 		// preparazione searchQuery
@@ -179,7 +191,7 @@ public class CanteenStatusInputIMPL implements CanteenStatusInputIF {
 
 		// preparazione e esecuzione setQuery
 		String queryString = "dettaglioApertura.".concat(String.valueOf(indexArrayDA)).concat(".apertura.")
-				.concat(String.valueOf(indexArrayA)).concat(".menu.Piatti");
+				.concat(String.valueOf(indexArrayA)).concat(".menu.Piatti.").concat(String.valueOf(indexNextDish));
 		BasicDBObject setQuery = new BasicDBObject();
 		setQuery.put("$set", new BasicDBObject(queryString, updatedPiatto));
 		UpdateResult queryResult = collection.updateOne(searchQuery, setQuery);

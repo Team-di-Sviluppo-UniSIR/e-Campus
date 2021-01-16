@@ -13,6 +13,7 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.result.UpdateResult;
 
 import JSONParser.JSONParser;
 import dataItemClasses.Apertura;
@@ -51,10 +52,9 @@ public class CanteenStatusUpdateIMPL implements CanteenStatusUpdateIF {
 	}
 
 	@Override
-	public boolean updateAvailablePortions(Dish dish, Menu dailyMenu, Mensa mensa, DettaglioApertura dettaglioApertura,
+	public boolean updateAvailablePortions(int new_availability, Dish dish, Menu dailyMenu, Mensa mensa, DettaglioApertura dettaglioApertura,
 			Apertura apertura) {
 		
-		/*
 		// seleziono la mensa che mi interessa
 		Bson filterQuery = Filters.eq("nome", mensa.getNome());
 		// risultati ottenuti (lista di Document)
@@ -63,7 +63,7 @@ public class CanteenStatusUpdateIMPL implements CanteenStatusUpdateIF {
 		// dichiaro gli indici che mi serviranno per costruire la stringa di query
 		int indexArrayDA;
 		int indexArrayA;
-		int indexArrayMenu = 0;
+		int indexNextDish;
 
 		// mi assicuro di ricevere 1 solo risultato
 		if (JSONParser.countQueryResults(queryRes) != 1)
@@ -91,35 +91,42 @@ public class CanteenStatusUpdateIMPL implements CanteenStatusUpdateIF {
 			filterList = new ArrayList<String>(Arrays.asList("data", apertura.getData().toString()));
 			// restituisce map (indice arrayApertura, JSONObject dell'apertura selezionata)
 			Map<Integer, JSONObject> mapA = JSONParser.filterIntoAndIndex(arrayAperture, filterList);
-			// setto il secondo indice necessario per la costruzione della stringa di query
-			// finale
+			// setto il secondo indice necessario per la costruzione della stringa di query finale
 			indexArrayA = mapA.keySet().iterator().next();
-
+			// scendo di un ulteriore livello per vedere quanti piatti ci sono nell'apertura ->
+			// -> prendo il JSONObject risultante dal filtering precedente
+			JSONObject objMenu = mapA.get(indexArrayA).getJSONObject("menu");
+			// prendo il JSONArray del JSONObject ritornato
+			JSONArray arrayPiatti = objMenu.getJSONArray("Piatti");
+			// imposto i filtri per la ricerca del piatto di nostro interesse
+			filterList = new ArrayList<String>(Arrays.asList("nomePiatto", dish.getNomePiatto()));
+			// restituisce map (indice piatto, JSONObject piatto ricercato)
+			Map<Integer, JSONObject> mapP = JSONParser.filterIntoAndIndex(arrayPiatti, filterList);
+			// setto il terzo indice necessario per la costruzione della stringa di query finale
+			indexNextDish = mapP.keySet().iterator().next();
 		}
 
 		// preparazione searchQuery
 		BasicDBObject searchQuery = new BasicDBObject();
 		searchQuery.put("nome", mensa.getNome());
-
-		// preparazione campi JSON da inserire/aggiornare
-		Document updatedPiatto = new Document();
-		updatedPiatto.append("idPiatto", dish.getIdPiatto()).append("nomePiatto", dish.getNomePiatto())
-				.append("tipoPiatto", dish.getTipoPiatto()).append("prezzo", dish.getPrezzo())
-				.append("initialAvailability", dish.getInitialAvailability())
-				.append("currentAvailability", dish.getCurrentAvailability());
-
-		// preparazione e esecuzione setQuery
-		String queryString = "dettaglioApertura.".concat(String.valueOf(indexArrayDA)).concat(".apertura.")
-				.concat(String.valueOf(indexArrayA)).concat(".menu.").concat(String.valueOf(indexArrayMenu))
-				.concat(".Piatti");
-		BasicDBObject setQuery = new BasicDBObject();
-		setQuery.put("$set", new BasicDBObject(queryString, updatedPiatto));
 		
+		// preparazione setQuery
+		String queryString = "dettaglioApertura.".concat(String.valueOf(indexArrayDA)).concat(".apertura.")
+				.concat(String.valueOf(indexArrayA)).concat(".menu.Piatti.").concat(String.valueOf(indexNextDish))
+				.concat(".currentAvailability");
+
+		//creo il filtro
+		BasicDBObject putQuery = new BasicDBObject();
+		putQuery.put(queryString, new_availability);
+		
+		//imposto la query
+		BasicDBObject setQuery = new BasicDBObject();
+		setQuery.put("$set", putQuery);
+		
+		// faccio l'update
 		Document result = collection.findOneAndUpdate(searchQuery, setQuery);
 		
 		return result != null;
-		*/
-		return true;
 
 	}
 
