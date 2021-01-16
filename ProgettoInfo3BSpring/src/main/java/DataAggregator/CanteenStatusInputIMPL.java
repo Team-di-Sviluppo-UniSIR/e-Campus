@@ -63,25 +63,48 @@ public class CanteenStatusInputIMPL implements CanteenStatusInputIF {
 	public boolean insertDailyMenu(Menu dailyMenu, Mensa mensa, DettaglioApertura dettaglioApertura,
 			Apertura apertura) {
 
-		String nomeMensa = mensa.getNome();
-		String giornoSett = dettaglioApertura.getGiornoSettimana();
-		String tipoPasto = dettaglioApertura.getTipoPasto();
-		String data = apertura.getData().toString();
+		// seleziono la mensa che mi interessa
+		// final Bson filterQuery = new Document("nome", mensa.nome);
+		Bson filterQuery = Filters.eq("nome", mensa.getNome());
+		// risultati ottenuti (lista di Document)
+		FindIterable<Document> queryRes = collection.find(filterQuery);
 
-		// metodi per determinazione posizione array di MongoDB in cui inserire
-		// DA = Dettaglio Apertura
-		Map<Integer, JSONObject> mapDA = getArrIndexDettaglioApertura(nomeMensa, giornoSett, tipoPasto);
-		int indexArrayDA = mapDA.keySet().iterator().next();
-		JSONObject jsonObjectArrayDA = mapDA.get(indexArrayDA);
-
-		// A = apertura
-		//Map<Integer, JSONObject> mapA = getArrIndex(jsonObjectArrayDA, "apertura", "data", data);
-		Map<Integer, JSONObject> mapA = getArrIndexApertura(jsonObjectArrayDA, data);
-		int indexArrayA = mapA.keySet().iterator().next();
+		// dichiaro gli indici che mi serviranno per costruire la stringa di query
+		int indexArrayDA;
+		int indexArrayA;
+		
+		// mi assicuro di ricevere 1 solo risultato
+		if (JSONParser.countQueryResults(queryRes) != 1)
+			throw new RuntimeException();
+		else {
+			// oggetto mensa restituito dalla prima query su nomeMensa
+			JSONObject objMensa = new JSONObject(queryRes.first().toJson());
+			// prendo il JSONArray del JSONObject ritornato 
+			JSONArray arrayDettagli = objMensa.getJSONArray("dettaglioApertura");
+			// imposto i filtri per la ricerca del dettaglioApertura di nostro interesse
+			ArrayList<String> filterList = new ArrayList<String>(Arrays.asList(
+					"giornoSettimana", dettaglioApertura.getGiornoSettimana(), 
+					"tipoPasto", dettaglioApertura.getTipoPasto()));
+			// restituisce map (indice arrayDettaglioApertura, JSONObject del dettaglioApertura selezionato)
+			Map<Integer, JSONObject> mapDA = filterIntoAndIndex(arrayDettagli, filterList);
+			// setto il primo indice necessario per la costruzione della stringa di query finale
+			indexArrayDA = mapDA.keySet().iterator().next();
+			// scendo di un ulteriore livello per prendere l'apertura corretta ->
+			// -> prendo il JSONObject risultante dal filtering precedente
+			JSONObject objDettagli = mapDA.get(indexArrayDA);
+			// prendo il JSONArray del JSONObject ritornato
+			JSONArray arrayAperture = objDettagli.getJSONArray("apertura");
+			// imposto i filtri per la ricerca dell'apertura di nostro interesse
+			filterList = new ArrayList<String>(Arrays.asList("data", apertura.getData().toString()));
+			// restituisce map (indice arrayApertura, JSONObject dell'apertura selezionata)
+			Map<Integer, JSONObject> mapA = filterIntoAndIndex(arrayAperture, filterList);
+			// setto il secondo indice necessario per la costruzione della stringa di query finale
+			indexArrayA = mapA.keySet().iterator().next();
+		}
 
 		// preparazione searchQuery
 		BasicDBObject searchQuery = new BasicDBObject();
-		searchQuery.put("nome", nomeMensa);
+		searchQuery.put("nome", mensa.getNome());
 
 		// preparazione campi JSON da inserire/aggiornare
 		Document updatedMenu = new Document();
@@ -104,59 +127,19 @@ public class CanteenStatusInputIMPL implements CanteenStatusInputIF {
 		return false;
 	}
 
-	// metodo di supporto
-	private Map<Integer, JSONObject> getArrIndexDettaglioApertura(String nomeMensa, String giornoSett,
-			String tipoPasto) {
-
-		// final Bson filterQuery = new Document("nome", mensa.nome);
-		Bson filterQuery = Filters.eq("nome", nomeMensa);
-		// risultati ottenuti (lista di Document)
-		FindIterable<Document> queryRes = collection.find(filterQuery);
-
-		// mi assicuro di ricevere 1 solo risultato
-		if (JSONParser.countQueryResults(queryRes) != 1)
-			throw new RuntimeException();
-		else {
-			JSONObject objMensa = new JSONObject(queryRes.first().toJson());
-
-			JSONArray arrayDettagli = objMensa.getJSONArray("dettaglioApertura");
-			ArrayList<String> filterList = new ArrayList<String>(
-					Arrays.asList("giornoSettimana", giornoSett, "tipoPasto", tipoPasto));
-
-			// restituisce map (indice arrayDettaglioApertura, JSONObject dell'apertura
-			// selezionata)
-			return filterIntoAndIndex(arrayDettagli, filterList);
-
-		}
-
-	}
-	
-	private Map<Integer, JSONObject> getArrIndex(JSONObject obj, String nomeVettore, String nomeCampo, String valoreCampo) {
-
-		JSONArray array = obj.getJSONArray(nomeVettore);
-		ArrayList<String> filterList = new ArrayList<String>(Arrays.asList(nomeCampo, valoreCampo));
-		return filterIntoAndIndex(array, filterList);
-
-	}
-
-	private Map<Integer, JSONObject> getArrIndexApertura(JSONObject objDettaglioApertura, String data) {
-
-		JSONArray arrayAperture = objDettaglioApertura.getJSONArray("apertura");
-		ArrayList<String> filterList = new ArrayList<String>(Arrays.asList("data", data));
-		return filterIntoAndIndex(arrayAperture, filterList);
-
-	}
-
 	private Map<Integer, JSONObject> filterIntoAndIndex(JSONArray startingArray, ArrayList<String> filteringArray) {
 		JSONObject resultObj = null;
 
 		int i;
+		boolean trovato = false;
+		
 		for (i = 0; i < startingArray.length(); i++) {
 			JSONObject subarrayObj = startingArray.getJSONObject(i);
 			switch (filteringArray.size()) {
 			case 2: {
 				if (subarrayObj.getString(filteringArray.get(0)).equals(filteringArray.get(1))) {
 					resultObj = subarrayObj;
+					trovato = true;
 					break;
 				}
 			}
@@ -164,15 +147,17 @@ public class CanteenStatusInputIMPL implements CanteenStatusInputIF {
 				if ((subarrayObj.getString(filteringArray.get(0)).equals(filteringArray.get(1)))
 						&& (subarrayObj.getString(filteringArray.get(2)).equals(filteringArray.get(3)))) {
 					resultObj = subarrayObj;
+					trovato = true;
 					break;
 				}
 			}
 			}
+			if (trovato == true) break;
 		}
 
 		Map<Integer, JSONObject> res = new HashMap<>();
-		res.put(i - 1, resultObj);
-
+		res.put(i, resultObj);
+		
 		return res;
 	}
 
