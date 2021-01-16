@@ -2,7 +2,7 @@ package DataAggregator;
 
 import dataItemClasses.Dish;
 
-public class CanteenStatusUpdateIMPL implements CanteenStatusUpdateIF{
+public class CanteenStatusUpdateIMPL implements CanteenStatusUpdateIF {
 
 	@Override
 	public boolean updateAvailableCapacity(int actualCapacity) {

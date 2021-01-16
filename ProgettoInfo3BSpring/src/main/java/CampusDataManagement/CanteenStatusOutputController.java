@@ -16,11 +16,12 @@ import dataItemClasses.Mensa;
 import dataItemClasses.Menu;
 
 /**
- * Classe CanteenStatusController
+ * Classe CanteenStatusController.
  */
 @RestController
 public class CanteenStatusOutputController {
 
+	/** The canteen output obj. */
 	// Quando viene esposta l'API si stabilisce la connessione con MongoDB
 	CanteenStatusOutputIMPL canteenOutputObj = new CanteenStatusOutputIMPL();
 
@@ -76,7 +77,13 @@ public class CanteenStatusOutputController {
 		response.put("giornoSettimana", giornoSettimana);
 		response.put("tipoPasto", tipoPasto);
 		response.put("data", "" + data);
-		response.put("availableSeats", (int) canteenOutputObj.getAvailableSeats(mensa, d1, a1));
+
+		try {
+			response.put("availableSeats", (int) canteenOutputObj.getAvailableSeats(mensa, d1, a1));
+			response.put("status", "OK");
+		} catch (Exception e) {
+			response.put("status", "ERROR");
+		}
 
 		return response.toString(4);
 	}
@@ -123,7 +130,13 @@ public class CanteenStatusOutputController {
 		response.put("nomeMenu", nomeMenu);
 		response.put("tipoMenu", tipoMenu);
 		response.put("nomePiatto", nomePiatto);
-		response.put("dishPrice", canteenOutputObj.getDishPrice(mensa, d1, a1, menu1, piatto1));
+
+		try {
+			response.put("dishPrice", canteenOutputObj.getDishPrice(mensa, d1, a1, menu1, piatto1));
+			response.put("status", "OK");
+		} catch (Exception e) {
+			response.put("status", "ERROR");
+		}
 
 		return response.toString(4);
 	}
