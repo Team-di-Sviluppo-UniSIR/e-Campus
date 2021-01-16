@@ -12,6 +12,9 @@ import dbConnection.dbConnectionSetter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.json.JSONArray;
@@ -150,6 +153,31 @@ public class CanteenStatusOutputIMPL implements CanteenStatusOutputIF {
 		}
 
 		return DishPrice;
+	}
+	
+	public List<JSONObject> getAllCanteens() {
+		
+		List<JSONObject> jMense = new ArrayList<JSONObject>();
+		
+		//Estrazione e inserimento in jMense di tutte le mense della collezione "DBCampusCollection"
+		FindIterable<Document> iterDoc = collection.find();
+		Iterator<Document> it = iterDoc.iterator();
+	     while (it.hasNext()) {
+	    	 JSONObject jMensaTemp = new JSONObject(it.next().toJson());
+	    	 jMense.add(jMensaTemp);
+	      }
+	     
+		return jMense;
+	}
+	
+	public List<String> getAllCanteensNames(){
+		List<JSONObject> jMense = getAllCanteens();
+		List<String> sMense = new ArrayList<String>();
+		for(JSONObject jMensa : jMense) {
+			String sMensaTemp = jMensa.getString("nome");
+			sMense.add(sMensaTemp);
+		}
+		return sMense;
 	}
 
 	/**
