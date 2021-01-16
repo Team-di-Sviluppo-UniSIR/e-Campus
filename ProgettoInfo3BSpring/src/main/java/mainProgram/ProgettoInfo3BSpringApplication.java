@@ -9,6 +9,8 @@ import CampusDataManagement.CanteenStatusOutputIMPL;
 import DataAggregator.CanteenStatusInputController;
 import DataAggregator.CanteenStatusInputIF;
 import DataAggregator.CanteenStatusInputIMPL;
+import DataAggregator.CanteenStatusUpdateIF;
+import DataAggregator.CanteenStatusUpdateIMPL;
 import dataItemClasses.Apertura;
 import dataItemClasses.Data;
 import dataItemClasses.DettaglioApertura;
@@ -59,6 +61,11 @@ public class ProgettoInfo3BSpringApplication {
 		//PROVA INSERIMENTO PIATTO
 		Dish piatto11 = new Dish(5, "Pasta alle vongole", "primo", 5, 100, 120, menu2);
 		System.out.println("Campo inserito? " + canteenInput.insertNewDish(piatto11, menu2, m1in, da, ap));
+	
+		//PROVA UPDATE CAPACITA
+		CanteenStatusUpdateIF canteenUpdate = new CanteenStatusUpdateIMPL();
+		System.out.println("Campo inserito? " + canteenUpdate.updateAvailableCapacity(500, m1));
+
 	}
 	
 }
