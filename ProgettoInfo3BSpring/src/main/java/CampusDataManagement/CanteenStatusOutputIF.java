@@ -1,5 +1,10 @@
 package CampusDataManagement;
 
+import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import dataItemClasses.Apertura;
 import dataItemClasses.DettaglioApertura;
 import dataItemClasses.Dish;
@@ -78,5 +83,19 @@ public interface CanteenStatusOutputIF {
 	 * @return lo stato della mensa
 	 */
 	public String getCanteenStatus();
+	
+	/**
+	 * Fornisce una lista di tutte le mense del campus in formato JSON
+	 *
+	 * @return lista di tutte le mense del campus in formato JSON
+	 */
+	public List<JSONObject> getAllCanteens();
+	
+	/**
+	 * Fornisce una lista con tutti i nomi delle mense del campus
+	 *
+	 * @return lista con i nomi delle mense del campus
+	 */
+	public List<String> getAllCanteensNames();
 
 }

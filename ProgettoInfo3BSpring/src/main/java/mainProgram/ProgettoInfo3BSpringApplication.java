@@ -26,6 +26,7 @@ public class ProgettoInfo3BSpringApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ProgettoInfo3BSpringApplication.class, args);
 
+		
 		// PROVA CAPACITA' MENSA
 		Mensa m1 = new Mensa(0, "I sapori della terra", 0, null);
 		CanteenStatusOutputIF canteenOutput = new CanteenStatusOutputIMPL();
@@ -88,6 +89,15 @@ public class ProgettoInfo3BSpringApplication {
 		System.out.println("Campo modificato? " + canteenUpdate.updateAvailablePortions(100, piatto13, menu2, m1in, da, ap));
 		System.out.println("Campo modificato? " + canteenUpdate.updateAvailablePortions(50, piatto1, menu1, m1, d1, a1));
 
+
+		
+		//PROVA GET DI TUTTE LE MENSE DEL CAMPUS COME LISTA DI JSON OBJECT
+		System.out.println("Numero mense trovate: "+ canteenOutput.getAllCanteens().size());
+		System.out.println("Mense trovate: "+ canteenOutput.getAllCanteens());
+		
+		//PROVA GET DI TUTTI I NOMI DELLE MENSE DEL CAMPUS COME LISTA DI STRING
+		System.out.println("Nomi mense del campus"+canteenOutput.getAllCanteensNames());
+		
 
 	}
 	
