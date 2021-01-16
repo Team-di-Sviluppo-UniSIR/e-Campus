@@ -86,10 +86,12 @@ public class CanteenStatusOutputIMPL implements CanteenStatusOutputIF {
 
 			JSONArray arrayDettagli = objMensa.getJSONArray("dettaglioApertura");
 			ArrayList<String> filterList = new ArrayList<String>(
-					Arrays.asList("giornoSettimana", dettaglioApertura.getGiornoSettimana()));
+					Arrays.asList("giornoSettimana", dettaglioApertura.getGiornoSettimana(),
+								  "tipoPasto", dettaglioApertura.getTipoPasto()));
 			JSONObject objDettaglioApertura = JSONParser.filterInto(arrayDettagli, filterList);
 
 			JSONArray arrayAperture = objDettaglioApertura.getJSONArray("apertura");
+			
 			filterList = new ArrayList<String>(Arrays.asList("data", apertura.getData().toString()));
 			JSONObject result = JSONParser.filterInto(arrayAperture, filterList);
 

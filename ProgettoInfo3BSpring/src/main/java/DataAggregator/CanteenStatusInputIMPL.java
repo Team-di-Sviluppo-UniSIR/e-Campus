@@ -1,5 +1,6 @@
 package DataAggregator;
 
+import JSONParser.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -16,7 +17,6 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.result.UpdateResult;
 
-import JSONParser.JSONParser;
 import dataItemClasses.Apertura;
 import dataItemClasses.DettaglioApertura;
 import dataItemClasses.Dish;
@@ -86,7 +86,7 @@ public class CanteenStatusInputIMPL implements CanteenStatusInputIF {
 					dettaglioApertura.getGiornoSettimana(), "tipoPasto", dettaglioApertura.getTipoPasto()));
 			// restituisce map (indice arrayDettaglioApertura, JSONObject del
 			// dettaglioApertura selezionato)
-			Map<Integer, JSONObject> mapDA = filterIntoAndIndex(arrayDettagli, filterList);
+			Map<Integer, JSONObject> mapDA = JSONParser.filterIntoAndIndex(arrayDettagli, filterList);
 			// setto il primo indice necessario per la costruzione della stringa di query
 			// finale
 			indexArrayDA = mapDA.keySet().iterator().next();
@@ -98,7 +98,7 @@ public class CanteenStatusInputIMPL implements CanteenStatusInputIF {
 			// imposto i filtri per la ricerca dell'apertura di nostro interesse
 			filterList = new ArrayList<String>(Arrays.asList("data", apertura.getData().toString()));
 			// restituisce map (indice arrayApertura, JSONObject dell'apertura selezionata)
-			Map<Integer, JSONObject> mapA = filterIntoAndIndex(arrayAperture, filterList);
+			Map<Integer, JSONObject> mapA = JSONParser.filterIntoAndIndex(arrayAperture, filterList);
 			// setto il secondo indice necessario per la costruzione della stringa di query
 			// finale
 			indexArrayA = mapA.keySet().iterator().next();
@@ -111,7 +111,7 @@ public class CanteenStatusInputIMPL implements CanteenStatusInputIF {
 		// preparazione campi JSON da inserire/aggiornare
 		Document updatedMenu = new Document();
 		updatedMenu.append("idMenu", dailyMenu.getIdMenu()).append("nomeMenu", dailyMenu.getNomeMenu())
-				.append("tipoMenu", dailyMenu.getTipoMenu());
+				.append("tipoMenu", dailyMenu.getTipoMenu()).append("Piatti", "[]");
 
 		// preparazione e esecuzione setQuery
 		String queryString = "dettaglioApertura.".concat(String.valueOf(indexArrayDA)).concat(".apertura.")
@@ -135,7 +135,6 @@ public class CanteenStatusInputIMPL implements CanteenStatusInputIF {
 		// dichiaro gli indici che mi serviranno per costruire la stringa di query
 		int indexArrayDA;
 		int indexArrayA;
-		int indexArrayMenu = 0;
 
 		// mi assicuro di ricevere 1 solo risultato
 		if (JSONParser.countQueryResults(queryRes) != 1)
@@ -150,7 +149,7 @@ public class CanteenStatusInputIMPL implements CanteenStatusInputIF {
 					dettaglioApertura.getGiornoSettimana(), "tipoPasto", dettaglioApertura.getTipoPasto()));
 			// restituisce map (indice arrayDettaglioApertura, JSONObject del
 			// dettaglioApertura selezionato)
-			Map<Integer, JSONObject> mapDA = filterIntoAndIndex(arrayDettagli, filterList);
+			Map<Integer, JSONObject> mapDA = JSONParser.filterIntoAndIndex(arrayDettagli, filterList);
 			// setto il primo indice necessario per la costruzione della stringa di query
 			// finale
 			indexArrayDA = mapDA.keySet().iterator().next();
@@ -162,11 +161,9 @@ public class CanteenStatusInputIMPL implements CanteenStatusInputIF {
 			// imposto i filtri per la ricerca dell'apertura di nostro interesse
 			filterList = new ArrayList<String>(Arrays.asList("data", apertura.getData().toString()));
 			// restituisce map (indice arrayApertura, JSONObject dell'apertura selezionata)
-			Map<Integer, JSONObject> mapA = filterIntoAndIndex(arrayAperture, filterList);
-			// setto il secondo indice necessario per la costruzione della stringa di query
-			// finale
+			Map<Integer, JSONObject> mapA = JSONParser.filterIntoAndIndex(arrayAperture, filterList);
+			// setto il secondo indice necessario per la costruzione della stringa di query finale
 			indexArrayA = mapA.keySet().iterator().next();
-
 		}
 
 		// preparazione searchQuery
@@ -182,48 +179,12 @@ public class CanteenStatusInputIMPL implements CanteenStatusInputIF {
 
 		// preparazione e esecuzione setQuery
 		String queryString = "dettaglioApertura.".concat(String.valueOf(indexArrayDA)).concat(".apertura.")
-				.concat(String.valueOf(indexArrayA)).concat(".menu.").concat(String.valueOf(indexArrayMenu))
-				.concat(".Piatti");
+				.concat(String.valueOf(indexArrayA)).concat(".menu.Piatti");
 		BasicDBObject setQuery = new BasicDBObject();
 		setQuery.put("$set", new BasicDBObject(queryString, updatedPiatto));
 		UpdateResult queryResult = collection.updateOne(searchQuery, setQuery);
 
 		return queryResult.getModifiedCount() == 1;
-	}
-
-	private Map<Integer, JSONObject> filterIntoAndIndex(JSONArray startingArray, ArrayList<String> filteringArray) {
-		JSONObject resultObj = null;
-
-		int i;
-		boolean trovato = false;
-
-		for (i = 0; i < startingArray.length(); i++) {
-			JSONObject subarrayObj = startingArray.getJSONObject(i);
-			switch (filteringArray.size()) {
-			case 2: {
-				if (subarrayObj.getString(filteringArray.get(0)).equals(filteringArray.get(1))) {
-					resultObj = subarrayObj;
-					trovato = true;
-					break;
-				}
-			}
-			case 4: {
-				if ((subarrayObj.getString(filteringArray.get(0)).equals(filteringArray.get(1)))
-						&& (subarrayObj.getString(filteringArray.get(2)).equals(filteringArray.get(3)))) {
-					resultObj = subarrayObj;
-					trovato = true;
-					break;
-				}
-			}
-			}
-			if (trovato == true)
-				break;
-		}
-
-		Map<Integer, JSONObject> res = new HashMap<>();
-		res.put(i, resultObj);
-
-		return res;
 	}
 
 }
