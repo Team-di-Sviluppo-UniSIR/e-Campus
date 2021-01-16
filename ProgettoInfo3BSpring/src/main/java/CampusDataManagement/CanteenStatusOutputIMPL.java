@@ -171,8 +171,10 @@ public class CanteenStatusOutputIMPL implements CanteenStatusOutputIF {
 	}
 	
 	public List<String> getAllCanteensNames(){
+		
 		List<JSONObject> jMense = getAllCanteens();
 		List<String> sMense = new ArrayList<String>();
+		
 		for(JSONObject jMensa : jMense) {
 			String sMensaTemp = jMensa.getString("nome");
 			sMense.add(sMensaTemp);
