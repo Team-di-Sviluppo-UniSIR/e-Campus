@@ -10,5 +10,6 @@ public interface CanteenStatusInputIF {
 
 	public boolean insertDailyMenu(Menu dailyMenu, Mensa mensa, DettaglioApertura dettaglioApertura, Apertura apertura);
 	
-	public boolean insertNewDish(Dish dish);
+	public boolean insertNewDish(Dish dish, Menu dailyMenu, Mensa mensa, DettaglioApertura dettaglioApertura,
+			Apertura apertura);
 }

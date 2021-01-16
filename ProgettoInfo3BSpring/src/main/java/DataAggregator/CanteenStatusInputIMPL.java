@@ -72,22 +72,23 @@ public class CanteenStatusInputIMPL implements CanteenStatusInputIF {
 		// dichiaro gli indici che mi serviranno per costruire la stringa di query
 		int indexArrayDA;
 		int indexArrayA;
-		
+
 		// mi assicuro di ricevere 1 solo risultato
 		if (JSONParser.countQueryResults(queryRes) != 1)
 			throw new RuntimeException();
 		else {
 			// oggetto mensa restituito dalla prima query su nomeMensa
 			JSONObject objMensa = new JSONObject(queryRes.first().toJson());
-			// prendo il JSONArray del JSONObject ritornato 
+			// prendo il JSONArray del JSONObject ritornato
 			JSONArray arrayDettagli = objMensa.getJSONArray("dettaglioApertura");
 			// imposto i filtri per la ricerca del dettaglioApertura di nostro interesse
-			ArrayList<String> filterList = new ArrayList<String>(Arrays.asList(
-					"giornoSettimana", dettaglioApertura.getGiornoSettimana(), 
-					"tipoPasto", dettaglioApertura.getTipoPasto()));
-			// restituisce map (indice arrayDettaglioApertura, JSONObject del dettaglioApertura selezionato)
+			ArrayList<String> filterList = new ArrayList<String>(Arrays.asList("giornoSettimana",
+					dettaglioApertura.getGiornoSettimana(), "tipoPasto", dettaglioApertura.getTipoPasto()));
+			// restituisce map (indice arrayDettaglioApertura, JSONObject del
+			// dettaglioApertura selezionato)
 			Map<Integer, JSONObject> mapDA = filterIntoAndIndex(arrayDettagli, filterList);
-			// setto il primo indice necessario per la costruzione della stringa di query finale
+			// setto il primo indice necessario per la costruzione della stringa di query
+			// finale
 			indexArrayDA = mapDA.keySet().iterator().next();
 			// scendo di un ulteriore livello per prendere l'apertura corretta ->
 			// -> prendo il JSONObject risultante dal filtering precedente
@@ -98,7 +99,8 @@ public class CanteenStatusInputIMPL implements CanteenStatusInputIF {
 			filterList = new ArrayList<String>(Arrays.asList("data", apertura.getData().toString()));
 			// restituisce map (indice arrayApertura, JSONObject dell'apertura selezionata)
 			Map<Integer, JSONObject> mapA = filterIntoAndIndex(arrayAperture, filterList);
-			// setto il secondo indice necessario per la costruzione della stringa di query finale
+			// setto il secondo indice necessario per la costruzione della stringa di query
+			// finale
 			indexArrayA = mapA.keySet().iterator().next();
 		}
 
@@ -122,9 +124,71 @@ public class CanteenStatusInputIMPL implements CanteenStatusInputIF {
 	}
 
 	@Override
-	public boolean insertNewDish(Dish dish) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean insertNewDish(Dish dish, Menu menu, Mensa mensa, DettaglioApertura dettaglioApertura,
+			Apertura apertura) {
+
+		// seleziono la mensa che mi interessa
+		Bson filterQuery = Filters.eq("nome", mensa.getNome());
+		// risultati ottenuti (lista di Document)
+		FindIterable<Document> queryRes = collection.find(filterQuery);
+
+		// dichiaro gli indici che mi serviranno per costruire la stringa di query
+		int indexArrayDA;
+		int indexArrayA;
+		int indexArrayMenu = 0;
+
+		// mi assicuro di ricevere 1 solo risultato
+		if (JSONParser.countQueryResults(queryRes) != 1)
+			throw new RuntimeException();
+		else {
+			// oggetto mensa restituito dalla prima query su nomeMensa
+			JSONObject objMensa = new JSONObject(queryRes.first().toJson());
+			// prendo il JSONArray del JSONObject ritornato
+			JSONArray arrayDettagli = objMensa.getJSONArray("dettaglioApertura");
+			// imposto i filtri per la ricerca del dettaglioApertura di nostro interesse
+			ArrayList<String> filterList = new ArrayList<String>(Arrays.asList("giornoSettimana",
+					dettaglioApertura.getGiornoSettimana(), "tipoPasto", dettaglioApertura.getTipoPasto()));
+			// restituisce map (indice arrayDettaglioApertura, JSONObject del
+			// dettaglioApertura selezionato)
+			Map<Integer, JSONObject> mapDA = filterIntoAndIndex(arrayDettagli, filterList);
+			// setto il primo indice necessario per la costruzione della stringa di query
+			// finale
+			indexArrayDA = mapDA.keySet().iterator().next();
+			// scendo di un ulteriore livello per prendere l'apertura corretta ->
+			// -> prendo il JSONObject risultante dal filtering precedente
+			JSONObject objDettagli = mapDA.get(indexArrayDA);
+			// prendo il JSONArray del JSONObject ritornato
+			JSONArray arrayAperture = objDettagli.getJSONArray("apertura");
+			// imposto i filtri per la ricerca dell'apertura di nostro interesse
+			filterList = new ArrayList<String>(Arrays.asList("data", apertura.getData().toString()));
+			// restituisce map (indice arrayApertura, JSONObject dell'apertura selezionata)
+			Map<Integer, JSONObject> mapA = filterIntoAndIndex(arrayAperture, filterList);
+			// setto il secondo indice necessario per la costruzione della stringa di query
+			// finale
+			indexArrayA = mapA.keySet().iterator().next();
+
+		}
+
+		// preparazione searchQuery
+		BasicDBObject searchQuery = new BasicDBObject();
+		searchQuery.put("nome", mensa.getNome());
+
+		// preparazione campi JSON da inserire/aggiornare
+		Document updatedPiatto = new Document();
+		updatedPiatto.append("idPiatto", dish.getIdPiatto()).append("nomePiatto", dish.getNomePiatto())
+				.append("tipoPiatto", dish.getTipoPiatto()).append("prezzo", dish.getPrezzo())
+				.append("initialAvailability", dish.getInitialAvailability())
+				.append("currentAvailability", dish.getCurrentAvailability());
+
+		// preparazione e esecuzione setQuery
+		String queryString = "dettaglioApertura.".concat(String.valueOf(indexArrayDA)).concat(".apertura.")
+				.concat(String.valueOf(indexArrayA)).concat(".menu.").concat(String.valueOf(indexArrayMenu))
+				.concat(".Piatti");
+		BasicDBObject setQuery = new BasicDBObject();
+		setQuery.put("$set", new BasicDBObject(queryString, updatedPiatto));
+		UpdateResult queryResult = collection.updateOne(searchQuery, setQuery);
+
+		return queryResult.getModifiedCount() == 1;
 	}
 
 	private Map<Integer, JSONObject> filterIntoAndIndex(JSONArray startingArray, ArrayList<String> filteringArray) {
@@ -132,7 +196,7 @@ public class CanteenStatusInputIMPL implements CanteenStatusInputIF {
 
 		int i;
 		boolean trovato = false;
-		
+
 		for (i = 0; i < startingArray.length(); i++) {
 			JSONObject subarrayObj = startingArray.getJSONObject(i);
 			switch (filteringArray.size()) {
@@ -152,12 +216,13 @@ public class CanteenStatusInputIMPL implements CanteenStatusInputIF {
 				}
 			}
 			}
-			if (trovato == true) break;
+			if (trovato == true)
+				break;
 		}
 
 		Map<Integer, JSONObject> res = new HashMap<>();
 		res.put(i, resultObj);
-		
+
 		return res;
 	}
 

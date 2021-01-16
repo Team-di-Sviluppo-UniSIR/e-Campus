@@ -53,9 +53,12 @@ public class ProgettoInfo3BSpringApplication {
 		DettaglioApertura da = new DettaglioApertura(0, "Venerdì", "Cena", null, null);
 		Data data2 = new Data("08", "01", "2021");
 		Apertura ap = new Apertura(0, data2, 0, m1in, da);
-		Menu menu2 = new Menu(1, "MAVCO", "GIOVDANO", null);
+		Menu menu2 = new Menu(1, "Marco", "Giordano", null);
 		System.out.println("Campo inserito? " + canteenInput.insertDailyMenu(menu2, m1in, da, ap));
 		
+		//PROVA INSERIMENTO PIATTO
+		Dish piatto11 = new Dish(5, "Pasta alle vongole", "primo", 5, 100, 120, menu2);
+		System.out.println("Campo inserito? " + canteenInput.insertNewDish(piatto11, menu2, m1in, da, ap));
 	}
 	
 }
