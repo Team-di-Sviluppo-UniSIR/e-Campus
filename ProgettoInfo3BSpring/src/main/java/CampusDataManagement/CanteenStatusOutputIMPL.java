@@ -58,7 +58,7 @@ public class CanteenStatusOutputIMPL implements CanteenStatusOutputIF {
 	}
 
 	/**
-	 * Ritorna il numeoro di posti disponibili.
+	 * Ritorna il numero di posti disponibili.
 	 *
 	 * @param mensa             la mensa che si sta cercando
 	 * @param dettaglioApertura il dettaglio apertura che si sta cercando
