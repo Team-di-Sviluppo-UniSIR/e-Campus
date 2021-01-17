@@ -1,5 +1,7 @@
 CampusDataManagement
-com.example.demo
-dbConnectionTest
+DataAggregator
+dataItemClasses
+dbConnection
 JSONParser
 mainProgram
+Test
