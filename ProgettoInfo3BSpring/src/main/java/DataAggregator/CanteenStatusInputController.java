@@ -46,10 +46,15 @@ public class CanteenStatusInputController {
 
 		JSONObject response = new JSONObject();
 
-		if (canteenInputObj.insertCanteenCapacity(capacita, mensa))
-			response.put("status", "inserimento avvenuto");
-		else
-			response.put("status", "impossibile effettuare inserimento");
+		try {
+			if (canteenInputObj.insertCanteenCapacity(capacita, mensa))
+				response.put("status", "inserimento avvenuto");
+			else
+				response.put("status", "impossibile effettuare inserimento");
+		} catch (Exception e) {
+			response.put("status", "errore invocazione API");
+			response.put("errorMessage", e.getMessage());
+		}
 
 		return response.toString(4);
 	}
@@ -93,7 +98,8 @@ public class CanteenStatusInputController {
 			else
 				response.put("status", "impossibile effettuare inserimento");
 		} catch (Exception e) {
-			response.put("status", "impossibile effettuare inserimento");
+			response.put("status", "errore invocazione API");
+			response.put("errorMessage", e.getMessage());
 		}
 		return response.toString(4);
 	}
@@ -144,10 +150,15 @@ public class CanteenStatusInputController {
 
 		JSONObject response = new JSONObject();
 
-		if (canteenInputObj.insertNewDish(piatto, menu, mensa, d1, apertura))
-			response.put("status", "inserimento avvenuto");
-		else
-			response.put("status", "impossibile effettuare inserimento");
+		try {
+			if (canteenInputObj.insertNewDish(piatto, menu, mensa, d1, apertura))
+				response.put("status", "inserimento avvenuto");
+			else
+				response.put("status", "impossibile effettuare inserimento");
+		} catch (Exception e) {
+			response.put("status", "errore invocazione API");
+			response.put("errorMessage", e.getMessage());
+		}
 
 		return response.toString(4);
 	}
