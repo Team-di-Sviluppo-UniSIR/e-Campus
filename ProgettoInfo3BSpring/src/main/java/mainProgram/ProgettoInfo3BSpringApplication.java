@@ -26,12 +26,8 @@ public class ProgettoInfo3BSpringApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ProgettoInfo3BSpringApplication.class, args);
 
-		// PROVA GET DI TUTTE LE MENSE DEL CAMPUS COME LISTA DI JSON OBJECT
-		CanteenStatusOutputIF canteenOutput = new CanteenStatusOutputIMPL();
-		System.out.println("Numero mense trovate: " + canteenOutput.getAllCanteens().size());
-		System.out.println("Mense trovate: " + canteenOutput.getAllCanteens());
-
 		// PROVA GET DI TUTTI I NOMI DELLE MENSE DEL CAMPUS COME LISTA DI STRING
+		CanteenStatusOutputIF canteenOutput = new CanteenStatusOutputIMPL();
 		System.out.println("Nomi mense del campus" + canteenOutput.getAllCanteensNames());
 				
 		// PROVA CAPACITA' MENSA
