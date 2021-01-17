@@ -12,12 +12,13 @@
 	<groupId>com.example</groupId>
 	<artifactId>ProgettoInfo3B-now-using-Spring</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>ProgettoInfo3BSpring-1</name>
+	<name>ProgettoInfo3BSpring</name>
 	<description>UniBG_20_21</description>
+	<packaging>jar</packaging>
 
 	<properties>
 		<java.version>15</java.version>
-		<start-class>com.src/main/java/mainProgram/ProgettoInfo3BSpringApplication.main</start-class>
+		<start-class>src/main/java/mainProgram/ProgettoInfo3BSpringApplication.main</start-class>
 	</properties>
 
 	<dependencies>
@@ -38,7 +39,6 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-
 	</dependencies>
 
 	<build>
@@ -46,8 +46,59 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<fork>true</fork>
+					<mainClass>${start-class}</mainClass>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.2-beta-5</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<mainClass>src/main/java/mainProgram/ProgettoInfo3BSpringApplication.main</mainClass>
+						</manifest>
+					</archive>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+					<transformers>
+						<transformer>
+							implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+							<mainClass>at.seresunit.lecturemanager_connector.App</mainClass>
+						</transformer>
+						<transformer
+							implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+							<resource>META-INF/spring.handlers</resource>
+						</transformer>
+						<transformer
+							implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+							<resource>META-INF/spring.schemas</resource>
+						</transformer>
+					</transformers>
+				</configuration>
+				<executions>
+					<execution>
+						<id>assemble-all</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
+
+
 
 </project>
