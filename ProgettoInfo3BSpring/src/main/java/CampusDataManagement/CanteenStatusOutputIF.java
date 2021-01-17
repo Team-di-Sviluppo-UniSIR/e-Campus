@@ -16,14 +16,7 @@ import dataItemClasses.Time;
  * Interfaccia CanteenStatusOutputIF.
  */
 public interface CanteenStatusOutputIF {
-	
-	/**
-	 * Fornisce una lista di tutte le mense del campus in formato JSON
-	 *
-	 * @return lista di tutte le mense del campus in formato JSON
-	 */
-	public List<JSONObject> getAllCanteens();
-	
+		
 	/**
 	 * Fornisce una lista con tutti i nomi delle mense del campus
 	 *
