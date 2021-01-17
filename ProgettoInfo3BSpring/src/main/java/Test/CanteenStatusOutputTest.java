@@ -1,6 +1,11 @@
 package Test;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.json.JSONObject;
 import org.junit.Test;
 
 import CampusDataManagement.CanteenStatusOutputIMPL;
@@ -16,9 +21,19 @@ public class CanteenStatusOutputTest {
 	CanteenStatusOutputIMPL obj = new CanteenStatusOutputIMPL();
 	
 	@Test
+	public void getAllCanteensTest() {
+		assertNotNull("", obj.getAllCanteens());
+	}
+	
+	@Test
+	public void getAllCanteensNamesTest() {
+		assertNotNull("", obj.getAllCanteensNames());
+	}
+	
+	@Test
 	public void getCanteenCapacityTest() {
 		Mensa m1 = new Mensa(0, "I sapori della terra", 0, null);
-		assertEquals(obj.getCanteenCapacity(m1),200);
+		assertEquals(obj.getCanteenCapacity(m1),300);
 	}
 	
 	@Test(expected = RuntimeException.class)

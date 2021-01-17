@@ -26,9 +26,16 @@ public class ProgettoInfo3BSpringApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ProgettoInfo3BSpringApplication.class, args);
 
+		// PROVA GET DI TUTTE LE MENSE DEL CAMPUS COME LISTA DI JSON OBJECT
+		CanteenStatusOutputIF canteenOutput = new CanteenStatusOutputIMPL();
+		System.out.println("Numero mense trovate: " + canteenOutput.getAllCanteens().size());
+		System.out.println("Mense trovate: " + canteenOutput.getAllCanteens());
+
+		// PROVA GET DI TUTTI I NOMI DELLE MENSE DEL CAMPUS COME LISTA DI STRING
+		System.out.println("Nomi mense del campus" + canteenOutput.getAllCanteensNames());
+				
 		// PROVA CAPACITA' MENSA
 		Mensa m1 = new Mensa(0, "I sapori della terra", 0, null);
-		CanteenStatusOutputIF canteenOutput = new CanteenStatusOutputIMPL();
 		System.out.println(
 				"Capacità mensa \"" + m1.getNome() + "\": " + canteenOutput.getCanteenCapacity(m1) + " persone");
 
@@ -49,19 +56,19 @@ public class ProgettoInfo3BSpringApplication {
 		// PROVA INSERIMENTO CAPACITA
 		Mensa m1in = new Mensa(0, "Roadhouse", 0, null);
 		CanteenStatusInputIF canteenInput = new CanteenStatusInputIMPL();
-		System.out.println("Campo modificato? " + canteenInput.insertCanteenCapacity(9992, m1in));
+		System.out.println("Campo modificato? " + canteenInput.insertCanteenCapacity(1000, m1in));
 
 		// PROVA INSERIMENTO MENU
 		DettaglioApertura da = new DettaglioApertura(0, "Venerdì", "Cena", null, null);
 		Data data2 = new Data("08", "01", "2021");
 		Apertura ap = new Apertura(0, data2, 0, m1in, da);
-		Menu menu2 = new Menu(1, "Marco", "Giordano", null);
+		Menu menu2 = new Menu(1, "cenaVenerdì", "menuBBQ", null);
 		System.out.println("Campo inserito? " + canteenInput.insertDailyMenu(menu2, m1in, da, ap));
 
 		DettaglioApertura da1 = new DettaglioApertura(0, "Sabato", "Cena", null, null);
 		Data data3 = new Data("16", "01", "2021");
 		Apertura ap1 = new Apertura(0, data3, 0, m1in, da1);
-		Menu menu3 = new Menu(1, "MenuProvaCena", "MenuDiCulo", null);
+		Menu menu3 = new Menu(1, "cenaSabato", "menuBBQ", null);
 		System.out.println("Campo inserito? " + canteenInput.insertDailyMenu(menu3, m1in, da1, ap1));
 
 		// PROVA INSERIMENTO PIATTI
@@ -90,13 +97,6 @@ public class ProgettoInfo3BSpringApplication {
 				"Campo modificato? " + canteenUpdate.updateAvailablePortions(100, piatto13, menu2, m1in, da, ap));
 		System.out
 				.println("Campo modificato? " + canteenUpdate.updateAvailablePortions(50, piatto1, menu1, m1, d1, a1));
-
-		// PROVA GET DI TUTTE LE MENSE DEL CAMPUS COME LISTA DI JSON OBJECT
-		System.out.println("Numero mense trovate: " + canteenOutput.getAllCanteens().size());
-		System.out.println("Mense trovate: " + canteenOutput.getAllCanteens());
-
-		// PROVA GET DI TUTTI I NOMI DELLE MENSE DEL CAMPUS COME LISTA DI STRING
-		System.out.println("Nomi mense del campus" + canteenOutput.getAllCanteensNames());
 
 	}
 

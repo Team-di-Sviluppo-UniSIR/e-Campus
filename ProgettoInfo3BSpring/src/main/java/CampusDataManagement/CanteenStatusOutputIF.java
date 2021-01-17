@@ -16,6 +16,20 @@ import dataItemClasses.Time;
  * Interfaccia CanteenStatusOutputIF.
  */
 public interface CanteenStatusOutputIF {
+	
+	/**
+	 * Fornisce una lista di tutte le mense del campus in formato JSON
+	 *
+	 * @return lista di tutte le mense del campus in formato JSON
+	 */
+	public List<JSONObject> getAllCanteens();
+	
+	/**
+	 * Fornisce una lista con tutti i nomi delle mense del campus
+	 *
+	 * @return lista con i nomi delle mense del campus
+	 */
+	public List<String> getAllCanteensNames();
 
 	/**
 	 * Ritorna la capacità della mensa.
@@ -36,7 +50,7 @@ public interface CanteenStatusOutputIF {
 	public int getAvailableSeats(Mensa mensa, DettaglioApertura dettaglioApertura, Apertura apertura);
 
 	/**
-	 * Ritorna il numeor di posti disponibili in una determinata mensa
+	 * Ritorna il numero di posti disponibili in una determinata mensa
 	 *
 	 * @param mensa             la mensa
 	 * @param dettaglioApertura il dettaglio apertura
@@ -83,19 +97,5 @@ public interface CanteenStatusOutputIF {
 	 * @return lo stato della mensa
 	 */
 	public String getCanteenStatus();
-	
-	/**
-	 * Fornisce una lista di tutte le mense del campus in formato JSON
-	 *
-	 * @return lista di tutte le mense del campus in formato JSON
-	 */
-	public List<JSONObject> getAllCanteens();
-	
-	/**
-	 * Fornisce una lista con tutti i nomi delle mense del campus
-	 *
-	 * @return lista con i nomi delle mense del campus
-	 */
-	public List<String> getAllCanteensNames();
 
 }

@@ -31,12 +31,48 @@ public class CanteenStatusOutputIMPL implements CanteenStatusOutputIF {
 
 	// Connessione con mongoDB
 	MongoCollection<Document> collection = dbConnectionSetter.connectToMongoCollection();
+	
+	/**
+	 * Ritorna tutte le mense presenti nel datbase.
+	 *
+	 * @return tutte le mense del campus
+	 */
+	public List<JSONObject> getAllCanteens() {
+		
+		List<JSONObject> jMense = new ArrayList<JSONObject>();
+		
+		//Estrazione e inserimento in jMense di tutte le mense della collezione "DBCampusCollection"
+		FindIterable<Document> iterDoc = collection.find();
+		Iterator<Document> it = iterDoc.iterator();
+	    while (it.hasNext()) {
+	    	 JSONObject jMensaTemp = new JSONObject(it.next().toJson());
+	    	 jMense.add(jMensaTemp);
+	    }
+	     
+		return jMense;
+	}
+	
+	/**
+	 * Ritorna tutti nomi delle mense presenti nel datbase.
+	 *
+	 * @return tutte i nomi delle mense del campus
+	 */
+	public List<String> getAllCanteensNames(){
+		
+		List<JSONObject> jMense = getAllCanteens();
+		List<String> sMense = new ArrayList<String>();
+		
+		for(JSONObject jMensa : jMense) {
+			String sMensaTemp = jMensa.getString("nome");
+			sMense.add(sMensaTemp);
+		}
+		return sMense;
+	}
 
 	/**
 	 * Ritorna la capacità della mensa.
 	 *
 	 * @param mensa la mensa che si sta cercando
-	 * @param uri   uri per la connessione a mongoDB fortnito da metodo ad hoc
 	 * @return i posti della mensa totali
 	 */
 	public int getCanteenCapacity(Mensa mensa) {
@@ -66,8 +102,6 @@ public class CanteenStatusOutputIMPL implements CanteenStatusOutputIF {
 	 * @param mensa             la mensa che si sta cercando
 	 * @param dettaglioApertura il dettaglio apertura che si sta cercando
 	 * @param apertura          l'apertura che si sta cercando
-	 * @param uri               uri per la connessione a mongoDB fortnito da metodo
-	 *                          ad hoc
 	 * @return i posti disponibili della mensa cercata nella determinata apertura
 	 */
 	@Override
@@ -113,8 +147,6 @@ public class CanteenStatusOutputIMPL implements CanteenStatusOutputIF {
 	 * @param apertura          l'apertura che si sta cercando
 	 * @param menu              il menu che si sta cercando
 	 * @param dish              il piatto che si sta cercando
-	 * @param uri               uri per la connessione a mongoDB fortnito da metodo
-	 *                          ad hoc
 	 * @return il prezzo del determinato piatto cercato nella determinata mensa nel
 	 *         determinato giorno
 	 */
@@ -155,33 +187,6 @@ public class CanteenStatusOutputIMPL implements CanteenStatusOutputIF {
 		}
 
 		return DishPrice;
-	}
-	
-	public List<JSONObject> getAllCanteens() {
-		
-		List<JSONObject> jMense = new ArrayList<JSONObject>();
-		
-		//Estrazione e inserimento in jMense di tutte le mense della collezione "DBCampusCollection"
-		FindIterable<Document> iterDoc = collection.find();
-		Iterator<Document> it = iterDoc.iterator();
-	     while (it.hasNext()) {
-	    	 JSONObject jMensaTemp = new JSONObject(it.next().toJson());
-	    	 jMense.add(jMensaTemp);
-	      }
-	     
-		return jMense;
-	}
-	
-	public List<String> getAllCanteensNames(){
-		
-		List<JSONObject> jMense = getAllCanteens();
-		List<String> sMense = new ArrayList<String>();
-		
-		for(JSONObject jMensa : jMense) {
-			String sMensaTemp = jMensa.getString("nome");
-			sMense.add(sMensaTemp);
-		}
-		return sMense;
 	}
 
 	/**
