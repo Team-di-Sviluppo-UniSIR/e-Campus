@@ -42,7 +42,15 @@ public class CanteenStatusOutputController {
 
 		JSONObject response = new JSONObject();
 		response.put("nomeMensa", nomeMensa);
-		response.put("canteenCapacity", (int) canteenOutputObj.getCanteenCapacity(mensa));
+
+		try {
+			response.put("canteenCapacity", (int) canteenOutputObj.getCanteenCapacity(mensa));
+			response.put("status", "OK");
+		} catch (Exception e) {
+			response.put("status", "errore invocazione API");
+			response.put("errorMessage", e.getMessage());
+		}
+
 		return response.toString(4);
 	}
 
@@ -82,7 +90,8 @@ public class CanteenStatusOutputController {
 			response.put("availableSeats", (int) canteenOutputObj.getAvailableSeats(mensa, d1, a1));
 			response.put("status", "OK");
 		} catch (Exception e) {
-			response.put("status", "ERROR");
+			response.put("status", "errore invocazione API");
+			response.put("errorMessage", e.getMessage());
 		}
 
 		return response.toString(4);
@@ -135,7 +144,8 @@ public class CanteenStatusOutputController {
 			response.put("dishPrice", canteenOutputObj.getDishPrice(mensa, d1, a1, menu1, piatto1));
 			response.put("status", "OK");
 		} catch (Exception e) {
-			response.put("status", "ERROR");
+			response.put("status", "errore invocazione API");
+			response.put("errorMessage", e.getMessage());
 		}
 
 		return response.toString(4);
