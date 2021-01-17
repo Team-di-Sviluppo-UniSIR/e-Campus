@@ -163,18 +163,22 @@ public class CanteenStatusInputIMPL implements CanteenStatusInputIF {
 			filterList = new ArrayList<String>(Arrays.asList("data", apertura.getData().toString()));
 			// restituisce map (indice arrayApertura, JSONObject dell'apertura selezionata)
 			Map<Integer, JSONObject> mapA = JSONParser.filterIntoAndIndex(arrayAperture, filterList);
-			// setto il secondo indice necessario per la costruzione della stringa di query finale
+			// setto il secondo indice necessario per la costruzione della stringa di query
+			// finale
 			indexArrayA = mapA.keySet().iterator().next();
-			// scendo di un ulteriore livello per vedere quanti piatti ci sono nell'apertura ->
+			// scendo di un ulteriore livello per vedere quanti piatti ci sono nell'apertura
+			// ->
 			// -> prendo il JSONObject risultante dal filtering precedente
 			JSONObject objMenu = mapA.get(indexArrayA).getJSONObject("menu");
 			// prendo il JSONArray del JSONObject ritornato
 			JSONArray arrayPiatti = objMenu.getJSONArray("Piatti");
-			// filtro VOLUTAMENTE vuoto -> voglio che mi ritorni il numero di piatti già presenti
+			// filtro VOLUTAMENTE vuoto -> voglio che mi ritorni il numero di piatti già
+			// presenti
 			filterList = new ArrayList<String>(Arrays.asList("nomePiatto", "will_not_find"));
 			// restituisce map (numero Piatti già inseriti in MongoDB, JSONObject vuoto)
 			Map<Integer, JSONObject> mapP = JSONParser.filterIntoAndIndex(arrayPiatti, filterList);
-			// setto il terzo indice necessario per la costruzione della stringa di query finale
+			// setto il terzo indice necessario per la costruzione della stringa di query
+			// finale
 			indexNextDish = mapP.keySet().iterator().next();
 		}
 
@@ -198,5 +202,4 @@ public class CanteenStatusInputIMPL implements CanteenStatusInputIF {
 
 		return queryResult.getModifiedCount() == 1;
 	}
-
 }

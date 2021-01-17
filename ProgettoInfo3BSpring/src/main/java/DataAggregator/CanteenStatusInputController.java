@@ -24,7 +24,6 @@ import CampusDataManagement.*;
 @RestController
 public class CanteenStatusInputController {
 
-	/** The canteen input obj. */
 	// Quando viene esposta l'API si stabilisce la connessione con MongoDB
 	CanteenStatusInputIMPL canteenInputObj = new CanteenStatusInputIMPL();
 
