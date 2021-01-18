@@ -37,7 +37,7 @@ public class CanteenStatusOutputIMPL implements CanteenStatusOutputIF {
 	 *
 	 * @return tutte le mense del campus
 	 */
-	private List<JSONObject> getAllCanteens() {
+	public List<JSONObject> getAllCanteens() {
 		
 		List<JSONObject> jMense = new ArrayList<JSONObject>();
 		

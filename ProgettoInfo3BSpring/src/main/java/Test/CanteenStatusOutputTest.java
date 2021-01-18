@@ -19,7 +19,12 @@ import dataItemClasses.Menu;
 public class CanteenStatusOutputTest {
 	
 	CanteenStatusOutputIMPL obj = new CanteenStatusOutputIMPL();
-		
+	
+	@Test
+	public void getAllCanteensTest() {
+		assertNotNull("", obj.getAllCanteens());
+	}
+	
 	@Test
 	public void getAllCanteensNamesTest() {
 		assertNotNull("", obj.getAllCanteensNames());
