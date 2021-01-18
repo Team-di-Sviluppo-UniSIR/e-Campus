@@ -25,7 +25,7 @@ import CampusDataManagement.*;
 public class CanteenStatusInputController {
 
 	// Quando viene esposta l'API si stabilisce la connessione con MongoDB
-	CanteenStatusInputIMPL canteenInputObj = new CanteenStatusInputIMPL();
+	CanteenStatusInputIF canteenInputObj = new CanteenStatusInputIMPL();
 
 	/**
 	 * API per inserimento capacità mensa.

@@ -22,7 +22,7 @@ import dataItemClasses.Menu;
 public class CanteenStatusUpdateController {
 
 	/** The canteen update obj. */
-	CanteenStatusUpdateIMPL canteenUpdateObj = new CanteenStatusUpdateIMPL();
+	CanteenStatusUpdateIF canteenUpdateObj = new CanteenStatusUpdateIMPL();
 
 	/**
 	 * API per aggiornamento della capacità della mensa.

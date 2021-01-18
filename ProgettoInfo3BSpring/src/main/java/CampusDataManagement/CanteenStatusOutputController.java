@@ -1,5 +1,7 @@
 package CampusDataManagement;
 
+import java.util.List;
+
 import org.json.JSONObject;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +25,7 @@ public class CanteenStatusOutputController {
 
 	/** The canteen output obj. */
 	// Quando viene esposta l'API si stabilisce la connessione con MongoDB
-	CanteenStatusOutputIMPL canteenOutputObj = new CanteenStatusOutputIMPL();
+	CanteenStatusOutputIF canteenOutputObj = new CanteenStatusOutputIMPL();
 
 	/**
 	 * API per l'ottenimento della capacità di una mensa.
@@ -142,6 +144,35 @@ public class CanteenStatusOutputController {
 
 		try {
 			response.put("dishPrice", canteenOutputObj.getDishPrice(mensa, d1, a1, menu1, piatto1));
+			response.put("status", "OK");
+		} catch (Exception e) {
+			response.put("status", "errore invocazione API");
+			response.put("errorMessage", e.getMessage());
+		}
+
+		return response.toString(4);
+	}
+
+	/**
+	 * API per l'ottenimento dei nomi delle mense.
+	 *
+	 * 
+	 * @return lista di String con i nomi di tutte le mense del campus
+	 * 
+	 */
+	/*
+	 * localhost:8080/getAllCanteensNames
+	 */
+	@GetMapping("/getAllCanteensNames")
+	@RequestMapping(value = "/getAllCanteensNames", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public String getAllCanteensNamesAPI() {
+
+		JSONObject response = new JSONObject();
+		List<String> nomiMense = canteenOutputObj.getAllCanteensNames();
+		
+		response.put("nomiMense", nomiMense);
+		
+		try {
 			response.put("status", "OK");
 		} catch (Exception e) {
 			response.put("status", "errore invocazione API");
