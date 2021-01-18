@@ -2,56 +2,32 @@ package mvcDashboard;
 
 import java.awt.EventQueue;
 
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import java.awt.BorderLayout;
 import java.awt.Color;
 
 public class ClientDashboardView {
-
-	private JFrame frame;
-	private JTable table;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ClientDashboardView window = new ClientDashboardView();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the application.
-	 */
+	JFrame frame = new JFrame("BoxLayout trial");
+	JPanel panel = new JPanel();
+	JButton buttonFirst = new JButton("First");
+	JButton buttonSecond = new JButton("Second");
+	
 	public ClientDashboardView() {
-		initialize();
-	}
-
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
+		panel.add(buttonFirst);
+		panel.add(buttonSecond);
+		frame.add(panel);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.pack();
+		frame.setVisible(true);
 		
-	    JFrame f;    
-	    f=new JFrame();    
-	    String data[][]={ {"101","Amit","670000"},    
-	                          {"102","Jai","780000"},    
-	                          {"101","Sachin","700000"}};    
-	    String column[]={"ID","NAME","SALARY"};
-	    f.setSize(300,400);    
-	    f.setVisible(true);    
 	}
+	
+	
 
 }

@@ -5,6 +5,7 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.table.DefaultTableModel;
 
 // View dell'applicazione. Implementiamo "Observer" per fare in modo di
 // controllare le modifiche sul model e venir notificati ad ogni modifica
@@ -17,6 +18,7 @@ class NumberCheckerView extends JFrame implements Observer {
     
     // Riferimento a model
     private NumberCheckerModel m_model;
+    private JTable table;
     
     // Costruttore
     NumberCheckerView(NumberCheckerModel model) {
@@ -26,22 +28,55 @@ class NumberCheckerView extends JFrame implements Observer {
     	// (la view stessa)
     	m_model.addObserver(this);
     	
-    	// Inizio a configurare la vista
-        m_esitoTx.setText("");
-        m_esitoTx.setEditable(false);
-        
-        // Layout dei componenti  
-        JPanel content = new JPanel();
-        content.setLayout(new FlowLayout());
-        content.add(new JLabel("Input"));
-        content.add(m_userInputTf);
-        content.add(m_checkNumBtn);
-        content.add(new JLabel("Outcome"));
-        content.add(m_esitoTx);
+    	JFrame frame = new JFrame("BoxLayout trial");
+    	JPanel panel = new JPanel();
+    	
+    		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
+    		
+    		//etichetta di titolo tabella
+    		JLabel lblNewLabel = new JLabel("DASHBOARD MENSE");
+    		lblNewLabel.setFont(new Font("Calibri", Font.BOLD, 17));
+    		lblNewLabel.setForeground(Color.RED);
+    		lblNewLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+    		panel.add(lblNewLabel);
+    		
+    		//spazio orizzontale
+    		panel.add(Box.createRigidArea(new Dimension(0,5)));
+    		
+    		JScrollPane scrollPane = new JScrollPane();
+    		panel.add(scrollPane);
+    		
+    		//tabella
+    		table = new JTable();
+    		scrollPane.setViewportView(table);
+    		table.setModel(new DefaultTableModel(
+    			new Object[][] {
+    				{null, null, null, null},
+    				{null, null, null, null},
+    			},
+    			new String[] {
+    				"Nome mensa", "Capacit\u00E0", "Posti disponibili", "Stato"
+    			}
+    		) {
+    			Class[] columnTypes = new Class[] {
+    				String.class, Integer.class, Integer.class, Object.class
+    			};
+    			public Class getColumnClass(int columnIndex) {
+    				return columnTypes[columnIndex];
+    			}
+    		});
+    		
+    		
+    		frame.getContentPane().add(panel);
+    		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    		frame.pack();
+    		frame.setVisible(true);
+    		
+    
         
         // Creo il contenitore...
-        this.setContentPane(content);
-        this.pack();
+      //  this.setContentPane(content);
+       // this.pack();
         // Imposto il titolo alla view
         this.setTitle("Number Checker");
         // Imposto il meccanismo di chiusura sulla finestra
