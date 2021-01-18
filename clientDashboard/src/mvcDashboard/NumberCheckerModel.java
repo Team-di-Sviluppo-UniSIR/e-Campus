@@ -18,8 +18,10 @@ import org.json.JSONObject;
  */
 public class NumberCheckerModel extends Observable {
 
-	// nomi delle mense
+	// nomi delle mense, capacità e posti disponibili
 	List<String> nomiMense;
+	List<Integer> capacitaMense;
+	List<Integer> availableSeatsMense;
 
 	// Campo privato, la "memoria" vera e propria del modello
 	private ArrayList<Integer> numbers;
@@ -28,9 +30,75 @@ public class NumberCheckerModel extends Observable {
 	// Costruttore: chiama il reset per azzerare la lista dei numeri
 	NumberCheckerModel() {
 		nomiMense = new ArrayList<>();
+		capacitaMense = new ArrayList<>();
+		availableSeatsMense = new ArrayList<>();
 		getNomiMenseFromAPI();
+		getCapacitaMensaFromAPI(nomiMense);
+		getAvailableSeatsFromAPI(nomiMense);
 		init();
 
+	}
+
+	private void getCapacitaMensaFromAPI(List<String> nomiMense) {
+
+		try {
+			for (int i = 0; i < nomiMense.size(); i++) {
+				nomiMense.set(i, nomiMense.get(i).replaceAll(" ", "%20"));
+				// 1. Salvataggio in una stringa della risposta del WebService
+				URL url = new URL("http://localhost:8080/getCanteenCapacity?nomeMensa=" + nomiMense.get(i));
+
+				BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(url.openStream()));
+				StringBuilder sb = new StringBuilder();
+				String line;
+
+				while ((line = bufferedReader.readLine()) != null) {
+					sb.append(line);
+				}
+				bufferedReader.close();
+				String s = sb.toString();
+
+				// 2. Parsing della stringa come oggetto JSON, e output dei contenuti
+				JSONObject o = new JSONObject(s);
+
+				int capacita = o.getInt("canteenCapacity");
+				capacitaMense.add(capacita);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void getAvailableSeatsFromAPI(List<String> nomiMense) {
+
+		try {
+			for (int i = 0; i < nomiMense.size(); i++) {
+
+				// 1. Salvataggio in una stringa della risposta del WebService
+				URL url = new URL("http://localhost:8080/getAvailableSeats?nomeMensa=" + nomiMense.get(i)
+						+ "&giornoSettimana=Domenica&tipoPasto=Pranzo&data=18-01-2021");
+
+				BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(url.openStream()));
+				StringBuilder sb = new StringBuilder();
+				String line;
+
+				while ((line = bufferedReader.readLine()) != null) {
+					sb.append(line);
+				}
+
+				bufferedReader.close();
+				String s = sb.toString();
+
+				// 2. Parsing della stringa come oggetto JSON, e output dei contenuti
+				JSONObject o = new JSONObject(s);
+
+				int availableSeats = o.getInt("availableSeats");
+				availableSeatsMense.add(availableSeats);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void getNomiMenseFromAPI() {
