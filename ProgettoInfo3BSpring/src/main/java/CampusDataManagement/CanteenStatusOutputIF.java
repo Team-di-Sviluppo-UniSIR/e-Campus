@@ -40,32 +40,32 @@ public interface CanteenStatusOutputIF {
 	public int getCanteenCapacity(Mensa mensa);
 
 	/**
-	 * Gets the available seats.
+	 * Ritorna il numero di posti disponibili in una determinata mensa
 	 *
-	 * @param mensa             the mensa
-	 * @param dettaglioApertura the dettaglio apertura
-	 * @param apertura          the apertura
-	 * @return the available seats
+	 * @param mensa             la mensa
+	 * @param dettaglioApertura il dettaglio apertura
+	 * @param apertura          l'apertura
+	 * @return i posti disponibili
 	 */
 	public int getAvailableSeats(Mensa mensa, DettaglioApertura dettaglioApertura, Apertura apertura);
 
 	/**
-	 * Ritorna il numero di posti disponibili in una determinata mensa
+	 * Ritorna il prezzo di un determinato piatto in una certa mensa
 	 *
 	 * @param mensa             la mensa
 	 * @param dettaglioApertura il dettaglio apertura
 	 * @param apertura          l'apertura
 	 * @param menu              il menu
 	 * @param dish              il dish
-	 * @return the dish price
+	 * @return il prezzo del piatto ricercato
 	 */
 	public double getDishPrice(Mensa mensa, DettaglioApertura dettaglioApertura, Apertura apertura, Menu menu,
 			Dish dish);
 
 	/**
-	 * Ritorna il prezzo di un determinato piatto in una certa mensa
+	 * Ritorna tutti i piatti di una certa mensa
 	 *
-	 * @return il prezzo del piatto ricercato
+	 * @return il menù con i piatti 
 	 */
 	public Menu getAvailablePlates();
 
