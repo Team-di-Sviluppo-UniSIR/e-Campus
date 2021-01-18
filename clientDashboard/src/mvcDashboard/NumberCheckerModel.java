@@ -40,12 +40,11 @@ public class NumberCheckerModel extends Observable {
 	}
 
 	private void getCapacitaMensaFromAPI(List<String> nomiMense) {
-
 		try {
 			for (int i = 0; i < nomiMense.size(); i++) {
-				nomiMense.set(i, nomiMense.get(i).replaceAll(" ", "%20"));
 				// 1. Salvataggio in una stringa della risposta del WebService
-				URL url = new URL("http://localhost:8080/getCanteenCapacity?nomeMensa=" + nomiMense.get(i));
+				String nome = nomiMense.get(i).replaceAll(" ", "%20");
+				URL url = new URL("http://localhost:8080/getCanteenCapacity?nomeMensa=" + nome);
 
 				BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(url.openStream()));
 				StringBuilder sb = new StringBuilder();
@@ -73,9 +72,11 @@ public class NumberCheckerModel extends Observable {
 
 		try {
 			for (int i = 0; i < nomiMense.size(); i++) {
+				String nome = nomiMense.get(i).replaceAll(" ", "%20");
+				System.out.println(nome);
 
 				// 1. Salvataggio in una stringa della risposta del WebService
-				URL url = new URL("http://localhost:8080/getAvailableSeats?nomeMensa=" + nomiMense.get(i)
+				URL url = new URL("http://localhost:8080/getAvailableSeats?nomeMensa=" + nome
 						+ "&giornoSettimana=Domenica&tipoPasto=Pranzo&data=18-01-2021");
 
 				BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(url.openStream()));
