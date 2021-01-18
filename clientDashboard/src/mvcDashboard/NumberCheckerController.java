@@ -14,10 +14,7 @@ public class NumberCheckerController {
         m_model = model;
         m_view  = view;
         
-        //Aggiungo i listener (definiti qui) alla view attraverso i metodi appositi 
-        //messi a disposizione della view
-        view.addCheckListener(new CheckListener());
-    }
+          }
     
     
     /*
@@ -30,9 +27,7 @@ public class NumberCheckerController {
         	System.out.println("[CONTROLLER] check action received");
             String userInput = "";
             try {
-            	//uso il riferimento alla view per catturare l'input
-            	//inserito dall'utente
-                userInput = m_view.getUserInput();
+            	
                 //uso il riferimento al modello per fargli eseguire la moltiplicazione
                 m_model.checkNumber(userInput);
             } catch (NumberFormatException nfex) {

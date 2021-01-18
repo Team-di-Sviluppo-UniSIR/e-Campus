@@ -10,12 +10,10 @@ import javax.swing.table.DefaultTableModel;
 // View dell'applicazione. Implementiamo "Observer" per fare in modo di
 // controllare le modifiche sul model e venir notificati ad ogni modifica
 // del model
+
+/*NOTA: this = JFrame frame*/
 class NumberCheckerView extends JFrame implements Observer {
-    // Campi della view
-    private JTextField m_userInputTf = new JTextField(5);
-    private JTextField m_esitoTx     = new JTextField(20);
-    private JButton    m_checkNumBtn = new JButton("Check N°");
-    
+       
     // Riferimento a model
     private NumberCheckerModel m_model;
     private JTable table;
@@ -28,8 +26,7 @@ class NumberCheckerView extends JFrame implements Observer {
     	// (la view stessa)
     	m_model.addObserver(this);
     	
-    	JFrame frame = new JFrame("BoxLayout trial");
-    	JPanel panel = new JPanel();
+       	JPanel panel = new JPanel();
     	
     		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
     		
@@ -51,7 +48,7 @@ class NumberCheckerView extends JFrame implements Observer {
     		scrollPane.setViewportView(table);
     		table.setModel(new DefaultTableModel(
     			new Object[][] {
-    				{null, null, null, null},
+    				{model.nomiMense.get(1), null, null, null},
     				{null, null, null, null},
     			},
     			new String[] {
@@ -67,44 +64,18 @@ class NumberCheckerView extends JFrame implements Observer {
     		});
     		
     		
-    		frame.getContentPane().add(panel);
-    		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-    		frame.pack();
-    		frame.setVisible(true);
+    		this.getContentPane().add(panel);
+    		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    		this.pack();
+    		this.setVisible(true);
     		
     
-        
-        // Creo il contenitore...
-      //  this.setContentPane(content);
-       // this.pack();
-        // Imposto il titolo alla view
-        this.setTitle("Number Checker");
-        // Imposto il meccanismo di chiusura sulla finestra
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
         
-    /*
-     * I metodi seguenti servono a chi detiene un riferimento alla view 
-     * (il controller)
-     * Se non ci fossero, il controller dovrebbe avere un riferimento 
-     * esplicito a tutti gli elementi della view per poter svolgere 
-     * operazioni. In questo modo, invece, � sufficiente avere il 
-     * riferimento all'intera classe CalcView.
-     */
-    // Getter per rendere disponibile all'esterno il valore del campo 
-    // testo del textField
-    String getUserInput() {
-        return m_userInputTf.getText();
-    }    
     
     // Rende disponibile all'esterno l'eventuale testo del messaggio di errore 
     void showError(String errMessage) {
         JOptionPane.showMessageDialog(this, errMessage);
-    }
-    
-    // Permette di impostare dall'esterno il listener del bottone moltiplica
-    void addCheckListener(ActionListener mal) {
-        m_checkNumBtn.addActionListener(mal);
     }
 
 	// Ereditato da Observer, chiama il metodo update definito localmente 
@@ -121,7 +92,7 @@ class NumberCheckerView extends JFrame implements Observer {
 		// Estraggo il valore corrente della "memoria" del modello dal
 		// riferimento al modello e aggiorno il textField.
 		System.out.println("[VIEW] Notified by the model");
-		m_esitoTx.setText(m_model.getValue());
+	
 	}
 
 
