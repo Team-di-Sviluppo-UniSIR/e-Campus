@@ -23,11 +23,6 @@ public class NumberCheckerModel extends Observable {
 	List<Integer> capacitaMense;
 	List<Integer> availableSeatsMense;
 
-	// Campo privato, la "memoria" vera e propria del modello
-	private ArrayList<Integer> numbers;
-	private boolean outcome;
-
-	// Costruttore: chiama il reset per azzerare la lista dei numeri
 	NumberCheckerModel() {
 		nomiMense = new ArrayList<>();
 		capacitaMense = new ArrayList<>();
@@ -36,7 +31,6 @@ public class NumberCheckerModel extends Observable {
 		getCapacitaMensaFromAPI(nomiMense);
 		getAvailableSeatsFromAPI(nomiMense);
 		init();
-
 	}
 
 	private void getCapacitaMensaFromAPI(List<String> nomiMense) {

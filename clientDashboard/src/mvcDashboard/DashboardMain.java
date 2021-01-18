@@ -8,6 +8,9 @@ public class DashboardMain {
 		DashboardGUI view = new DashboardGUI();
 		view.setVisible(true);
 		
+		DashboardBusinessLogic dataManager = new DashboardBusinessLogic();
+		
+		
 	}
 
 }

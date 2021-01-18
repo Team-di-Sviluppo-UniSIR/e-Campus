@@ -55,7 +55,6 @@ public class DashboardGUI extends JFrame {
    			}
    		});
    		
-   		
    		this.getContentPane().add(panel);
    		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
    		this.pack();
