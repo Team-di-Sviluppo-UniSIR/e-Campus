@@ -16,9 +16,11 @@ import javax.swing.table.DefaultTableModel;
 
 public class DashboardGUI extends JFrame {
 	   private JTable table;
+	   private DashboardBusinessLogic dataManager;
 	   
 	   public DashboardGUI() {
 		   JPanel panel = new JPanel();
+		   dataManager = new DashboardBusinessLogic();
 	    	
    		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
    		
@@ -40,8 +42,10 @@ public class DashboardGUI extends JFrame {
    		scrollPane.setViewportView(table);
    		table.setModel(new DefaultTableModel(
    			new Object[][] {
-   				{null, null, null, null},
-   				{null, null, null, null},
+   				{dataManager.getNomiMense().get(0), dataManager.getCapacitaMense().get(0), dataManager.getAvailableSeatsMense().get(0), null},
+   				{dataManager.getNomiMense().get(1), dataManager.getCapacitaMense().get(1), dataManager.getAvailableSeatsMense().get(1), null},
+   				{dataManager.getNomiMense().get(2), dataManager.getCapacitaMense().get(2), dataManager.getAvailableSeatsMense().get(2), null},
+   				{dataManager.getNomiMense().get(3), dataManager.getCapacitaMense().get(3), dataManager.getAvailableSeatsMense().get(3), null},
    			},
    			new String[] {
    				"Nome mensa", "Capacit\u00E0", "Posti disponibili", "Stato"
