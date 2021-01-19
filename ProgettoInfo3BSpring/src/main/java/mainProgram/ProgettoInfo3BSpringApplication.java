@@ -47,6 +47,10 @@ public class ProgettoInfo3BSpringApplication {
 		 * System.out.println( "Posti disponibili mensa \"" + m1.getNome() + "\": " +
 		 * canteenOutput.getAvailableSeats(m1, d1, a1));
 		 * 
+		 * // PROVA PIATTI DI UN MENU
+		 * System.out.println("Piatti disponibili: " + canteenOutput.getAvailablePlates(m1, d1, a1, menu1));
+
+		 * 
 		 * // PROVA PREZZO PIATTO Menu menu1 = new Menu(0, "cenaLunedì", "Mediterraneo",
 		 * a1); Dish piatto1 = new Dish(0, "kiwi", null, 0, 0, 0, menu1);
 		 * System.out.println("Costo Piatto \"" + piatto1.getNomePiatto() +
@@ -100,7 +104,6 @@ public class ProgettoInfo3BSpringApplication {
 		 * System.out .println("Campo modificato? " +
 		 * canteenUpdate.updateAvailablePortions(50, piatto1, menu1, m1, d1, a1));
 		 */
-
-	}
+		}
 
 }

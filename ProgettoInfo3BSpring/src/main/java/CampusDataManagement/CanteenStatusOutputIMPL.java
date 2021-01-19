@@ -138,6 +138,47 @@ public class CanteenStatusOutputIMPL implements CanteenStatusOutputIF {
 
 		return postiDisponibili;
 	}
+	
+	/**
+	 * Ritorna i piatti disponibili.
+	 *
+	 * @param mensa             la mensa che si sta cercando
+	 * @param dettaglioApertura il dettaglio apertura che si sta cercando
+	 * @param apertura          l'apertura che si sta cercando
+	 * @param menu              il menu che si sta cercando
+	 * @return i piatti disponibili nel momento richiesto in una determinata mensa
+	 */
+	@Override
+	public JSONArray getAvailablePlates(Mensa mensa, DettaglioApertura dettaglioApertura, Apertura apertura, Menu menu) {
+		
+		// Lista di oggetti piatto ritornata
+		JSONArray jPiatti = new JSONArray();
+		// final Bson filterQuery = new Document("nome", mensa.nome);
+		Bson filterQuery = Filters.eq("nome", mensa.getNome());
+		// risultati ottenuti (lista di Document)
+		FindIterable<Document> queryRes = collection.find(filterQuery);
+
+		// mi assicuro di ricevere 1 solo risultato (il nome della mensa è univoco)
+		if (JSONParser.countQueryResults(queryRes) != 1)
+			throw new RuntimeException();
+		else {
+			JSONObject objMensa = new JSONObject(queryRes.first().toJson());
+
+			JSONArray arrayDettagli = objMensa.getJSONArray("dettaglioApertura");
+			ArrayList<String> filterList = new ArrayList<String>(Arrays.asList("giornoSettimana",
+					dettaglioApertura.getGiornoSettimana(), "tipoPasto", dettaglioApertura.getTipoPasto()));
+			JSONObject objDettaglioApertura = JSONParser.filterInto(arrayDettagli, filterList);
+
+			JSONArray arrayAperture = objDettaglioApertura.getJSONArray("apertura");
+			filterList = new ArrayList<String>(Arrays.asList("data", apertura.getData().toString()));
+			JSONObject objApertura = JSONParser.filterInto(arrayAperture, filterList);
+			JSONObject objMenu = objApertura.getJSONObject("menu");
+			
+			jPiatti = objMenu.getJSONArray("Piatti");
+		}
+
+		return jPiatti;
+	}
 
 	/**
 	 * Ritorna il prezzo di un piatto.
@@ -187,17 +228,6 @@ public class CanteenStatusOutputIMPL implements CanteenStatusOutputIF {
 		}
 
 		return DishPrice;
-	}
-
-	/**
-	 * Ritorna i piatti disponibili.
-	 *
-	 * @return i piatti disponibili nel momento richiesto in una determinata mensa
-	 */
-	@Override
-	public Menu getAvailablePlates() {
-		// Mi restituisce tutti i piatti di una mensa in una determinata apertura
-		return null;
 	}
 
 	/**

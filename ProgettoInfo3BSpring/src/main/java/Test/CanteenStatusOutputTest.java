@@ -61,6 +61,26 @@ public class CanteenStatusOutputTest {
 	}
 	
 	@Test
+	public void getAvailablePlatesTest() {
+		Mensa m1 = new Mensa(0, "I sapori della terra", 0, null);
+		DettaglioApertura d1 = new DettaglioApertura(0, "Lunedì", "Cena", null, null);
+		Data data1 = new Data("04", "01", "2021");
+		Apertura a1 = new Apertura(0, data1, 0, m1, d1);
+		Menu menu1 = new Menu(0, "pranzoLunedì", "Mediterraneo", a1);
+		assertNotNull("", obj.getAvailablePlates(m1, d1, a1, menu1));	
+	}
+	
+	@Test(expected = RuntimeException.class)
+	public void getAvailablePlatesExceptionTest() {
+		Mensa m1 = new Mensa(0, "Test of failure", 0, null);
+		DettaglioApertura d1 = new DettaglioApertura(0, "Lunedì", "Cena", null, null);
+		Data data1 = new Data("04", "01", "2021");
+		Apertura a1 = new Apertura(0, data1, 0, m1, d1);
+		Menu menu1 = new Menu(0, "pranzoLunedì", "Mediterraneo", a1);
+		assertNotNull("", obj.getAvailablePlates(m1, d1, a1, menu1));	
+	}
+	
+	@Test
 	public void getDishPriceTest() {
 		Mensa m1 = new Mensa(0, "I sapori della terra", 0, null);
 		DettaglioApertura d1 = new DettaglioApertura(0, "Lunedì", "Cena", null, null);
@@ -85,7 +105,6 @@ public class CanteenStatusOutputTest {
 	@Test
 	public void unimplementedMethodTest() {
 		assertEquals(obj.getWaitingTime(),null);
-		assertEquals(obj.getAvailablePlates(),null);
 		assertEquals(obj.getCanteenStatus(),null);
 		assertEquals(obj.getCanteenETA(),null);
 		assertEquals(obj.getOpeningHours(),null);	

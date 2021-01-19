@@ -64,10 +64,13 @@ public interface CanteenStatusOutputIF {
 
 	/**
 	 * Ritorna tutti i piatti di una certa mensa
-	 *
+	 * @param mensa             la mensa
+	 * @param dettaglioApertura il dettaglio apertura
+	 * @param apertura          l'apertura
+	 * @param menu              il menu
 	 * @return il menù con i piatti 
 	 */
-	public Menu getAvailablePlates();
+	public JSONArray getAvailablePlates(Mensa mensa, DettaglioApertura dettaglioApertura, Apertura apertura, Menu menu);
 
 	/**
 	 * Ritorna gli orari di apertura di una mensa.
