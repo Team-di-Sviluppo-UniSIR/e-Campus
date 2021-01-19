@@ -26,7 +26,7 @@ public class CanteenStatusOutputController {
 	/** The canteen output obj. */
 	// Quando viene esposta l'API si stabilisce la connessione con MongoDB
 	CanteenStatusOutputIF canteenOutputObj = new CanteenStatusOutputIMPL();
-	
+
 	/**
 	 * API per l'ottenimento dei nomi delle mense.
 	 *
@@ -43,9 +43,9 @@ public class CanteenStatusOutputController {
 
 		JSONObject response = new JSONObject();
 		List<String> nomiMense = canteenOutputObj.getAllCanteensNames();
-		
+
 		response.put("nomiMense", nomiMense);
-		
+
 		try {
 			response.put("status", "OK");
 		} catch (Exception e) {
@@ -127,7 +127,7 @@ public class CanteenStatusOutputController {
 
 		return response.toString(4);
 	}
-	
+
 	/**
 	 * API per l'ottenimento dei piatti in una certa mensa in una data apertura.
 	 *
@@ -231,5 +231,4 @@ public class CanteenStatusOutputController {
 		return response.toString(4);
 	}
 
-	
 }

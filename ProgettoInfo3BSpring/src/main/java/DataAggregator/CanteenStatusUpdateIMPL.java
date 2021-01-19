@@ -31,8 +31,8 @@ public class CanteenStatusUpdateIMPL implements CanteenStatusUpdateIF {
 	/**
 	 * Modifica la capacità della mensa specificata
 	 *
-	 * @param actualCapacity	la nuova capacità da inserire
-	 * @param mensa             la mensa che si sta cercando
+	 * @param actualCapacity la nuova capacità da inserire
+	 * @param mensa          la mensa che si sta cercando
 	 * @return se l'operazione di modifica è andata a buon fine
 	 */
 	@Override
@@ -61,8 +61,8 @@ public class CanteenStatusUpdateIMPL implements CanteenStatusUpdateIF {
 	/**
 	 * Modifica la disponibiltà corrente di un dato piatto per la mensa specificata
 	 * 
-	 * @param new_availability	la nuova disponibilità corrente da inserire
-	 * @param dish				il piatto che si sta cercando
+	 * @param new_availability  la nuova disponibilità corrente da inserire
+	 * @param dish              il piatto che si sta cercando
 	 * @param dailyMenu         il menu che si sta cercando
 	 * @param mensa             la mensa che si sta cercando
 	 * @param dettaglioApertura il dettaglio apertura che si sta cercando
@@ -146,7 +146,7 @@ public class CanteenStatusUpdateIMPL implements CanteenStatusUpdateIF {
 
 		// faccio l'update
 		Document result = collection.findOneAndUpdate(searchQuery, setQuery);
- 
+
 		return result != null;
 
 	}

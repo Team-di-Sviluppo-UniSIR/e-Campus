@@ -6,7 +6,6 @@ public class Apertura {
 	private int availableSeats;
 	private Mensa mensa;
 	private DettaglioApertura dettaglioApertura;
-	
 
 	public Apertura(int idApertura, Data data, int availableSeats, Mensa mensa, DettaglioApertura dettaglioApertura) {
 		super();
@@ -48,7 +47,7 @@ public class Apertura {
 	public void setMensa(Mensa mensa) {
 		this.mensa = mensa;
 	}
-	
+
 	public DettaglioApertura getDettaglioApertura() {
 		return dettaglioApertura;
 	}

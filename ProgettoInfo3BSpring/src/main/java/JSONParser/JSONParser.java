@@ -11,8 +11,7 @@ import org.json.JSONObject;
 import com.mongodb.client.FindIterable;
 
 public class JSONParser {
-	
-	
+
 	public static JSONObject filterInto(JSONArray startingArray, ArrayList<String> filteringArray) {
 		JSONObject resultObj = null;
 		boolean trovato = false;
@@ -42,8 +41,9 @@ public class JSONParser {
 
 		return resultObj;
 	}
-	
-	public static Map<Integer, JSONObject> filterIntoAndIndex(JSONArray startingArray, ArrayList<String> filteringArray) {
+
+	public static Map<Integer, JSONObject> filterIntoAndIndex(JSONArray startingArray,
+			ArrayList<String> filteringArray) {
 		JSONObject resultObj = null;
 
 		int i;
@@ -73,15 +73,14 @@ public class JSONParser {
 		}
 
 		Map<Integer, JSONObject> res = new HashMap<>();
-		if(resultObj == null) 
+		if (resultObj == null)
 			resultObj = new JSONObject();
-		
+
 		res.put(i, resultObj);
 
 		return res;
 	}
-	
-	
+
 	/**
 	 * Conta il numero di documenti restituiti da una query
 	 *

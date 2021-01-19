@@ -31,38 +31,39 @@ public class CanteenStatusOutputIMPL implements CanteenStatusOutputIF {
 
 	// Connessione con mongoDB
 	MongoCollection<Document> collection = dbConnectionSetter.connectToMongoCollection();
-	
+
 	/**
 	 * Ritorna tutte le mense presenti nel datbase.
 	 *
 	 * @return tutte le mense del campus
 	 */
 	public List<JSONObject> getAllCanteens() {
-		
+
 		List<JSONObject> jMense = new ArrayList<JSONObject>();
-		
-		//Estrazione e inserimento in jMense di tutte le mense della collezione "DBCampusCollection"
+
+		// Estrazione e inserimento in jMense di tutte le mense della collezione
+		// "DBCampusCollection"
 		FindIterable<Document> iterDoc = collection.find();
 		Iterator<Document> it = iterDoc.iterator();
-	    while (it.hasNext()) {
-	    	 JSONObject jMensaTemp = new JSONObject(it.next().toJson());
-	    	 jMense.add(jMensaTemp);
-	    }
-	     
+		while (it.hasNext()) {
+			JSONObject jMensaTemp = new JSONObject(it.next().toJson());
+			jMense.add(jMensaTemp);
+		}
+
 		return jMense;
 	}
-	
+
 	/**
 	 * Ritorna tutti nomi delle mense presenti nel datbase.
 	 *
 	 * @return tutte i nomi delle mense del campus
 	 */
-	public List<String> getAllCanteensNames(){
-		
+	public List<String> getAllCanteensNames() {
+
 		List<JSONObject> jMense = getAllCanteens();
 		List<String> sMense = new ArrayList<String>();
-		
-		for(JSONObject jMensa : jMense) {
+
+		for (JSONObject jMensa : jMense) {
 			String sMensaTemp = jMensa.getString("nome");
 			sMense.add(sMensaTemp);
 		}
@@ -122,13 +123,12 @@ public class CanteenStatusOutputIMPL implements CanteenStatusOutputIF {
 			JSONObject objMensa = new JSONObject(queryRes.first().toJson());
 
 			JSONArray arrayDettagli = objMensa.getJSONArray("dettaglioApertura");
-			ArrayList<String> filterList = new ArrayList<String>(
-					Arrays.asList("giornoSettimana", dettaglioApertura.getGiornoSettimana(),
-								  "tipoPasto", dettaglioApertura.getTipoPasto()));
+			ArrayList<String> filterList = new ArrayList<String>(Arrays.asList("giornoSettimana",
+					dettaglioApertura.getGiornoSettimana(), "tipoPasto", dettaglioApertura.getTipoPasto()));
 			JSONObject objDettaglioApertura = JSONParser.filterInto(arrayDettagli, filterList);
 
 			JSONArray arrayAperture = objDettaglioApertura.getJSONArray("apertura");
-			
+
 			filterList = new ArrayList<String>(Arrays.asList("data", apertura.getData().toString()));
 			JSONObject result = JSONParser.filterInto(arrayAperture, filterList);
 
@@ -138,7 +138,7 @@ public class CanteenStatusOutputIMPL implements CanteenStatusOutputIF {
 
 		return postiDisponibili;
 	}
-	
+
 	/**
 	 * Ritorna i piatti disponibili.
 	 *
@@ -149,8 +149,9 @@ public class CanteenStatusOutputIMPL implements CanteenStatusOutputIF {
 	 * @return i piatti disponibili nel momento richiesto in una determinata mensa
 	 */
 	@Override
-	public JSONArray getAvailablePlates(Mensa mensa, DettaglioApertura dettaglioApertura, Apertura apertura, Menu menu) {
-		
+	public JSONArray getAvailablePlates(Mensa mensa, DettaglioApertura dettaglioApertura, Apertura apertura,
+			Menu menu) {
+
 		// Lista di oggetti piatto ritornata
 		JSONArray jPiatti = new JSONArray();
 		// final Bson filterQuery = new Document("nome", mensa.nome);
@@ -173,7 +174,7 @@ public class CanteenStatusOutputIMPL implements CanteenStatusOutputIF {
 			filterList = new ArrayList<String>(Arrays.asList("data", apertura.getData().toString()));
 			JSONObject objApertura = JSONParser.filterInto(arrayAperture, filterList);
 			JSONObject objMenu = objApertura.getJSONObject("menu");
-			
+
 			jPiatti = objMenu.getJSONArray("Piatti");
 		}
 

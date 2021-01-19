@@ -13,9 +13,9 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
 public final class dbConnectionSetter {
-	
+
 	public static MongoCollection<Document> connectToMongoCollection() {
-		
+
 		// lettura del file di config
 		String mongoConnectionString = "";
 		try {
@@ -29,11 +29,11 @@ public final class dbConnectionSetter {
 
 		// creazione uri per connessione
 		MongoClientURI uri = new MongoClientURI(mongoConnectionString);
-		
+
 		MongoClient mongoClient = new MongoClient(uri);
 		MongoDatabase mongoDB = mongoClient.getDatabase("DBCampus");
 		MongoCollection<Document> collection = mongoDB.getCollection("DBCampusCollection");
-		
+
 		return collection;
 	}
 

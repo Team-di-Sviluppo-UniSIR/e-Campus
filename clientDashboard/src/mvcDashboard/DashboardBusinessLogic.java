@@ -19,7 +19,7 @@ public class DashboardBusinessLogic {
 	private List<Integer> capacitaMense;
 	private List<Integer> availableSeatsMense;
 	private Map<String, List<JSONObject>> availablePlates;
-	
+
 	public DashboardBusinessLogic() {
 		nomiMense = new ArrayList<>();
 		capacitaMense = new ArrayList<>();
@@ -46,11 +46,11 @@ public class DashboardBusinessLogic {
 	public List<Integer> getAvailableSeatsMense() {
 		return availableSeatsMense;
 	}
-	
+
 	public Map<String, List<JSONObject>> getAvailablePlates() {
 		return availablePlates;
 	}
-	
+
 	private void getNomiMenseFromAPI() {
 		try {
 
@@ -139,7 +139,7 @@ public class DashboardBusinessLogic {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void getAvailablePlatesFromAPI(List<String> nomiMense) {
 
 		try {
@@ -166,11 +166,11 @@ public class DashboardBusinessLogic {
 				JSONObject o = new JSONObject(s);
 				Iterator<Object> arrayPiatti = o.getJSONArray("Piatti").iterator();
 				List<JSONObject> jPiatti = new ArrayList<JSONObject>();
-				
+
 				while (arrayPiatti.hasNext()) {
 					jPiatti.add((JSONObject) arrayPiatti.next());
 				}
-				
+
 				availablePlates.put(nomiMense.get(i), jPiatti);
 			}
 

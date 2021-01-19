@@ -16,14 +16,14 @@ import dataItemClasses.Time;
  * Interfaccia CanteenStatusOutputIF.
  */
 public interface CanteenStatusOutputIF {
-	
+
 	/**
 	 * Fornisce una lista di tutte le mense del campus in formato JSON
 	 *
 	 * @return lista di tutte le mense del campus in formato JSON
 	 */
 	public List<JSONObject> getAllCanteens();
-	
+
 	/**
 	 * Fornisce una lista con tutti i nomi delle mense del campus
 	 *
@@ -64,11 +64,12 @@ public interface CanteenStatusOutputIF {
 
 	/**
 	 * Ritorna tutti i piatti di una certa mensa
+	 * 
 	 * @param mensa             la mensa
 	 * @param dettaglioApertura il dettaglio apertura
 	 * @param apertura          l'apertura
 	 * @param menu              il menu
-	 * @return il menù con i piatti 
+	 * @return il menù con i piatti
 	 */
 	public JSONArray getAvailablePlates(Mensa mensa, DettaglioApertura dettaglioApertura, Apertura apertura, Menu menu);
 

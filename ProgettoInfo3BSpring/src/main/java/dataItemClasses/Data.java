@@ -35,7 +35,7 @@ public class Data {
 	public void setAnno(String anno) {
 		this.anno = anno;
 	}
-	
+
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub

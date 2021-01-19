@@ -70,7 +70,7 @@ public class DashboardGUI extends JFrame {
 
 		// oggetto che contiene i dati con cui aggiornare la tabella
 		Object[][] tableData = new Object[numRighe][numCol];
-		
+
 		// update "nomiMense"
 		// nomiMense = prima colonna (0) --> tableData[i][0] --> fixedIndex = 0
 		tableData = updateCampo(tableData, 0, nomiMense);
@@ -85,8 +85,7 @@ public class DashboardGUI extends JFrame {
 		DefaultTableModel model = new DefaultTableModel(tableData, colNames);
 		// aggiorno tabella precedente
 		table.setModel(model);
-		
-		
+
 	}
 
 	/**
