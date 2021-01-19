@@ -167,7 +167,7 @@ public class CanteenStatusOutputController {
 		response.put("tipoMenu", tipoMenu);
 
 		try {
-			response.put("availablePlates", canteenOutputObj.getAvailablePlates(mensa, d1, a1, menu1));
+			response.put("Piatti", canteenOutputObj.getAvailablePlates(mensa, d1, a1, menu1));
 			response.put("status", "OK");
 		} catch (Exception e) {
 			response.put("status", "errore invocazione API");

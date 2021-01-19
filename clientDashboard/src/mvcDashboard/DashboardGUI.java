@@ -37,6 +37,9 @@ public class DashboardGUI extends JFrame {
    		JScrollPane scrollPane = new JScrollPane();
    		panel.add(scrollPane);
    		
+   		//TODO: TROVARE UN MODO PER VISUALIZZARE I MENU'
+   		//4 Panel statici che fanno il refresh automatico (Pari) e ogni x secondi "slittano" e si vedono??
+   		
    		//tabella
    		table = new JTable();
    		scrollPane.setViewportView(table);
