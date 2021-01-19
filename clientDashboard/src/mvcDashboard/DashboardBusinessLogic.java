@@ -74,8 +74,7 @@ public class DashboardBusinessLogic {
 		try {
 			for (int i = 0; i < nomiMense.size(); i++) {
 				String nome = nomiMense.get(i).replaceAll(" ", "%20");
-				System.out.println(nome);
-
+		
 				// 1. Salvataggio in una stringa della risposta del WebService
 				URL url = new URL("http://localhost:8080/getAvailableSeats?nomeMensa=" + nome
 						+ "&giornoSettimana=Domenica&tipoPasto=Pranzo&data=18-01-2021");
@@ -116,12 +115,9 @@ public class DashboardBusinessLogic {
 			}
 			bufferedReader.close();
 			String s = sb.toString();
-			System.out.println("Stringa costruita: " + sb);
-
+			
 			// 2. Parsing della stringa come oggetto JSON, e output dei contenuti
 			JSONObject o = new JSONObject(s);
-
-			System.out.println("iterator:" + o.getJSONArray("nomiMense").iterator().next());
 
 			Iterator<Object> menseIt = o.getJSONArray("nomiMense").iterator();
 			while (menseIt.hasNext()) {
