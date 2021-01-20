@@ -46,6 +46,8 @@ public class RistoratoreGUI extends JFrame {
 	private JTextField disponibilita3;
 	// private RistoratoreBusinessLogic dataManager;
 
+	RistoratoreBusinessLogic businessLogic = new RistoratoreBusinessLogic();
+
 	public RistoratoreGUI() {
 		this.setSize(1000, 400);
 		JPanel panel = new JPanel();
@@ -69,11 +71,12 @@ public class RistoratoreGUI extends JFrame {
 		JButton N_mensa = new JButton("Inserisci");
 		N_mensa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("culo");
+				System.out.println("prova");
 				String mensaNome = nomeMensa.getText();
 				int mensaCapacita = Integer.parseInt(capacitaMensa.getText());
 
 				// DA METTERE SUL DATABASE MENSACAPACITA'
+				businessLogic.insertCanteenCapacityFromAPI(mensaNome, mensaCapacita);
 			}
 		});
 		N_mensa.setBounds(76, 127, 85, 21);
@@ -169,8 +172,7 @@ public class RistoratoreGUI extends JFrame {
 				String nomeMenu = NomeMenu.getText();
 				String tipoMenu = TipoMenu.getText();
 
-				// DA INSERIRE IL NUOVO MENU
-
+				businessLogic.insertNewMenuFromAPI(nomeMensa, giornoSettimana, tipoApertura, data, nomeMenu, tipoMenu);
 			}
 		});
 		btnNewButton.setBounds(434, 237, 85, 21);
@@ -270,6 +272,8 @@ public class RistoratoreGUI extends JFrame {
 				int dispIniziale = Integer.parseInt(disponibilita3.getText());
 
 				// DA INSERIRE NUOVO PIATTO
+				businessLogic.insertDishFromAPI(nomeMensa, giornoSettimana, tipoApertura, data, nomePiatto, tipoPiatto,
+						prezzo, dispIniziale);
 
 			}
 		});

@@ -6,108 +6,18 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import org.json.JSONObject;
 
 public class RistoratoreBusinessLogic {
 
-	// nomi delle mense, capacità e posti disponibili
-	private List<String> nomiMense;
-	private List<Integer> capacitaMense;
-	private List<Integer> availableSeatsMense;
-
-	public RistoratoreBusinessLogic() {
-		nomiMense = new ArrayList<>();
-		capacitaMense = new ArrayList<>();
-		availableSeatsMense = new ArrayList<>();
-		getNomiMenseFromAPI();
-		getCapacitaMensaFromAPI(nomiMense);
-		getAvailableSeatsFromAPI(nomiMense);
-		System.out.println(nomiMense.toString());
-		System.out.println(capacitaMense.toString());
-		System.out.println(availableSeatsMense.toString());
-	}
-
-	public List<String> getNomiMense() {
-		return nomiMense;
-	}
-
-	public List<Integer> getCapacitaMense() {
-		return capacitaMense;
-	}
-
-	public List<Integer> getAvailableSeatsMense() {
-		return availableSeatsMense;
-	}
-
-	private void getCapacitaMensaFromAPI(List<String> nomiMense) {
-		try {
-			for (int i = 0; i < nomiMense.size(); i++) {
-				// 1. Salvataggio in una stringa della risposta del WebService
-				String nome = nomiMense.get(i).replaceAll(" ", "%20");
-				URL url = new URL("http://localhost:8080/getCanteenCapacity?nomeMensa=" + nome);
-
-				BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(url.openStream()));
-				StringBuilder sb = new StringBuilder();
-				String line;
-
-				while ((line = bufferedReader.readLine()) != null) {
-					sb.append(line);
-				}
-				bufferedReader.close();
-				String s = sb.toString();
-
-				// 2. Parsing della stringa come oggetto JSON, e output dei contenuti
-				JSONObject o = new JSONObject(s);
-
-				int capacita = o.getInt("canteenCapacity");
-				capacitaMense.add(capacita);
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	private void getAvailableSeatsFromAPI(List<String> nomiMense) {
-
-		try {
-			for (int i = 0; i < nomiMense.size(); i++) {
-				String nome = nomiMense.get(i).replaceAll(" ", "%20");
-				System.out.println(nome);
-
-				// 1. Salvataggio in una stringa della risposta del WebService
-				URL url = new URL("http://localhost:8080/getAvailableSeats?nomeMensa=" + nome
-						+ "&giornoSettimana=Domenica&tipoPasto=Pranzo&data=18-01-2021");
-
-				BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(url.openStream()));
-				StringBuilder sb = new StringBuilder();
-				String line;
-
-				while ((line = bufferedReader.readLine()) != null) {
-					sb.append(line);
-				}
-
-				bufferedReader.close();
-				String s = sb.toString();
-
-				// 2. Parsing della stringa come oggetto JSON, e output dei contenuti
-				JSONObject o = new JSONObject(s);
-
-				int availableSeats = o.getInt("availableSeats");
-				availableSeatsMense.add(availableSeats);
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	private void getNomiMenseFromAPI() {
+	public void insertCanteenCapacityFromAPI(String nomeMensa, int capacita) {
 		try {
 
 			// 1. Salvataggio in una stringa della risposta del WebService
-			URL url = new URL("http://localhost:8080/getAllCanteensNames");
+			URL url = new URL("http://localhost:8080/insertCanteenCapacity?nomeMensa=" + nomeMensa.replace(" ", "%20")
+					+ "&capacita=" + Integer.toString(capacita));
 			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(url.openStream()));
 			StringBuilder sb = new StringBuilder();
 			String line;
@@ -116,21 +26,77 @@ public class RistoratoreBusinessLogic {
 			}
 			bufferedReader.close();
 			String s = sb.toString();
-			System.out.println("Stringa costruita: " + sb);
 
 			// 2. Parsing della stringa come oggetto JSON, e output dei contenuti
 			JSONObject o = new JSONObject(s);
 
-			System.out.println("iterator:" + o.getJSONArray("nomiMense").iterator().next());
-
-			Iterator<Object> menseIt = o.getJSONArray("nomiMense").iterator();
-			while (menseIt.hasNext()) {
-				nomiMense.add(menseIt.next().toString());
-			}
+			String status = o.getString("status");
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
+	public void insertNewMenuFromAPI(String nomeMensa, String giornoSettimana, String tipoApertura, String data,
+			String nomeMenu, String tipoMenu) {
+
+		int idMenu = 10 + (int) (Math.random() * 1000);
+
+		try {
+
+			// 1. Salvataggio in una stringa della risposta del WebService
+			URL url = new URL("http://localhost:8080/insertDailyMenu?nomeMensa=" + nomeMensa.replace(" ", "%20")
+					+ "&giornoSettimana=" + giornoSettimana + "&tipoPasto=" + tipoApertura + "&data="
+					+ data.replace("/", "-") + "&idMenu=" + idMenu + "&nomeMenu=" + nomeMenu + "&tipoMenu=" + tipoMenu);
+			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(url.openStream()));
+			StringBuilder sb = new StringBuilder();
+			String line;
+			while ((line = bufferedReader.readLine()) != null) {
+				sb.append(line);
+			}
+			bufferedReader.close();
+			String s = sb.toString();
+
+			// 2. Parsing della stringa come oggetto JSON, e output dei contenuti
+			JSONObject o = new JSONObject(s);
+
+			String status = o.getString("status");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void insertDishFromAPI(String nomeMensa, String giornoSettimana, String tipoApertura, String data,
+			String nomePiatto, String tipoPiatto, Double prezzo, int dispIniziale) {
+
+		int idPiatto = 10 + (int) (Math.random() * 1000);
+
+		try {
+
+			// 1. Salvataggio in una stringa della risposta del WebService
+			URL url = new URL("http://localhost:8080/insertNewDish?nomeMensa=" + nomeMensa.replace(" ", "%20")
+					+ "&giornoSettimana=" + giornoSettimana + "&tipoPasto=" + tipoApertura + "&data="
+					+ data.replace("/", "-") + "&nomeMenu=pranzoDomenica&tipoMenu=vegetariano&idPiatto=" + idPiatto
+					+ "&nomePiatto=" + nomePiatto.replace(" ", "%20") + "&tipoPiatto=" + tipoPiatto + "&prezzo="
+					+ Double.toString(prezzo) + "&initialAvailability=" + Integer.toString(dispIniziale)
+					+ "&currentAvailability=" + Integer.toString(dispIniziale));
+			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(url.openStream()));
+			StringBuilder sb = new StringBuilder();
+			String line;
+			while ((line = bufferedReader.readLine()) != null) {
+				sb.append(line);
+			}
+			bufferedReader.close();
+			String s = sb.toString();
+
+			// 2. Parsing della stringa come oggetto JSON, e output dei contenuti
+			JSONObject o = new JSONObject(s);
+
+			String status = o.getString("status");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }
