@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"CampusDataManagement"},{"l":"DataAggregator"},{"l":"dataItemClasses"},{"l":"dbConnection"},{"l":"JSONParser"},{"l":"mainProgram"},{"l":"Test"}];updateSearchResults();
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"Authentication"},{"l":"CampusDataManagement"},{"l":"CardMgmt"},{"l":"DataAggregator"},{"l":"dataItemClasses"},{"l":"dbConnection"},{"l":"JSONParser"},{"l":"mainProgram"},{"l":"Test"}];updateSearchResults();
