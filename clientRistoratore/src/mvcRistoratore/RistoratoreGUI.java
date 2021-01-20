@@ -22,6 +22,7 @@ import javax.swing.JMenuBar;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
+import java.awt.SystemColor;
 
 //import mvcDashboard.DashboardBusinessLogic;
 
@@ -55,7 +56,7 @@ public class RistoratoreGUI extends JFrame {
 
 		// etichetta di titolo tabella
 		JLabel titolo = new JLabel("RISTORATORE VIEW");
-		titolo.setBounds(414, 10, 140, 21);
+		titolo.setBounds(414, 10, 216, 21);
 		titolo.setFont(new Font("Calibri", Font.BOLD, 17));
 		titolo.setForeground(Color.RED);
 		titolo.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -64,9 +65,13 @@ public class RistoratoreGUI extends JFrame {
 		this.getContentPane().add(panel);
 
 		nomeMensa = new JTextField();
-		nomeMensa.setBounds(122, 58, 96, 19);
+		nomeMensa.setBounds(122, 58, 140, 19);
 		panel.add(nomeMensa);
 		nomeMensa.setColumns(10);
+
+		JLabel esito1 = new JLabel("Esito:");
+		esito1.setBounds(25, 158, 260, 13);
+		panel.add(esito1);
 
 		JButton N_mensa = new JButton("Inserisci");
 		N_mensa.addActionListener(new ActionListener() {
@@ -74,9 +79,11 @@ public class RistoratoreGUI extends JFrame {
 				System.out.println("prova");
 				String mensaNome = nomeMensa.getText();
 				int mensaCapacita = Integer.parseInt(capacitaMensa.getText());
-
+				nomeMensa.setText("");
+				capacitaMensa.setText("");
 				// DA METTERE SUL DATABASE MENSACAPACITA'
-				businessLogic.insertCanteenCapacityFromAPI(mensaNome, mensaCapacita);
+				esito1.setText("Esito:  " + businessLogic.insertCanteenCapacityFromAPI(mensaNome, mensaCapacita));
+
 			}
 		});
 		N_mensa.setBounds(76, 127, 85, 21);
@@ -88,7 +95,7 @@ public class RistoratoreGUI extends JFrame {
 		panel.add(c_mensa);
 
 		capacitaMensa = new JTextField();
-		capacitaMensa.setBounds(122, 87, 96, 19);
+		capacitaMensa.setBounds(122, 87, 140, 19);
 		panel.add(capacitaMensa);
 		capacitaMensa.setColumns(10);
 
@@ -107,7 +114,7 @@ public class RistoratoreGUI extends JFrame {
 		panel.add(lblNewLabel);
 
 		N_mensa2 = new JTextField();
-		N_mensa2.setBounds(490, 58, 96, 19);
+		N_mensa2.setBounds(490, 58, 140, 19);
 		panel.add(N_mensa2);
 		N_mensa2.setColumns(10);
 
@@ -120,12 +127,12 @@ public class RistoratoreGUI extends JFrame {
 		panel.add(lblNewLabel_4);
 
 		G_settimana1 = new JTextField();
-		G_settimana1.setBounds(490, 87, 96, 19);
+		G_settimana1.setBounds(490, 87, 140, 19);
 		panel.add(G_settimana1);
 		G_settimana1.setColumns(10);
 
 		TipoApertura = new JTextField();
-		TipoApertura.setBounds(490, 116, 96, 19);
+		TipoApertura.setBounds(490, 116, 140, 19);
 		panel.add(TipoApertura);
 		TipoApertura.setColumns(10);
 
@@ -134,7 +141,7 @@ public class RistoratoreGUI extends JFrame {
 		panel.add(lblNewLabel_5);
 
 		Data = new JTextField();
-		Data.setBounds(490, 145, 96, 19);
+		Data.setBounds(490, 145, 140, 19);
 		panel.add(Data);
 		Data.setColumns(10);
 
@@ -143,7 +150,7 @@ public class RistoratoreGUI extends JFrame {
 		panel.add(lblNewLabel_6);
 
 		NomeMenu = new JTextField();
-		NomeMenu.setBounds(490, 174, 96, 19);
+		NomeMenu.setBounds(490, 174, 140, 19);
 		panel.add(NomeMenu);
 		NomeMenu.setColumns(10);
 
@@ -153,7 +160,7 @@ public class RistoratoreGUI extends JFrame {
 		panel.add(lblNewLabel_7);
 
 		TipoMenu = new JTextField();
-		TipoMenu.setBounds(490, 203, 96, 19);
+		TipoMenu.setBounds(490, 203, 140, 19);
 		panel.add(TipoMenu);
 		TipoMenu.setColumns(10);
 
@@ -161,6 +168,10 @@ public class RistoratoreGUI extends JFrame {
 		lblNewLabel_8.setForeground(Color.RED);
 		lblNewLabel_8.setBounds(356, 206, 85, 13);
 		panel.add(lblNewLabel_8);
+
+		JLabel esito2 = new JLabel("Esito:");
+		esito2.setBounds(352, 268, 280, 13);
+		panel.add(esito2);
 
 		JButton btnNewButton = new JButton("Inserisci");
 		btnNewButton.addActionListener(new ActionListener() {
@@ -172,7 +183,15 @@ public class RistoratoreGUI extends JFrame {
 				String nomeMenu = NomeMenu.getText();
 				String tipoMenu = TipoMenu.getText();
 
-				businessLogic.insertNewMenuFromAPI(nomeMensa, giornoSettimana, tipoApertura, data, nomeMenu, tipoMenu);
+				N_mensa2.setText("");
+				G_settimana1.setText("");
+				TipoApertura.setText("");
+				Data.setText("");
+				NomeMenu.setText("");
+				TipoMenu.setText("");
+
+				esito2.setText("Esito:  " + businessLogic.insertNewMenuFromAPI(nomeMensa, giornoSettimana, tipoApertura,
+						data, nomeMenu, tipoMenu));
 			}
 		});
 		btnNewButton.setBounds(434, 237, 85, 21);
@@ -211,37 +230,37 @@ public class RistoratoreGUI extends JFrame {
 
 		nomemensa3 = new JTextField();
 		nomemensa3.setColumns(10);
-		nomemensa3.setBounds(841, 58, 96, 19);
+		nomemensa3.setBounds(841, 58, 135, 19);
 		panel.add(nomemensa3);
 
 		giornosettimana3 = new JTextField();
 		giornosettimana3.setColumns(10);
-		giornosettimana3.setBounds(841, 87, 96, 19);
+		giornosettimana3.setBounds(841, 87, 135, 19);
 		panel.add(giornosettimana3);
 
 		tipoapertura3 = new JTextField();
 		tipoapertura3.setColumns(10);
-		tipoapertura3.setBounds(841, 116, 96, 19);
+		tipoapertura3.setBounds(841, 116, 135, 19);
 		panel.add(tipoapertura3);
 
 		data3 = new JTextField();
 		data3.setColumns(10);
-		data3.setBounds(841, 145, 96, 19);
+		data3.setBounds(841, 145, 135, 19);
 		panel.add(data3);
 
 		nomepiatto3 = new JTextField();
 		nomepiatto3.setColumns(10);
-		nomepiatto3.setBounds(841, 174, 96, 19);
+		nomepiatto3.setBounds(841, 174, 135, 19);
 		panel.add(nomepiatto3);
 
 		tipopiatto3 = new JTextField();
 		tipopiatto3.setColumns(10);
-		tipopiatto3.setBounds(841, 203, 96, 19);
+		tipopiatto3.setBounds(841, 203, 135, 19);
 		panel.add(tipopiatto3);
 
 		prezzo3 = new JTextField();
 		prezzo3.setColumns(10);
-		prezzo3.setBounds(841, 238, 96, 19);
+		prezzo3.setBounds(841, 238, 135, 19);
 		panel.add(prezzo3);
 
 		JLabel lblNewLabel_8_1_1 = new JLabel("Prezzo");
@@ -251,13 +270,17 @@ public class RistoratoreGUI extends JFrame {
 
 		disponibilita3 = new JTextField();
 		disponibilita3.setColumns(10);
-		disponibilita3.setBounds(841, 267, 96, 19);
+		disponibilita3.setBounds(841, 267, 135, 19);
 		panel.add(disponibilita3);
 
 		JLabel lblNewLabel_8_1_1_1 = new JLabel("Disponibilit\u00E0 iniziale");
 		lblNewLabel_8_1_1_1.setForeground(Color.RED);
 		lblNewLabel_8_1_1_1.setBounds(703, 270, 118, 13);
 		panel.add(lblNewLabel_8_1_1_1);
+
+		JLabel esito3 = new JLabel("Esito:");
+		esito3.setBounds(696, 327, 280, 13);
+		panel.add(esito3);
 
 		JButton btnNewButton_1 = new JButton("Inserisci");
 		btnNewButton_1.addActionListener(new ActionListener() {
@@ -271,14 +294,25 @@ public class RistoratoreGUI extends JFrame {
 				double prezzo = Double.parseDouble(prezzo3.getText());
 				int dispIniziale = Integer.parseInt(disponibilita3.getText());
 
+				nomemensa3.setText("");
+				giornosettimana3.setText("");
+				tipoapertura3.setText("");
+				data3.setText("");
+				nomepiatto3.setText("");
+				tipopiatto3.setText("");
+				prezzo3.setText("");
+				disponibilita3.setText("");
+
 				// DA INSERIRE NUOVO PIATTO
-				businessLogic.insertDishFromAPI(nomeMensa, giornoSettimana, tipoApertura, data, nomePiatto, tipoPiatto,
-						prezzo, dispIniziale);
+				esito3.setText("Esito:  " + businessLogic.insertDishFromAPI(nomeMensa, giornoSettimana, tipoApertura,
+						data, nomePiatto, tipoPiatto, prezzo, dispIniziale));
 
 			}
+
 		});
 		btnNewButton_1.setBounds(767, 296, 85, 21);
 		panel.add(btnNewButton_1);
+
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// this.pack();
 		this.setVisible(true);
