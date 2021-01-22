@@ -2,34 +2,16 @@ package mainProgram;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
+
 import CampusDataManagement.CanteenStatusOutputController;
-import CampusDataManagement.CanteenStatusOutputIF;
-import CampusDataManagement.CanteenStatusOutputIMPL;
 import DataAggregator.CanteenStatusInputController;
-import DataAggregator.CanteenStatusInputIF;
-import DataAggregator.CanteenStatusInputIMPL;
-import DataAggregator.CanteenStatusUpdateIF;
-import DataAggregator.CanteenStatusUpdateIMPL;
-import dataItemClasses.Apertura;
-import dataItemClasses.Data;
-import dataItemClasses.DettaglioApertura;
-import dataItemClasses.Dish;
-import dataItemClasses.Mensa;
-import dataItemClasses.Menu;
 
 @SpringBootApplication
 @ComponentScan(basePackageClasses = CanteenStatusOutputController.class)
 @ComponentScan(basePackageClasses = CanteenStatusInputController.class)
-public class ProgettoInfo3BSpringApplication extends SpringBootServletInitializer {
+public class ProgettoInfo3BSpringApplication {
 	
-	  @Override
-	    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-	        return builder.sources(ProgettoInfo3BSpringApplication.class);
-	    }
-
 	public static void main(String[] args) {
 		SpringApplication.run(ProgettoInfo3BSpringApplication.class, args);
 

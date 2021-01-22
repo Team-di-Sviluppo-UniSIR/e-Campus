@@ -11,7 +11,6 @@ import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -59,7 +58,7 @@ public class DashboardGUI extends JFrame {
 		DashboardBusinessLogic dataManager = new DashboardBusinessLogic();
 
 		// nomi delle colonne (tabella)
-		String[] colNames = new String[] { "Nome mensa", "Capacit\u00E0", "Posti disponibili", "Stato" };
+		String[] colNames = new String[] { "Nome mensa", "Capacit\u00E0", "Posti disponibili" };
 
 		List<String> nomiMense = dataManager.getNomiMense();
 		List<Integer> capacitaMense = dataManager.getCapacitaMense();

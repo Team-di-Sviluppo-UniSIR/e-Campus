@@ -76,7 +76,6 @@ public class RistoratoreGUI extends JFrame {
 		JButton N_mensa = new JButton("Inserisci");
 		N_mensa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("prova");
 				String mensaNome = nomeMensa.getText();
 				int mensaCapacita = Integer.parseInt(capacitaMensa.getText());
 				nomeMensa.setText("");
