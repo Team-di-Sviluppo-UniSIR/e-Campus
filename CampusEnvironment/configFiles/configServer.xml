@@ -2,14 +2,14 @@
 <launch4jConfig>
   <dontWrapJar>false</dontWrapJar>
   <headerType>console</headerType>
-  <jar>C:\Users\Luca\Desktop\CampusServer-0.0.1.jar</jar>
+  <jar>C:\Users\Luca\Desktop\CampusEnvironment\jar\CampusServer-0.0.1.jar</jar>
   <outfile>C:\Users\Luca\Desktop\CampusEnvironment\CampusServer.exe</outfile>
-  <errTitle></errTitle>
+  <errTitle>Please download Java JDK 15.0.1 or above</errTitle>
   <cmdLine></cmdLine>
   <chdir>.</chdir>
   <priority>normal</priority>
-  <downloadUrl>http://java.com/download</downloadUrl>
-  <supportUrl></supportUrl>
+  <downloadUrl>https://www.oracle.com/it/java/technologies/javase-jdk15-downloads.html</downloadUrl>
+  <supportUrl>https://github.com/Team-di-Sviluppo-UniSIR/progetto_info3_progettazione_algoritmi_20_21</supportUrl>
   <stayAlive>true</stayAlive>
   <restartOnCrash>true</restartOnCrash>
   <manifest></manifest>

@@ -2,20 +2,20 @@
 <launch4jConfig>
   <dontWrapJar>false</dontWrapJar>
   <headerType>gui</headerType>
-  <jar>C:\Users\Luca\Desktop\ClientRistoratoreGUI.jar</jar>
-  <outfile>C:\Users\Luca\Desktop\CampusEnvironment\clientRistoratoreGUI.exe</outfile>
-  <errTitle></errTitle>
+  <jar>C:\Users\Luca\Desktop\CampusEnvironment\jar\DashboardGUI.jar</jar>
+  <outfile>C:\Users\Luca\Desktop\CampusEnvironment\DashboardGUI.exe</outfile>
+  <errTitle>Please download Java JDK 15.0.1 or above</errTitle>
   <cmdLine></cmdLine>
   <chdir>.</chdir>
   <priority>normal</priority>
-  <downloadUrl>http://java.com/download</downloadUrl>
-  <supportUrl></supportUrl>
+  <downloadUrl>https://www.oracle.com/it/java/technologies/javase-jdk15-downloads.html</downloadUrl>
+  <supportUrl>https://github.com/Team-di-Sviluppo-UniSIR/progetto_info3_progettazione_algoritmi_20_21</supportUrl>
   <stayAlive>false</stayAlive>
   <restartOnCrash>false</restartOnCrash>
   <manifest></manifest>
-  <icon>C:\Users\Luca\Desktop\CampusEnvironment\icons\clientRistoratoreIcon.ico</icon>
+  <icon>C:\Users\Luca\Desktop\CampusEnvironment\icons\dashboardGUI.ico</icon>
   <jre>
-    <path>jre</path>
+    <path>jar</path>
     <bundledJre64Bit>false</bundledJre64Bit>
     <bundledJreAsFallback>false</bundledJreAsFallback>
     <minVersion>15.0.1</minVersion>
